@@ -5,8 +5,6 @@ export class DoublyLinkedList<T> {
 
   constructor(headValue: T) {
     const headNode = new Node(headValue);
-    headNode.next = null;
-    headNode.prev = null;
     this.head = headNode;
     this.tail = headNode;
     this.length = 1;
@@ -40,7 +38,7 @@ export class DoublyLinkedList<T> {
     if (index === 0) return this.prepend(value);
     if (index === this.length) return this.append(value);
     const newNode = new Node(value);
-    const currNode = this.traversal(index);
+    const currNode = this.traverse(index);
     newNode.prev = currNode.prev;
     newNode.next = currNode;
     currNode.prev!.next = newNode;
@@ -50,7 +48,7 @@ export class DoublyLinkedList<T> {
   }
 
   // O(n/2)
-  public remove(index:number): DoublyLinkedList<T> {
+  public remove(index: number): DoublyLinkedList<T> {
     if (index < 0 || index > this.length - 1) {
       throw new Error(`index ${index} is out of bound`);
     }
@@ -64,11 +62,9 @@ export class DoublyLinkedList<T> {
       this.tail = this.tail.prev!;
       this.tail.next = null;
     } else {
-      const nodeToRemove = this.traversal(index)
+      const nodeToRemove = this.traverse(index);
       nodeToRemove.prev!.next = nodeToRemove.next;
-      if (nodeToRemove.next) {
-        nodeToRemove.next.prev = nodeToRemove.prev;
-      }
+      nodeToRemove.next!.prev = nodeToRemove.prev;
       nodeToRemove.prev = null;
       nodeToRemove.next = null;
     }
@@ -77,9 +73,9 @@ export class DoublyLinkedList<T> {
   }
 
   // O(n/2)
-  private traversal(index: number): Node<T> {
+  private traverse(index: number): Node<T> {
     if (index < 0 || index > this.length - 1) {
-      throw new Error(`index ${index} is out of bound`)
+      throw new Error(`index ${index} is out of bound`);
     }
     let node: Node<T>;
     if (index < this.length / 2) {
@@ -98,7 +94,7 @@ export class DoublyLinkedList<T> {
 
   // O(n)
   public toString(): string {
-    let result = `[ `
+    let result = `[ `;
     let node: Node<T> | null = this.head;
     while (node !== null) {
       result += `${node.value} <--> `;
@@ -108,7 +104,7 @@ export class DoublyLinkedList<T> {
 HEAD: ${this.head.value}
 TAIL: ${this.tail.value}
 LENGTH: ${this.length}
-    `
+    `;
     return result;
   }
 }

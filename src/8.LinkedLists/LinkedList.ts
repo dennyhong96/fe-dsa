@@ -2,7 +2,7 @@ export class LinkedList<T> {
   public head: Node<T>;
   public tail: Node<T>;
   public length: number;
-  
+
   constructor(headValue: T) {
     this.head = new Node<T>(headValue);
     this.tail = this.head;
@@ -14,12 +14,12 @@ export class LinkedList<T> {
     const newNode = new Node(value);
     newNode.next = this.head;
     this.head = newNode;
-    this.length++
+    this.length++;
     return this;
   }
 
   // O(1)
-  public append(value: T): LinkedList<T>{
+  public append(value: T): LinkedList<T> {
     const newNode = new Node(value);
     this.tail.next = newNode;
     this.tail = newNode;
@@ -48,7 +48,7 @@ export class LinkedList<T> {
       throw new Error(`index ${index} is out of bound`);
     }
     if (this.length === 1) {
-      throw new Error(`Cannot remove head node`)
+      throw new Error(`Cannot remove head node`);
     }
     if (index === 0) {
       const currHead = this.head;
@@ -58,7 +58,7 @@ export class LinkedList<T> {
       const leadingNode = this.traverse(index - 1);
       const nodeToDelete = leadingNode.next as Node<T>;
       leadingNode.next = nodeToDelete.next;
-      nodeToDelete.next  = null;
+      nodeToDelete.next = null;
       // If removing the last Node, need to re-assign Tail
       if (index === this.length - 1) {
         this.tail = leadingNode;
@@ -68,9 +68,25 @@ export class LinkedList<T> {
     return this;
   }
 
+  public reverse(): LinkedList<T> {
+    if (this.length === 1) return this;
+    let prevNode = this.head;
+    let currNode: Node<T> | null = this.head.next!;
+    this.tail = this.head;
+    while (currNode) {
+      const nextNode: Node<T> | null = currNode.next;
+      currNode.next = prevNode;
+      prevNode = currNode;
+      currNode = nextNode;
+    }
+    this.head.next = null;
+    this.head = prevNode;
+    return this;
+  }
+
   // O(n)
   // Returns Node at index
-  private traverse(index:number): Node<T> {
+  private traverse(index: number): Node<T> {
     if (index < 0 || index > this.length - 1) {
       throw new Error(`index ${index} is out of bound`);
     }
@@ -83,7 +99,7 @@ export class LinkedList<T> {
 
   // O(n)
   public toString(): string {
-    let result = '[ ';
+    let result = "[ ";
     let currNode: Node<T> | null = this.head;
     while (currNode !== null) {
       result += `${currNode.value} --> `;

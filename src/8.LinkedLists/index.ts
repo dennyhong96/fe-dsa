@@ -15,6 +15,8 @@ export async function LinkedListDataStructure() {
     // .remove(0)
     .remove(3);
   console.log(list.toString());
+  list.reverse();
+  console.log(list.toString());
 
   const doublyLinkedList = new DoublyLinkedList<number>(15);
   console.log(doublyLinkedList.toString());
