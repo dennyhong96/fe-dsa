@@ -3,6 +3,7 @@ import readline from "readline";
 import { ArrayDataStructure } from "./6.Array";
 import { HashTableDataStructure } from "./7.HashTable";
 import { LinkedListDataStructure } from "./8.LinkedLists";
+import { StacksQueuesDataStructure } from "./9.Stacks&Queues";
 
 const printMenu = () => {
   const menu = `
@@ -33,6 +34,10 @@ const main = async () => {
         }
         case 3: {
           await LinkedListDataStructure();
+          break;
+        }
+        case 4: {
+          await StacksQueuesDataStructure();
           break;
         }
         default: {
