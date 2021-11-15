@@ -36,24 +36,25 @@ export class Stack<T> {
 
   // O(1)
   public pop(): Node<T> | null {
-    this.length--;
     if (!this.top) {
       return null;
     } else if (this.top === this.bottom) {
       const node = this.top!;
       this.top = null;
       this.bottom = null;
+      this.length--;
       return node;
     } else {
       const node = this.top!;
       this.top = node.next;
       node.next = null;
+      this.length--;
       return node;
     }
   }
 
   // O(n)
-  toString() {
+  toString(): string {
     const buffer: string[] = [];
     let node = this.top;
     let result = "[ ";
