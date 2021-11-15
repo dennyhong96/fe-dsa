@@ -25,6 +25,11 @@ export class Queue<T> {
   }
 
   // O(1)
+  public isEmpty(): boolean {
+    return this.length === 0;
+  }
+
+  // O(1)
   public enqueue(value: T): Queue<T> {
     const newNode = new Node(value);
     if (!this.first) {
@@ -41,16 +46,16 @@ export class Queue<T> {
   public dequeue(): Node<T> | null {
     if (!this.first) {
       return null;
-    } else if (this.first === this.last) {
-      const node = this.first;
-      this.first = null;
-      this.last = null;
-      this.length--;
-      return node;
     } else {
       const node = this.first;
-      this.first = this.first.next;
-      node.next = null;
+      if (this.first === this.last) {
+        // Only 1 item in queue
+        this.first = null;
+        this.last = null;
+      } else {
+        this.first = this.first.next;
+        node.next = null;
+      }
       this.length--;
       return node;
     }
