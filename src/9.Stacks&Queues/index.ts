@@ -1,4 +1,5 @@
 import { Stack } from "./Stack";
+import { Stack2 } from "./Stack2";
 
 export async function StacksQueuesDataStructure() {
   const stack = new Stack();

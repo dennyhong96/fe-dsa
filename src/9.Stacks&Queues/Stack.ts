@@ -1,3 +1,4 @@
+// Stack implemented with LinkedList
 export class Stack<T> {
   private top: Node<T> | null; // Head Node
   private bottom: Node<T> | null;
