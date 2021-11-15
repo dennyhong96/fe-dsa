@@ -11,6 +11,7 @@ const printMenu = () => {
   1. Array
   2. Hash Table
   3. Linked List
+  4. Stack & Queue
   `;
   console.log(menu);
 };
