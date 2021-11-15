@@ -1,6 +1,7 @@
 import { Stack } from "./Stack";
 import { Stack2 } from "./Stack2";
 import { Queue } from "./Queue";
+import { QueueWith2Stacks } from "./QueueWith2Stacks";
 
 export async function StacksQueuesDataStructure() {
   const stack = new Stack();

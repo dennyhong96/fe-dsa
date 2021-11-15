@@ -1,3 +1,5 @@
+import { Node } from "./Node";
+
 // Queue implemented with LinkedList
 export class Queue<T> {
   private first: Node<T> | null;
@@ -68,15 +70,5 @@ LAST: ${this.last?.value ?? "null"}
 LENGTH: ${this.length}
     `;
     return result;
-  }
-}
-
-export class Node<T> {
-  public value: T;
-  public next: Node<T> | null;
-
-  constructor(value: T) {
-    this.value = value;
-    this.next = null;
   }
 }

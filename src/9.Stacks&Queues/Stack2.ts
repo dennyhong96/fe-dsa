@@ -1,4 +1,4 @@
-// Stack implemented with Array
+// Stack implemented with built-in Array
 export class Stack2<T> {
   private data: T[];
 

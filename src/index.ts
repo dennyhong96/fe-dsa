@@ -1,4 +1,5 @@
 import readline from "readline";
+import { TreeDataStructure } from "./10.Trees";
 
 import { ArrayDataStructure } from "./6.Array";
 import { HashTableDataStructure } from "./7.HashTable";
@@ -12,6 +13,7 @@ const printMenu = () => {
   2. Hash Table
   3. Linked List
   4. Stack & Queue
+  5. Tree
   `;
   console.log(menu);
 };
@@ -39,6 +41,10 @@ const main = async () => {
         }
         case 4: {
           await StacksQueuesDataStructure();
+          break;
+        }
+        case 5: {
+          await TreeDataStructure();
           break;
         }
         default: {

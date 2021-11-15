@@ -1,3 +1,5 @@
+import { Node } from "./Node";
+
 // Stack implemented with LinkedList
 export class Stack<T> {
   private top: Node<T> | null; // Head Node
@@ -69,15 +71,5 @@ TOP: ${this.top?.value ?? "null"}
 LENGTH: ${this.length}
     `;
     return result;
-  }
-}
-
-export class Node<T> {
-  public value: T;
-  public next: Node<T> | null;
-
-  constructor(value: T) {
-    this.value = value;
-    this.next = null;
   }
 }
