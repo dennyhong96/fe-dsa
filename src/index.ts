@@ -1,5 +1,6 @@
 import readline from "readline";
 import { TreeDataStructure } from "./10.Trees";
+import { GraphDataStructure } from "./11.Graphs";
 
 import { ArrayDataStructure } from "./6.Array";
 import { HashTableDataStructure } from "./7.HashTable";
@@ -14,6 +15,7 @@ const printMenu = () => {
   3. Linked List
   4. Stack & Queue
   5. Tree
+  6. Graph
   `;
   console.log(menu);
 };
@@ -45,6 +47,10 @@ const main = async () => {
         }
         case 5: {
           await TreeDataStructure();
+          break;
+        }
+        case 6: {
+          await GraphDataStructure();
           break;
         }
         default: {

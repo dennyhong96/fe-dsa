@@ -7,3 +7,4 @@
 3. [Linked List](src/8.LinkedLists)
 4. [Stacks & Queues](src/9.Stacks&Queues)
 5. [Trees](src/10.Trees)
+6. [Graphs](src/11.Graphs)
