@@ -5,6 +5,7 @@ export class BinarySearchTree {
     this.root = rootValue ? new TreeNode(rootValue) : null;
   }
 
+  // O(log(n))
   public insert(value: number): BinarySearchTree {
     const newNode = new TreeNode(value);
     if (!this.root) {
@@ -31,6 +32,7 @@ export class BinarySearchTree {
     }
   }
 
+  // O(log(n))
   public find(value: number): TreeNode | null {
     if (!this.root) return null;
     let currNode: TreeNode | null = this.root;
@@ -46,6 +48,7 @@ export class BinarySearchTree {
     return null;
   }
 
+  // O(log(n))
   public remove(value: number) {
     if (!this.root) return this;
     let currNode: TreeNode | null = this.root;
