@@ -13,6 +13,15 @@ export async function TreeDataStructure() {
   tree.insert(160);
   tree.insert(190);
   console.log(JSON.stringify(tree, null, 2));
+
+  console.log(tree.find(9));
+  console.log(tree.find(4));
+  console.log(tree.find(6));
+  console.log(tree.find(150));
+  console.log(tree.find(190));
+
   tree.remove(20);
+  tree.remove(190);
+  tree.remove(4);
   console.log(JSON.stringify(tree, null, 2));
 }

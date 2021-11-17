@@ -9,121 +9,115 @@ export class BinarySearchTree {
     const newNode = new TreeNode(value);
     if (!this.root) {
       this.root = newNode;
-    } else {
-      let node: TreeNode = this.root;
-      while (true) {
-        if (value < node.value) {
-          if (node.left) {
-            node = node.left;
-          } else {
-            node.left = newNode;
-            return this;
-          }
+      return this;
+    }
+    let currNode = this.root;
+    while (true) {
+      if (value < currNode.value) {
+        if (currNode.left) {
+          currNode = currNode.left;
         } else {
-          if (node.right) {
-            node = node.right;
-          } else {
-            node.right = newNode;
-            return this;
-          }
+          currNode.left = newNode;
+          return this;
+        }
+      } else {
+        if (currNode.right) {
+          currNode = currNode.right;
+        } else {
+          currNode.right = newNode;
+          return this;
         }
       }
     }
-    return this;
   }
 
-  public lookup(value: number): TreeNode | null {
+  public find(value: number): TreeNode | null {
     if (!this.root) return null;
-    let node: TreeNode | null = this.root;
-    while (node) {
-      if (value < node.value) {
-        node = node.left;
-      } else if (value > node.value) {
-        node = node.right;
+    let currNode: TreeNode | null = this.root;
+    while (currNode) {
+      if (value === currNode.value) {
+        return currNode;
+      } else if (value < currNode.value) {
+        currNode = currNode.left;
       } else {
-        return node;
+        currNode = currNode.right;
       }
     }
     return null;
   }
 
-  public remove(value: number): BinarySearchTree {
+  public remove(value: number) {
     if (!this.root) return this;
-    let node: TreeNode | null = this.root;
-    let leadingNode: TreeNode | null = null;
-    while (node) {
-      if (value < node.value) {
-        leadingNode = node;
-        node = node.left;
-      } else if (value > node.value) {
-        leadingNode = node;
-        node = node.right;
+    let currNode: TreeNode | null = this.root;
+    let prevNode: TreeNode | null = null;
+    while (currNode) {
+      if (value < currNode.value) {
+        prevNode = currNode;
+        currNode = currNode.left;
+      } else if (value > currNode.value) {
+        prevNode = currNode;
+        currNode = currNode.right;
       } else {
-        // Handle remove root
-        if (!leadingNode) {
+        if (!prevNode) {
           this.root = null;
           return this;
         }
-
-        // Handle remove leaf
-        if (!node.left && !node.right) {
-          if (node.value < leadingNode.value) {
-            leadingNode.left = null;
+        // Handle removing leaf node
+        if (!currNode.left && !currNode.right) {
+          if (value < prevNode.value) {
+            prevNode.left = null;
           } else {
-            leadingNode.right = null;
+            console.log(">>>");
+            console.log(prevNode);
+            prevNode.right = null;
           }
-
-          // Handle remove node with one child node
-        } else if (node.left && !node.right) {
-          if (node.value < leadingNode.value) {
-            leadingNode.left = node.left;
-            node.left = null;
+          // Handle the node to remove has one child node
+        } else if (currNode.left && !currNode.right) {
+          if (value < prevNode.value) {
+            prevNode.left = currNode.left;
           } else {
-            leadingNode.right = node.left;
-            node.left = null;
+            prevNode.right = currNode.left;
           }
-        } else if (!node.left && node.right) {
-          if (node.value < leadingNode.value) {
-            leadingNode.left = node.right;
-            node.right = null;
+          currNode.left = null;
+        } else if (!currNode.left && currNode.right) {
+          if (value < prevNode.value) {
+            prevNode.left = currNode.right;
           } else {
-            leadingNode.right = node.right;
-            node.right = null;
+            prevNode.right = currNode.right;
           }
-
-          // Handle remove node with two child nodes
+          currNode.right = null;
         } else {
-          // Start from right child node, find smallest in right subtree
-          let subTreeNode = node.right!;
-          let leadingSubTreeNode: TreeNode | null = null;
-          let smallestInSubTree: TreeNode | null = null;
-          while (!smallestInSubTree) {
-            // The smallest if the left most node
-            if (!subTreeNode.left) {
-              smallestInSubTree = subTreeNode;
+          // Handle the node to remove has two child nodes
+          let subtreeCurrNode: TreeNode | null = currNode.right;
+          let subtreeLeadingNode: TreeNode | null = null;
+          let subtreeSmallestNode: TreeNode | null = null;
+          while (!subtreeSmallestNode) {
+            if (subtreeCurrNode?.left) {
+              subtreeLeadingNode = subtreeCurrNode;
+              subtreeCurrNode = subtreeCurrNode.left;
             } else {
-              leadingSubTreeNode = subTreeNode;
-              subTreeNode = subTreeNode.left;
+              subtreeSmallestNode = subtreeCurrNode;
             }
           }
-          if (!leadingSubTreeNode) {
-            node.right = smallestInSubTree.right;
+          if (!subtreeLeadingNode) {
+            currNode.right = subtreeSmallestNode.right;
           } else {
-            leadingSubTreeNode.left = smallestInSubTree.right;
+            currNode.right!.left = subtreeSmallestNode.right;
           }
-          node.value = smallestInSubTree.value;
+          console.log("subtreeSmallestNode.value", subtreeSmallestNode.value);
+          currNode.value = subtreeSmallestNode.value;
+          subtreeSmallestNode.right = null;
         }
         return this;
       }
     }
-    return this;
   }
 }
 
 export class TreeNode {
-  public value: number;
   public left: TreeNode | null;
   public right: TreeNode | null;
+  public value: number;
 
   constructor(value: number) {
     this.value = value;
