@@ -12,3 +12,4 @@
 ## Algorithms
 
 7. [Recursion](src/12.Recursion)
+8. [Sorting](src/13.Sorting)

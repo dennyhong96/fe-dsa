@@ -2,6 +2,7 @@ import readline from "readline";
 import { TreeDataStructure } from "./10.Trees";
 import { GraphDataStructure } from "./11.Graphs";
 import { RecursionAlgorithm } from "./12.Recursion";
+import { SortingAlgorithm } from "./13.Sorting";
 
 import { ArrayDataStructure } from "./6.Array";
 import { HashTableDataStructure } from "./7.HashTable";
@@ -20,6 +21,7 @@ const printMenu = () => {
 
   Algorithms
   7. Recursion
+  8. Sorting
   `;
   console.log(menu);
 };
@@ -59,6 +61,10 @@ const main = async () => {
         }
         case 7: {
           await RecursionAlgorithm();
+          break;
+        }
+        case 8: {
+          await SortingAlgorithm();
           break;
         }
         default: {
