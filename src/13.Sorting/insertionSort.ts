@@ -1,3 +1,4 @@
+// O(n^2)
 export function insertionSort(arr: number[]): void {
   for (let i = 0; i < arr.length; i++) {
     const currNum = arr[i];
