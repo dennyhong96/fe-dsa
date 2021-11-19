@@ -1,9 +1,9 @@
 export function mergeSort(arr: number[]): number[] {
   if (arr.length === 1) return arr;
-  const index = Math.ceil(arr.length / 2);
-  const left = arr.slice(0, index);
-  const right = arr.slice(index);
-  return merge(mergeSort(left), mergeSort(right));
+  const middleIndex = Math.ceil(arr.length / 2);
+  const leftArray = arr.slice(0, middleIndex);
+  const rightArray = arr.slice(middleIndex);
+  return merge(mergeSort(leftArray), mergeSort(rightArray));
 }
 
 function merge(arr1: number[], arr2: number[]): number[] {
@@ -11,13 +11,13 @@ function merge(arr1: number[], arr2: number[]): number[] {
   let arr1Index = 0;
   let arr2Index = 0;
   while (result.length < arr1.length + arr2.length) {
-    const arr1SmallestEl = arr1[arr1Index];
-    const arr2SmallestEl = arr2[arr2Index];
-    if (arr1SmallestEl < arr2SmallestEl || !arr2SmallestEl) {
-      result.push(arr1SmallestEl);
+    const arr1SmallestItem = arr1[arr1Index];
+    const arr2SmallestItem = arr2[arr2Index];
+    if (!arr2SmallestItem || arr1SmallestItem < arr2SmallestItem) {
+      result.push(arr1SmallestItem);
       arr1Index++;
-    } else if (arr2SmallestEl <= arr1SmallestEl || !arr1SmallestEl) {
-      result.push(arr2SmallestEl);
+    } else if (!arr1SmallestItem || arr2SmallestItem <= arr1SmallestItem) {
+      result.push(arr2SmallestItem);
       arr2Index++;
     }
   }
