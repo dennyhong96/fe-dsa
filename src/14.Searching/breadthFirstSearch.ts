@@ -17,15 +17,17 @@ export function breadthFirstTraversalIt(
 }
 
 export function breadthFirstTraversalRe(
-  root: TreeNode,
+  root?: TreeNode,
   list: Array<TreeNode> = [],
   queue: Queue<TreeNode> = new Queue<TreeNode>()
 ): Array<TreeNode> {
-  list.push(root);
-  if (root.left) queue.enqueue(root.left);
-  if (root.right) queue.enqueue(root.right);
-  if (!queue.isEmpty()) {
-    breadthFirstTraversalRe(queue.dequeue()!.value, list, queue);
+  if (root) {
+    queue.enqueue(root);
   }
-  return list;
+  if (queue.isEmpty()) return list;
+  const treeNode = queue.dequeue()!.value;
+  list.push(treeNode);
+  if (treeNode.left) queue.enqueue(treeNode.left);
+  if (treeNode.right) queue.enqueue(treeNode.right);
+  return breadthFirstTraversalRe(undefined, list, queue);
 }
