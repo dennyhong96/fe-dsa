@@ -1,17 +1,21 @@
 import { BinarySearchTree } from "../10.Trees/BinarySearchTree";
-import { breadthFirstSearch } from "./breadthFirstSearch";
+import {
+  breadthFirstTraversalIt,
+  breadthFirstTraversalRe,
+} from "./breadthFirstSearch";
 
 export async function SearchingAlgorithm() {
   const bst = new BinarySearchTree(9);
-  bst.insert(6);
-  bst.insert(12);
-  bst.insert(1);
   bst.insert(4);
-  bst.insert(34);
-  bst.insert(45);
-  // console.log(JSON.stringify(bst, null, 2));
+  bst.insert(20);
+  bst.insert(1);
+  bst.insert(6);
+  bst.insert(15);
+  bst.insert(170);
+  console.log(JSON.stringify(bst, null, 2));
 
-  console.log(breadthFirstSearch(bst.root!, 34));
+  console.log(breadthFirstTraversalIt(bst.root!));
+  console.log(breadthFirstTraversalRe(bst.root!));
 }
 
 //If you know a solution is not far from the root of the tree:

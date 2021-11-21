@@ -1,34 +1,31 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 import { Queue } from "../9.Stacks&Queues/Queue";
 
-const queue = new Queue<TreeNode>();
-
-export function breadthFirstSearch(
+export function breadthFirstTraversalIt(
   root: TreeNode,
-  value: number
-): TreeNode | undefined {
-  if (root.value === value) return root;
-
-  if (root.left) {
-    if (root.left.value === value) {
-      return root.left;
-    } else {
-      if (root.left.left) queue.enqueue(root.left.left);
-      if (root.left.right) queue.enqueue(root.left.right);
-    }
-  }
-
-  if (root.right) {
-    if (root.right.value === value) {
-      return root.right;
-    } else {
-      if (root.right.left) queue.enqueue(root.right.left);
-      if (root.right.right) queue.enqueue(root.right.right);
-    }
-  }
-
+  list: Array<TreeNode> = [],
+  queue: Queue<TreeNode> = new Queue<TreeNode>()
+): Array<TreeNode> {
+  queue.enqueue(root);
   while (!queue.isEmpty()) {
-    const node = queue.dequeue()!;
-    return breadthFirstSearch(node.value, value);
+    const treeNode = queue.dequeue()!.value;
+    list.push(treeNode);
+    if (treeNode.left) queue.enqueue(treeNode.left);
+    if (treeNode.right) queue.enqueue(treeNode.right);
   }
+  return list;
+}
+
+export function breadthFirstTraversalRe(
+  root: TreeNode,
+  list: Array<TreeNode> = [],
+  queue: Queue<TreeNode> = new Queue<TreeNode>()
+): Array<TreeNode> {
+  list.push(root);
+  if (root.left) queue.enqueue(root.left);
+  if (root.right) queue.enqueue(root.right);
+  if (!queue.isEmpty()) {
+    breadthFirstTraversalRe(queue.dequeue()!.value, list, queue);
+  }
+  return list;
 }
