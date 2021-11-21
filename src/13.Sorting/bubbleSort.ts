@@ -11,6 +11,3 @@ export function bubbleSort(arr: number[]): void {
     }
   }
 }
-
-// [ 100, 4, 3, 2, 5, 6, 7, 11, 2, 1 ]
-// [ 1, 2, 2,  3, 4, 5, 6, 7, 11, 100 ]

@@ -1,3 +1,4 @@
+// O(n log(n)) time, O(n) space
 export function mergeSort(arr: number[]): number[] {
   if (arr.length === 1) return arr;
   const middleIndex = Math.ceil(arr.length / 2);
@@ -23,3 +24,4 @@ function merge(arr1: number[], arr2: number[]): number[] {
   }
   return result;
 }
+// Good time complexity, be careful with memory when sorting large input

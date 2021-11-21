@@ -1,3 +1,4 @@
+// avg. O(n log(n)) time, worst O(n^2) time, O(n log(n)) space
 export function quickSort(
   arr: number[],
   startIndex = 0,
@@ -6,7 +7,7 @@ export function quickSort(
   if (endIndex - startIndex <= 0) return; // Base case handles [], [1]
 
   let currIndex = startIndex;
-  let pivotIndex = endIndex; // Select last item as random pivot
+  let pivotIndex = endIndex; // Select last item as pivot
 
   // `while (currIndex < pivotIndex)` since we are sure that items behind pivot number are larger than pivot
   while (currIndex < pivotIndex) {
@@ -27,3 +28,4 @@ export function quickSort(
   quickSort(arr, startIndex, pivotIndex - 1); // Sort left half, excluding pivot
   quickSort(arr, pivotIndex + 1, endIndex); // Sort right half, excluding pivot
 }
+// Be careful to select the pivot carefully, otherwise could result in O(n^2) time complexity
