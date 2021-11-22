@@ -4,6 +4,7 @@ import { GraphDataStructure } from "./11.Graphs";
 import { RecursionAlgorithm } from "./12.Recursion";
 import { SortingAlgorithm } from "./13.Sorting";
 import { SearchingAlgorithm } from "./14.Searching";
+import { DynamicProgramming } from "./15.DynamicProgramming";
 
 import { ArrayDataStructure } from "./6.Array";
 import { HashTableDataStructure } from "./7.HashTable";
@@ -24,6 +25,7 @@ const printMenu = () => {
   7. Recursion
   8. Sorting
   9. Searching
+  10. Dynamic Programming
   `;
   console.log(menu);
 };
@@ -71,6 +73,10 @@ const main = async () => {
         }
         case 9: {
           await SearchingAlgorithm();
+          break;
+        }
+        case 9: {
+          await DynamicProgramming();
           break;
         }
         default: {

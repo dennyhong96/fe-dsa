@@ -14,3 +14,4 @@
 7. [Recursion](src/12.Recursion)
 8. [Sorting](src/13.Sorting)
 9. [Searching](src/14.Searching)
+10. [Dynamic Programming](src/15.DynamicProgramming)
