@@ -20,7 +20,7 @@ export async function SortingAlgorithm() {
   insertionSort(arr3);
   console.log(arr3);
 
-  console.log(mergeSort([100, 70, 74, 30, 23, 200, 5, 95]));
+  console.log(mergeSort(arr4));
 
   quickSort(arr5);
   console.log(arr5);
@@ -36,7 +36,7 @@ export async function SortingAlgorithm() {
 // quick sort
 
 //#4 - Massive database (can't fit all into memory) needs to sort through past year's user data
-// mege sort - don't need to sort in memory
+// merge sort - don't need to sort in memory
 
 //#5 - Almost sorted Udemy review data needs to update and add 2 new reviews
 // insertion sort - fast on almost sorted input

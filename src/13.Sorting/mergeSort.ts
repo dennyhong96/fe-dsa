@@ -1,25 +1,27 @@
 // O(n log(n)) time, O(n) space
 export function mergeSort(arr: number[]): number[] {
-  if (arr.length === 1) return arr;
+  if (arr.length < 2) return arr;
   const middleIndex = Math.ceil(arr.length / 2);
-  const leftArray = arr.slice(0, middleIndex);
-  const rightArray = arr.slice(middleIndex);
-  return merge(mergeSort(leftArray), mergeSort(rightArray));
+  const left = arr.slice(0, middleIndex);
+  const right = arr.slice(middleIndex);
+  return merge(mergeSort(left), mergeSort(right));
 }
 
-function merge(arr1: number[], arr2: number[]): number[] {
+// [100, 70, 74, 30, 23, 200, 5, 95]
+
+function merge(left: number[], right: number[]): number[] {
   const result: number[] = [];
-  let arr1Index = 0;
-  let arr2Index = 0;
-  while (result.length < arr1.length + arr2.length) {
-    const arr1SmallestItem = arr1[arr1Index];
-    const arr2SmallestItem = arr2[arr2Index];
-    if (!arr2SmallestItem || arr1SmallestItem < arr2SmallestItem) {
-      result.push(arr1SmallestItem);
-      arr1Index++;
-    } else if (!arr1SmallestItem || arr2SmallestItem <= arr1SmallestItem) {
-      result.push(arr2SmallestItem);
-      arr2Index++;
+  let leftIndex = 0;
+  let rightIndex = 0;
+  while (result.length < left.length + right.length) {
+    const leftItem = left[leftIndex];
+    const rightItem = right[rightIndex];
+    if (!rightItem || leftItem < rightItem) {
+      result.push(leftItem);
+      leftIndex++;
+    } else {
+      result.push(rightItem);
+      rightIndex++;
     }
   }
   return result;
