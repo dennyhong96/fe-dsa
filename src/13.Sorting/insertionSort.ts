@@ -1,20 +1,21 @@
 // O(n^2)
 export function insertionSort(arr: number[]): void {
-  for (let i = 0; i < arr.length; i++) {
-    const currNum = arr[i];
-    for (let j = 0; j < i; j++) {
-      const greaterThanThis = arr[j - 1];
-      const lessThanThis = arr[j];
-      if (
-        (!greaterThanThis || currNum > greaterThanThis) &&
-        currNum <= lessThanThis
-      ) {
-        for (let k = i; k > j; k--) {
-          arr[k] = arr[k - 1];
-        }
-        arr[j] = currNum;
+  // Mark the 1st element as sorted
+  // Loop through each unsorted item
+  for (let i = 1; i < arr.length; i++) {
+    const unSortedItem = arr[i];
+
+    // Compare the current unsortd item with each of the previous sorted items
+    // to move the ucurrent unsortd item into it's proper index
+    for (let k = i - 1; k >= 0; k--) {
+      const sortedItem = arr[k];
+      if (unSortedItem < sortedItem) {
+        arr[k + 1] = sortedItem;
+        arr[k] = unSortedItem;
       }
     }
   }
 }
 // Use when input is small, or mostly sorted
+
+// [100, 70, 74, 30, 23, 200, 5, 95]

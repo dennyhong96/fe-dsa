@@ -1,6 +1,6 @@
 import { bubbleSort } from "./bubbleSort";
 import { insertionSort } from "./insertionSort";
-import { selectionSort } from "./selectionSort2";
+import { selectionSort } from "./selectionSort";
 import { mergeSort } from "./mergeSort";
 import { quickSort } from "./quickSort";
 
@@ -17,13 +17,13 @@ export async function SortingAlgorithm() {
   selectionSort(arr2);
   console.log(arr2);
 
-  // insertionSort(arr3);
-  // console.log(arr3);
+  insertionSort(arr3);
+  console.log(arr3);
 
-  // console.log(mergeSort(arr4));
+  console.log(mergeSort(arr4));
 
-  // quickSort(arr5);
-  // console.log(arr5);
+  quickSort(arr5);
+  console.log(arr5);
 }
 
 //#1 - Sort 10 schools around your house by distance:

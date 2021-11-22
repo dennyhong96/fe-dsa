@@ -2,15 +2,24 @@
 export function selectionSort(arr: number[]): void {
   for (let i = 0; i < arr.length - 1; i++) {
     const currItem = arr[i];
-    let currMinIdx = i;
+
+    // Find the index of the smallest item that is smaller than currItem
+    let min = arr[i];
+    let minIndex = i;
     for (let j = i + 1; j < arr.length; j++) {
       const compItem = arr[j];
-      if (compItem < arr[currMinIdx]) {
-        currMinIdx = j;
+      if (compItem < min) {
+        min = compItem;
+        minIndex = j;
       }
     }
-    arr[i] = arr[currMinIdx];
-    arr[currMinIdx] = currItem;
+
+    // If there is something that is smaller than currItem
+    // Swap the index of those two
+    if (minIndex !== i) {
+      arr[i] = min;
+      arr[minIndex] = currItem;
+    }
   }
 }
 
