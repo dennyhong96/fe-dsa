@@ -3,19 +3,29 @@ import {
   breadthFirstTraversalIt,
   breadthFirstTraversalRe,
 } from "./breadthFirstSearch";
+import {
+  inOrderTraversal,
+  postOrderTraversal,
+  preOrderTraversal,
+} from "./depthFirstSearch";
 
 export async function SearchingAlgorithm() {
   const bst = new BinarySearchTree(9);
-  bst.insert(4);
-  bst.insert(20);
   bst.insert(1);
+  bst.insert(4);
   bst.insert(6);
+  bst.insert(9);
   bst.insert(15);
+  bst.insert(20);
   bst.insert(170);
   console.log(JSON.stringify(bst, null, 2));
 
   console.log(breadthFirstTraversalIt(bst.root!));
   console.log(breadthFirstTraversalRe(bst.root!));
+
+  console.log(inOrderTraversal(bst.root!));
+  console.log(preOrderTraversal(bst.root!));
+  console.log(postOrderTraversal(bst.root!));
 }
 
 //If you know a solution is not far from the root of the tree:
