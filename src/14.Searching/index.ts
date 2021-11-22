@@ -8,6 +8,7 @@ import {
   postOrderTraversal,
   preOrderTraversal,
 } from "./depthFirstSearch";
+import { isValidBST } from "./isValidBST";
 
 export async function SearchingAlgorithm() {
   const bst = new BinarySearchTree(9);
@@ -26,6 +27,8 @@ export async function SearchingAlgorithm() {
   console.log(inOrderTraversal(bst.root!));
   console.log(preOrderTraversal(bst.root!));
   console.log(postOrderTraversal(bst.root!));
+
+  console.log(isValidBST(bst.root!));
 }
 
 //If you know a solution is not far from the root of the tree:

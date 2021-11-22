@@ -1,5 +1,6 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 /**
+ * DFS traversal has 3 orders
  *      9
  *   4     20
  * 1  6  15 170
@@ -8,7 +9,6 @@ import { TreeNode } from "../10.Trees/BinarySearchTree";
  * post order - [1, 6, 4, 15, 170, 20, 9]
  */
 
-//
 export function inOrderTraversal(root: TreeNode, list: Array<TreeNode> = []) {
   if (root.left) inOrderTraversal(root.left, list);
   list.push(root);
