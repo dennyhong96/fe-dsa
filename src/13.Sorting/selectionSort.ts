@@ -13,3 +13,5 @@ export function selectionSort(arr: number[]): void {
     arr[currMinIdx] = currItem;
   }
 }
+
+// [100, 70, 74, 30, 23, 200, 5, 95]

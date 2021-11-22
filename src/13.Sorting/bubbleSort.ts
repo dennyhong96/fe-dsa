@@ -17,3 +17,5 @@ export function bubbleSort(arr: number[]): void {
     }
   }
 }
+
+// [100, 70, 74, 30, 23, 200, 5, 95]
