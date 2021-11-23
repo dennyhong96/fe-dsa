@@ -4,6 +4,7 @@ type FibonacciMemoized = {
 };
 
 // O(n) time
+// DP - Memoization
 export const fibonacciMemoized: FibonacciMemoized = (index) => {
   if (!fibonacciMemoized.cache) {
     fibonacciMemoized.cache = new Map<number, number>();
@@ -17,4 +18,13 @@ export const fibonacciMemoized: FibonacciMemoized = (index) => {
     fibonacciMemoized.cache.set(index, result);
     return result;
   }
+};
+
+// DP - Bottom-up
+export const fibonacciBottomUp = (index: number) => {
+  const fibList = [0, 1];
+  for (let i = 2; i <= index; i++) {
+    fibList.push(fibList[i - 1] + fibList[i - 2]);
+  }
+  return fibList[index];
 };
