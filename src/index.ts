@@ -75,7 +75,7 @@ const main = async () => {
           await SearchingAlgorithm();
           break;
         }
-        case 9: {
+        case 10: {
           await DynamicProgramming();
           break;
         }
