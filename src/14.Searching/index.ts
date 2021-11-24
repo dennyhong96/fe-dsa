@@ -1,32 +1,31 @@
 import { BinarySearchTree } from "../10.Trees/BinarySearchTree";
 import {
-  breadthFirstTraversalIt,
-  breadthFirstTraversalRe,
+  breadthFirstSearchIt,
+  breadthFirstSearchRe,
 } from "./breadthFirstSearch";
 import {
-  inOrderTraversal,
-  postOrderTraversal,
-  preOrderTraversal,
+  depthFirstSearchInOrder,
+  depthFirstSearchPostOrder,
+  depthFirstSearchPreOrder,
 } from "./depthFirstSearch";
 import { isValidBST } from "./isValidBST";
 
 export async function SearchingAlgorithm() {
   const bst = new BinarySearchTree(9);
-  bst.insert(1);
   bst.insert(4);
-  bst.insert(6);
-  bst.insert(9);
-  bst.insert(15);
   bst.insert(20);
+  bst.insert(1);
+  bst.insert(6);
+  bst.insert(15);
   bst.insert(170);
   console.log(JSON.stringify(bst, null, 2));
 
-  console.log(breadthFirstTraversalIt(bst.root!));
-  console.log(breadthFirstTraversalRe(bst.root!));
+  console.log(breadthFirstSearchRe(bst.root!));
+  console.log(breadthFirstSearchIt(bst.root!));
 
-  console.log(inOrderTraversal(bst.root!));
-  console.log(preOrderTraversal(bst.root!));
-  console.log(postOrderTraversal(bst.root!));
+  console.log(depthFirstSearchInOrder(bst.root!));
+  console.log(depthFirstSearchPreOrder(bst.root!));
+  console.log(depthFirstSearchPostOrder(bst.root!));
 
   console.log(isValidBST(bst.root!));
 }
