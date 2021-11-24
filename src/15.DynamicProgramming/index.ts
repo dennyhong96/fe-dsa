@@ -1,8 +1,9 @@
-import { fibonacciMemoized } from "./fibonacciMemoized";
+import { fibBottomUp, fibMemo } from "./fibonacciDP";
 import { houseRobber } from "./houseRobber";
 
 export async function DynamicProgramming() {
-  console.log(fibonacciMemoized(100));
+  console.log(fibMemo(100));
+  console.log(fibBottomUp(100));
 
   console.log(houseRobber([1, 2, 3, 1]));
   console.log(houseRobber([2, 7, 9, 3, 1]));

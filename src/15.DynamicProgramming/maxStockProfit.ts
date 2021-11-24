@@ -2,28 +2,29 @@
  * 121. Best Time to Buy and Sell Stock
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
  */
-export function maxStockProfit(prices: Array<number>) {
-  if (prices.length <= 1) return 0; // Cannot make any profit if selling on same day
+export function maxStockProfit(prices: number[]): number {
+  if (prices.length <= 1) return 0;
+  let buyIndex = 0;
+  let sellIndex = 1;
+  let max = 0;
 
-  // Sliding windows solution
-  let buyDay = 0;
-  let sellDay = buyDay + 1;
-  let maxProfit = 0;
-  while (sellDay < prices.length) {
-    const buyPrice = prices[buyDay];
-    const sellPrice = prices[sellDay];
+  // We use sellIndex to check if pointer if out-of-bound
+  // since we know sellIndex is always larger than buyerIndex
+  while (sellIndex < prices.length) {
+    const buyPrice = prices[buyIndex];
+    const sellPrice = prices[sellIndex];
     if (sellPrice < buyPrice) {
       // If sell price if smaller than buy price, make the new buy day the sell day
-      // and move the sell day to the next day
-      buyDay = sellDay;
-      sellDay = buyDay + 1;
+      // and move the sell day to the next day to the buy day
+      buyIndex = sellIndex;
+      sellIndex = buyIndex + 1;
     } else {
       // else we compare current profit with maxProfit profit
       // and move the sell day to the next day
-      maxProfit = Math.max(maxProfit, sellPrice - buyPrice);
-      sellDay++;
+      const profit = sellPrice - buyPrice;
+      max = Math.max(profit, max);
+      sellIndex++;
     }
   }
-
-  return maxProfit;
+  return max;
 }
