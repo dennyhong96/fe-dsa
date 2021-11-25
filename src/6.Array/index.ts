@@ -1,12 +1,8 @@
 import { MyArray } from "./MyArray";
 import { reverse } from "./reverse";
 import { mergeSortedArrays } from "./mergeSortedArrays";
-
-import { twoSum } from "./twoSum";
 import { moveZeroes } from "./moveZeroes";
-import { containsDuplicate } from "./containsDuplicate";
 import { rotate } from "./rotate";
-import { maxSubArray } from "./maxSubArray";
 
 export async function ArrayDataStructure() {
   const myArray = new MyArray<string>();
