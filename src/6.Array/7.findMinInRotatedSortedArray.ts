@@ -16,10 +16,12 @@ function findMin(nums: number[]): number {
     const middle = nums[middleIndex];
 
     if (middle > right) {
-      // [2,3,1], min is somewhere between middle -> right
+      // [2,3,4,5,1], min is somewhere between middle -> right
+      //  L   M   R
       leftIndex = middleIndex + 1;
     } else {
-      // [3,1,2],  min is somewhere between left -> middle
+      // [5,1,2,3,4] - min is somewhere between left -> middle
+      //  L   M   R
       rightIndex = middleIndex;
     }
   }

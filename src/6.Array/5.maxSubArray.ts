@@ -1,7 +1,7 @@
 // 53. Maximum Subarray
 // https://leetcode.com/problems/maximum-subarray/
 
-// O(n) time; O(n) space
+// O(n) time; O(1) space
 function maxSubArray(nums: number[]): number {
   let maxSum = -Infinity;
   let runningSum = 0;
