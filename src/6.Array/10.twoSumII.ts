@@ -33,9 +33,12 @@ function twoSumII2(numbers: number[], target: number): number[] {
     const diff = target - num1;
     for (let j = i + 1; j < numbers.length; j++) {
       const num2 = numbers[j];
-      if (num2 === diff) {
-        return [i + 1, j + 1];
-      }
+      if (num2 === diff) return [i + 1, j + 1];
+
+      // numbers are sorted non-decreasing,
+      // No point of continuing if num1 + num2 is already greater than target
+      // since if will be even larger in the next iteration
+      if (num1 + num2 > target) break;
     }
   }
   return [];

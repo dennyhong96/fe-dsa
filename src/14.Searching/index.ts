@@ -3,19 +3,16 @@ import {
   breadthFirstSearchIt,
   breadthFirstSearchRe,
 } from "./breadthFirstSearch";
-import {
-  depthFirstSearchInOrder,
-  depthFirstSearchPostOrder,
-  depthFirstSearchPreOrder,
-} from "./depthFirstSearch";
+import { DFSInOrder, DFSPostOrder, DFSPreOrder } from "./depthFirstSearch";
 import { isValidBST } from "./isValidBST";
 
 export async function SearchingAlgorithm() {
+  // [9,4,1,6,20,15,170]
   const bst = new BinarySearchTree(9);
   bst.insert(4);
-  bst.insert(20);
   bst.insert(1);
   bst.insert(6);
+  bst.insert(20);
   bst.insert(15);
   bst.insert(170);
   console.log(JSON.stringify(bst, null, 2));
@@ -23,9 +20,9 @@ export async function SearchingAlgorithm() {
   console.log(breadthFirstSearchRe(bst.root!));
   console.log(breadthFirstSearchIt(bst.root!));
 
-  console.log(depthFirstSearchInOrder(bst.root!));
-  console.log(depthFirstSearchPreOrder(bst.root!));
-  console.log(depthFirstSearchPostOrder(bst.root!));
+  console.log(DFSInOrder(bst.root!));
+  console.log(DFSPreOrder(bst.root!));
+  console.log(DFSPostOrder(bst.root!));
 
   console.log(isValidBST(bst.root!));
 }
