@@ -10,8 +10,8 @@ export class LinkedList<T = number> {
   }
 
   // O(1)
-  public prepend(value: T): LinkedList<T> {
-    const newNode = new ListNode(value);
+  public prepend(val: T): LinkedList<T> {
+    const newNode = new ListNode(val);
     newNode.next = this.head;
     this.head = newNode;
     this.length++;
@@ -19,8 +19,8 @@ export class LinkedList<T = number> {
   }
 
   // O(1)
-  public append(value: T): LinkedList<T> {
-    const newNode = new ListNode(value);
+  public append(val: T): LinkedList<T> {
+    const newNode = new ListNode(val);
     this.tail.next = newNode;
     this.tail = newNode;
     this.length++;
@@ -28,13 +28,13 @@ export class LinkedList<T = number> {
   }
 
   // O(n)
-  public insert(index: number, value: T): LinkedList<T> {
+  public insert(index: number, val: T): LinkedList<T> {
     if (index < 0 || index > this.length) {
       throw new Error(`index ${index} is out of bound`);
     }
-    if (index === 0) return this.prepend(value);
-    if (index === this.length) return this.append(value);
-    const newNode = new ListNode(value);
+    if (index === 0) return this.prepend(val);
+    if (index === this.length) return this.append(val);
+    const newNode = new ListNode(val);
     const leadingNode = this.traverse(index - 1);
     newNode.next = leadingNode.next;
     leadingNode.next = newNode;
@@ -102,12 +102,12 @@ export class LinkedList<T = number> {
     let result = "[ ";
     let currNode: ListNode<T> | null = this.head;
     while (currNode !== null) {
-      result += `${currNode.value} --> `;
+      result += `${currNode.val} --> `;
       currNode = currNode.next;
     }
     result += `null ]
-HEAD: ${this.head.value}
-TAIL: ${this.tail.value}
+HEAD: ${this.head.val}
+TAIL: ${this.tail.val}
 LENGTH: ${this.length}`;
     return result;
   }
@@ -115,8 +115,8 @@ LENGTH: ${this.length}`;
 
 export class ListNode<T = number> {
   public next: ListNode<T> | null = null;
-  public value: T;
-  constructor(value: T) {
-    this.value = value;
+  public val: T;
+  constructor(val: T) {
+    this.val = val;
   }
 }
