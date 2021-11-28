@@ -1,5 +1,9 @@
 import { ListNode } from "./LinkedList";
 
+/**
+ * 19. Remove Nth Node From End of List
+ * https://www.youtube.com/watch?v=XVuQxVej6y8
+ */
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
   if (!head) return null;
 
