@@ -8,29 +8,28 @@ import { ListNode } from "./LinkedList";
 // slow & fast pointers - O(n) time; O(1) space
 function reorderList(head: ListNode | null): void {
   if (!head || !head.next) return;
-
-  // Use fash & slow pointers to find the middle of the linked list
-  // cut the linked list into left and right half
-  let slowPointerNode = head;
-  let fastPointerNode: ListNode | null = head.next;
-  while (fastPointerNode && fastPointerNode.next) {
-    slowPointerNode = slowPointerNode.next!;
-    fastPointerNode = fastPointerNode.next.next;
+  // 1. find the middle node with fast & slow pointers
+  let fastPointer: ListNode | null = head.next;
+  let slowPointer = head;
+  while (fastPointer && fastPointer.next) {
+    fastPointer = fastPointer.next.next;
+    slowPointer = slowPointer.next!;
   }
 
-  // Reverse the right half linked list
-  let rightHalfHead = slowPointerNode.next!;
-  slowPointerNode.next = null; // cut the link between leftHalfTail and rightHalfHead
+  // 2. cut the list into left and right halves
+  let rightHalfHead = slowPointer.next!;
+  slowPointer.next = null;
+
+  // 3. reverse the right half
   let currNode = rightHalfHead;
   while (currNode.next) {
-    const tmp = currNode.next.next;
-    currNode.next.next = rightHalfHead;
-    rightHalfHead = currNode.next;
-    currNode.next = tmp;
+    const tmp = currNode.next;
+    currNode.next = tmp.next;
+    tmp.next = rightHalfHead;
+    rightHalfHead = tmp;
   }
 
-  // Build the result reordered linked list
-  // by merging the left and right halves
+  // 4. re-build the list by merging the left and right halves
   let leftHalfCurrNode: ListNode | null = head;
   let rightHalfCurrNode: ListNode | null = rightHalfHead;
   while (rightHalfCurrNode) {

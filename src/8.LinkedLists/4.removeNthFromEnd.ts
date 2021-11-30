@@ -4,39 +4,39 @@ import { ListNode } from "./LinkedList";
  * 19. Remove Nth Node From End of List
  * https://www.youtube.com/watch?v=XVuQxVej6y8
  */
-function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
-  if (!head) return null;
 
-  // Offset the trailingPointerNode n nodes behind head
-  let trailingPointerNode: ListNode | null = head;
-  let count = n;
-  while (count > 0) {
-    trailingPointerNode = trailingPointerNode!.next;
-    count--;
+function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
+  // Offset the leadingPointer n nodes ahead of head
+  let leadingPointer: ListNode | null = head;
+  while (n > 0) {
+    leadingPointer = leadingPointer!.next;
+    n--;
   }
 
   // Add a dummyNode before head and set it as new head
   // this is so we don't need to worry about edge case
-  // where the head node need to be removed
-  let leadingPointerNode = new ListNode(0);
-  leadingPointerNode.next = head;
-  head = leadingPointerNode;
+  // where the head node need to be removed  const dummyHead = new ListNode(0);
+  const dummyHead = new ListNode(0);
+  dummyHead.next = head;
+  head = dummyHead;
 
-  // when trailingPointerNode is null (out of bounds)
-  // the next node of leadingPointerNode is the node we need to remove
-  while (trailingPointerNode) {
-    trailingPointerNode = trailingPointerNode.next;
-    leadingPointerNode = leadingPointerNode.next!;
+  let trailingPointer = head;
+
+  // when leadingPointer is null (out of bounds)
+  // the next node of trailingPointer is the node we need to remove
+  while (leadingPointer) {
+    leadingPointer = leadingPointer.next;
+    trailingPointer = trailingPointer.next!;
   }
 
-  const nodeToRemove = leadingPointerNode.next!;
-  leadingPointerNode.next = nodeToRemove.next;
+  const nodeToRemove = trailingPointer.next!;
+  trailingPointer.next = nodeToRemove.next;
   nodeToRemove.next = null;
 
   // remove the dummyNode we added add return the head
-  const dummyNode = head;
-  head = dummyNode.next;
-  dummyNode.next = null;
+  const tmp = head;
+  head = head.next;
+  tmp.next = null;
   return head;
 }
 

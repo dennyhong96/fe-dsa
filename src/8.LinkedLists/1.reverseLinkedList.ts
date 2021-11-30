@@ -8,7 +8,6 @@ import { ListNode } from "./LinkedList";
 // O(n) time; O(1) space
 function reverseList(head: ListNode | null): ListNode | null {
   if (!head) return null;
-  if (!head.next) return head;
   let currNode = head;
   while (currNode.next) {
     const tmp = currNode.next;
