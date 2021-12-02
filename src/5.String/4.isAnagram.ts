@@ -25,3 +25,9 @@ function isAnagram(s: string, t: string): boolean {
 
   return isAna;
 }
+
+// O(n) time; O(1) space
+function isAnagram2(s: string, t: string): boolean {
+  if (s.length !== t.length) return false;
+  return [...s].sort().join("") === [...t].sort().join("");
+}
