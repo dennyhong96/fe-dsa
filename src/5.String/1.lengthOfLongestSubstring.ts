@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/longest-substring-without-repeating-characters/
  */
 
-// O(n) time; O(1) space
+// Two pointers - O(n) time; O(1) space
 function lengthOfLongestSubstring(s: string): number {
   const set = new Set<string>(); // set will has at most 26 items in it, it doesn't scale with n, so O(1) space.
   let maxLength = 0;
