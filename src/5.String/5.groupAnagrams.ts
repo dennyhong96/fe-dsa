@@ -4,7 +4,7 @@ function groupAnagrams(strs: string[]): string[][] {
 
   // O(m)
   for (const str of strs) {
-    // O(n) - avg. length of the strings
+    // O(n) - avg. length character count of a string
     const key: number[] = [];
     for (let s of str) {
       const index = s.charCodeAt(0) - "a".charCodeAt(0);
@@ -21,10 +21,7 @@ function groupAnagrams(strs: string[]): string[][] {
     }
   }
 
-  const result: string[][] = [];
-  map.forEach((val) => result.push(val)); // O(n) time
-
-  return result;
+  return [...map.values()];
 }
 
 // O(m * nlog(n)) time; O(n) space
@@ -42,8 +39,5 @@ function groupAnagrams2(strs: string[]): string[][] {
     }
   }
 
-  const result: string[][] = [];
-  map.forEach((val) => result.push(val)); // O(n) time
-
-  return result;
+  return [...map.values()];
 }
