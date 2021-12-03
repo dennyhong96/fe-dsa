@@ -2,6 +2,7 @@
 
 ## Data Structures
 
+0. [String](src/5.String)
 1. [Array](src/6.Array)
 2. [Hash Table](src/7.HashTable)
 3. [Linked List](src/8.LinkedLists)
