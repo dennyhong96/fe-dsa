@@ -5,13 +5,12 @@
 
 // O(n^2) time; O(1) space
 function longestPalindrome(s: string): string {
-  let longestPalindromeRange: number[] = [];
+  let longestPalinDromeRange: number[] = [];
 
-  const checkAndUpdateLongestPalindrome = (
+  const updateLongestPalinDrome = (
     leftPointer: number,
     rightPointer: number
   ) => {
-    // Check if a substring is palindrome from middle -> two sides
     while (
       leftPointer >= 0 &&
       rightPointer < s.length &&
@@ -19,10 +18,10 @@ function longestPalindrome(s: string): string {
     ) {
       const length = rightPointer - leftPointer + 1;
       if (
-        longestPalindromeRange.length !== 2 ||
-        length > longestPalindromeRange[1] - longestPalindromeRange[0] + 1
+        longestPalinDromeRange.length !== 2 ||
+        length > longestPalinDromeRange[1] - longestPalinDromeRange[0] + 1
       ) {
-        longestPalindromeRange = [leftPointer, rightPointer];
+        longestPalinDromeRange = [leftPointer, rightPointer];
       }
       leftPointer--;
       rightPointer++;
@@ -30,30 +29,29 @@ function longestPalindrome(s: string): string {
   };
 
   for (let i = 0; i < s.length; i++) {
-    // Hanle odd length palindrome
+    // Check for potential odd palindrome substring
     let leftPointer = i;
     let rightPointer = i;
-    checkAndUpdateLongestPalindrome(leftPointer, rightPointer);
+    updateLongestPalinDrome(leftPointer, rightPointer);
 
-    // Handle even length palindrome
+    // Check for potential even palindrome substring
     leftPointer = i;
     rightPointer = i + 1;
-    checkAndUpdateLongestPalindrome(leftPointer, rightPointer);
+    updateLongestPalinDrome(leftPointer, rightPointer);
   }
 
-  // Build result palindrome substring
-  let longestPalindrome = "";
-  if (longestPalindromeRange.length === 2) {
+  let longestPalinDrome = "";
+  if (longestPalinDromeRange.length === 2) {
     for (
-      let i = longestPalindromeRange[0];
-      i <= longestPalindromeRange[1];
+      let i = longestPalinDromeRange[0];
+      i <= longestPalinDromeRange[1];
       i++
     ) {
-      longestPalindrome += s[i];
+      longestPalinDrome += s[i];
     }
   }
 
-  return longestPalindrome;
+  return longestPalinDrome;
 }
 
 // Brute force - O(n^3)
