@@ -11,10 +11,10 @@ function isValidBST(
   max = Infinity
 ): boolean {
   if (!root) return true;
-  if (root.value <= min) return false;
-  if (root.value >= max) return false;
+  if (root.val <= min) return false;
+  if (root.val >= max) return false;
   return (
-    isValidBST(root.left, min, root.value) &&
-    isValidBST(root.right, root.value, max)
+    isValidBST(root.left, min, root.val) &&
+    isValidBST(root.right, root.val, max)
   );
 }

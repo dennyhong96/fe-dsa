@@ -6,15 +6,15 @@ export class BinarySearchTree {
   }
 
   // O(log(n))
-  public insert(value: number): BinarySearchTree {
-    const newNode = new TreeNode(value);
+  public insert(val: number): BinarySearchTree {
+    const newNode = new TreeNode(val);
     if (!this.root) {
       this.root = newNode;
       return this;
     }
     let currNode = this.root;
     while (true) {
-      if (value < currNode.value) {
+      if (val < currNode.val) {
         if (currNode.left) {
           currNode = currNode.left;
         } else {
@@ -33,13 +33,13 @@ export class BinarySearchTree {
   }
 
   // O(log(n))
-  public find(value: number): TreeNode | null {
+  public find(val: number): TreeNode | null {
     if (!this.root) return null;
     let currNode: TreeNode | null = this.root;
     while (currNode) {
-      if (value === currNode.value) {
+      if (val === currNode.val) {
         return currNode;
-      } else if (value < currNode.value) {
+      } else if (val < currNode.val) {
         currNode = currNode.left;
       } else {
         currNode = currNode.right;
@@ -49,15 +49,15 @@ export class BinarySearchTree {
   }
 
   // O(log(n))
-  public remove(value: number) {
+  public remove(val: number) {
     if (!this.root) return this;
     let currNode: TreeNode | null = this.root;
     let prevNode: TreeNode | null = null;
     while (currNode) {
-      if (value < currNode.value) {
+      if (val < currNode.val) {
         prevNode = currNode;
         currNode = currNode.left;
-      } else if (value > currNode.value) {
+      } else if (val > currNode.val) {
         prevNode = currNode;
         currNode = currNode.right;
       } else {
@@ -67,7 +67,7 @@ export class BinarySearchTree {
         }
         // Handle removing leaf node
         if (!currNode.left && !currNode.right) {
-          if (value < prevNode.value) {
+          if (val < prevNode.val) {
             prevNode.left = null;
           } else {
             console.log(">>>");
@@ -76,14 +76,14 @@ export class BinarySearchTree {
           }
           // Handle the node to remove has one child node
         } else if (currNode.left && !currNode.right) {
-          if (value < prevNode.value) {
+          if (val < prevNode.val) {
             prevNode.left = currNode.left;
           } else {
             prevNode.right = currNode.left;
           }
           currNode.left = null;
         } else if (!currNode.left && currNode.right) {
-          if (value < prevNode.value) {
+          if (val < prevNode.val) {
             prevNode.left = currNode.right;
           } else {
             prevNode.right = currNode.right;
@@ -107,8 +107,8 @@ export class BinarySearchTree {
           } else {
             currNode.right!.left = subtreeSmallestNode.right;
           }
-          console.log("subtreeSmallestNode.value", subtreeSmallestNode.value);
-          currNode.value = subtreeSmallestNode.value;
+          console.log("subtreeSmallestNode.val", subtreeSmallestNode.val);
+          currNode.val = subtreeSmallestNode.val;
           subtreeSmallestNode.right = null;
         }
         return this;
@@ -120,10 +120,10 @@ export class BinarySearchTree {
 export class TreeNode {
   public left: TreeNode | null;
   public right: TreeNode | null;
-  public value: number;
+  public val: number;
 
-  constructor(value: number) {
-    this.value = value;
+  constructor(val: number) {
+    this.val = val;
     this.left = null;
     this.right = null;
   }
