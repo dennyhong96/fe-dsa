@@ -13,13 +13,13 @@ import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 export function DFSInOrder(root: TreeNode, result: Array<number> = []) {
   if (root.left) DFSInOrder(root.left, result);
-  result.push(root.value);
+  result.push(root.val);
   if (root.right) DFSInOrder(root.right, result);
   return result;
 }
 
 export function DFSPreOrder(root: TreeNode, result: Array<number> = []) {
-  result.push(root.value);
+  result.push(root.val);
   if (root.left) DFSPreOrder(root.left, result);
   if (root.right) DFSPreOrder(root.right, result);
   return result;
@@ -28,6 +28,6 @@ export function DFSPreOrder(root: TreeNode, result: Array<number> = []) {
 export function DFSPostOrder(root: TreeNode, result: Array<number> = []) {
   if (root.left) DFSPostOrder(root.left, result);
   if (root.right) DFSPostOrder(root.right, result);
-  result.push(root.value);
+  result.push(root.val);
   return result;
 }

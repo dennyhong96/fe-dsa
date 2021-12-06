@@ -20,11 +20,11 @@ export async function SearchingAlgorithm() {
   console.log(breadthFirstSearchRe(bst.root!));
   console.log(breadthFirstSearchIt(bst.root!));
 
-  console.log(DFSInOrder(bst.root!));
-  console.log(DFSPreOrder(bst.root!));
-  console.log(DFSPostOrder(bst.root!));
+  // console.log(DFSInOrder(bst.root!));
+  // console.log(DFSPreOrder(bst.root!));
+  // console.log(DFSPostOrder(bst.root!));
 
-  console.log(isValidBST(bst.root!));
+  // console.log(isValidBST(bst.root!));
 }
 
 //If you know a solution is not far from the root of the tree:
