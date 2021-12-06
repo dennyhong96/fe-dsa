@@ -3,8 +3,7 @@ import {
   breadthFirstSearchIt,
   breadthFirstSearchRe,
 } from "./breadthFirstSearch";
-import { DFSInOrder, DFSPostOrder, DFSPreOrder } from "./depthFirstSearch";
-import { isValidBST } from "./isValidBST";
+import { dfsInOrder, dfsPostOrder, dfsPreOrder } from "./depthFirstSearch";
 
 export async function SearchingAlgorithm() {
   // [9,4,1,6,20,15,170]
@@ -20,11 +19,9 @@ export async function SearchingAlgorithm() {
   console.log(breadthFirstSearchRe(bst.root!));
   console.log(breadthFirstSearchIt(bst.root!));
 
-  // console.log(DFSInOrder(bst.root!));
-  // console.log(DFSPreOrder(bst.root!));
-  // console.log(DFSPostOrder(bst.root!));
-
-  // console.log(isValidBST(bst.root!));
+  console.log(dfsInOrder(bst.root!));
+  console.log(dfsPreOrder(bst.root!));
+  console.log(dfsPostOrder(bst.root!));
 }
 
 //If you know a solution is not far from the root of the tree:
