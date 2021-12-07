@@ -5,12 +5,12 @@ import { TreeNode } from "./BinarySearchTree";
  * https://leetcode.com/problems/invert-binary-tree/
  */
 
-// O(n) time; O(m) space - m is max depth of tree
+// O(n) time; O(m) space - m is depth of tree
 function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root) return null;
-  const leftNode = root.left;
+  const left = root.left;
   root.left = root.right;
-  root.right = leftNode;
+  root.right = left;
   invertTree(root.left);
   invertTree(root.right);
   return root;
