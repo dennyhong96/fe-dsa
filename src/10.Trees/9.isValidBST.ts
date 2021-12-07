@@ -5,20 +5,18 @@
 
 import { TreeNode } from "./BinarySearchTree";
 
-// O(n) time,O(m) space where h is the maximal depth the tree.
+// O(n) time; O(m) space - m is depth of tree
 function isValidBST(root: TreeNode | null): boolean {
-  const isValidSubtree = (
-    node: TreeNode | null,
+  const validator = (
+    root: TreeNode | null,
     min: number,
     max: number
   ): boolean => {
-    if (!node) return true; // an empty bst is still a valid bst
-    if (node.val <= min || node.val >= max) return false;
-    return (
-      isValidSubtree(node.left, min, node.val) && // every node val in the left sub-tree must be smaller than node
-      isValidSubtree(node.right, node.val, max) // every node val in the right sub-tree must be greater than root
-    );
+    if (!root) return true;
+    if (root.val <= min || root.val >= max) return false;
+    const isLeftValid = validator(root.left, min, root.val); // every node val in the left sub-tree must be smaller than node
+    const isRightValid = validator(root.right, root.val, max); // every node val in the right sub-tree must be greater than root
+    return isLeftValid && isRightValid;
   };
-
-  return isValidSubtree(root, -Infinity, Infinity);
+  return validator(root, -Infinity, Infinity);
 }
