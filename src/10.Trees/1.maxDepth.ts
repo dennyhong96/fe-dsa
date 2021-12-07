@@ -6,47 +6,58 @@ import { TreeNode } from "./BinarySearchTree";
  */
 
 // DFS recursive in order - O(n) time; O(m) space where h is the maximal depth the tree.
-function maxDepth(root: TreeNode | null): number {
-  if (!root) return 0;
-  const leftMaxDepth = maxDepth(root.left);
-  const rightMaxDepth = maxDepth(root.right);
-  return 1 + Math.max(leftMaxDepth, rightMaxDepth); // Add one for the root node
-}
-
-// Iterative DFS pre-order - O(n) time; O(n) space
 function maxDepth2(root: TreeNode | null): number {
   if (!root) return 0;
 
-  const stack: Array<{ node: TreeNode; level: number }> = []; // pre-order DFS with a stack is the easiest iterative way to DFS
-  let depth = 1;
+  // Emulate a stack with array
+  const stack: Array<{ node: TreeNode; level: number }> & {
+    size: () => number;
+  } = [] as any as Array<{ node: TreeNode; level: number }> & {
+    size: () => number;
+  };
+  stack.size = () => stack.length;
 
+  let maxDep = 0;
   stack.push({ node: root, level: 1 });
-  while (stack.length) {
+
+  while (stack.size() > 0) {
     const { node, level } = stack.pop()!;
-    depth = Math.max(depth, level);
+    maxDep = Math.max(maxDep, level);
     if (node.right) stack.push({ node: node.right, level: level + 1 });
     if (node.left) stack.push({ node: node.left, level: level + 1 });
   }
 
-  return depth;
+  return maxDep;
 }
 
 // Iterative BFS - O(n) time; O(n) space
 function maxDepth3(root: TreeNode | null): number {
   if (!root) return 0;
 
-  const queue: Array<{ node: TreeNode; level: number }> = [];
-  let maxDepth = 1;
+  // Emulate a queue with array
+  const queue: Array<{ node: TreeNode; level: number }> & {
+    enqueue: Function;
+    dequeue: Function;
+    isEmpty: () => boolean;
+  } = [] as any as Array<{ node: TreeNode; level: number }> & {
+    enqueue: Function;
+    dequeue: Function;
+    isEmpty: () => boolean;
+  };
+  queue.enqueue = queue.push;
+  queue.dequeue = queue.shift;
+  queue.isEmpty = () => queue.length === 0;
 
-  queue.push({ node: root, level: 1 });
-  while (queue.length) {
-    const { node, level } = queue.shift()!;
-    maxDepth = Math.max(maxDepth, level);
-    if (node.left) queue.push({ node: node.left, level: level + 1 });
-    if (node.right) queue.push({ node: node.right, level: level + 1 });
+  queue.enqueue({ node: root, level: 1 });
+  let maxDep = 0; // root
+  while (!queue.isEmpty()) {
+    const { node, level } = queue.dequeue()!;
+    maxDep = Math.max(maxDep, level);
+    if (node.left) queue.enqueue({ node: node.left, level: level + 1 });
+    if (node.right) queue.enqueue({ node: node.right, level: level + 1 });
   }
 
-  return maxDepth;
+  return maxDep;
 }
 
 function _maxDepth(root: TreeNode | null): number {
