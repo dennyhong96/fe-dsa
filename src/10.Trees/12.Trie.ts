@@ -1,15 +1,25 @@
+/**
+ * 208. Implement Trie (Prefix Tree)
+ * https://leetcode.com/problems/implement-trie-prefix-tree/
+ */
+
+class TrieNode {
+  children = new Map<string, TrieNode>();
+  endOfWord: boolean = false;
+}
+
 // Recursive
 class Trie {
-  root: TrieNode = new TrieNode();
+  public root: TrieNode = new TrieNode();
 
   constructor() {}
 
   // O(h) - h is height of tree
-  insert(word: string, parent = this.root): void {
+  public insert(word: string, parent = this.root): void {
     const char = word[0];
     let node = parent.children.get(char);
     if (!node) {
-      node = new TrieNode(char);
+      node = new TrieNode();
       parent.children.set(char, node);
     }
     const substr = word.slice(1);
@@ -22,12 +32,12 @@ class Trie {
   }
 
   // O(h) - h is height of tree
-  startsWith(prefix: string): boolean {
+  public startsWith(prefix: string): boolean {
     return Boolean(this.getNode(prefix));
   }
 
   // O(h) - h is height of tree
-  search(word: string): boolean {
+  public search(word: string): boolean {
     return Boolean(this.getNode(word)?.endOfWord);
   }
 
@@ -49,12 +59,12 @@ class Trie2 {
   constructor() {}
 
   // O(h) - h is height of tree
-  insert(word: string): void {
+  public insert(word: string): void {
     let curr = this.root;
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
       if (!curr.children.has(char)) {
-        curr.children.set(char, new TrieNode(char));
+        curr.children.set(char, new TrieNode());
       }
       curr = curr.children.get(char)!;
     }
@@ -62,12 +72,12 @@ class Trie2 {
   }
 
   // O(h) - h is height of tree
-  startsWith(prefix: string): boolean {
+  public startsWith(prefix: string): boolean {
     return Boolean(this.getNode(prefix));
   }
 
   // O(h) - h is height of tree
-  search(word: string): boolean {
+  public search(word: string): boolean {
     return Boolean(this.getNode(word)?.endOfWord);
   }
 
@@ -80,15 +90,6 @@ class Trie2 {
       curr = curr.children.get(char)!;
     }
     return curr;
-  }
-}
-
-class TrieNode {
-  val: string | null = null;
-  children = new Map<string, TrieNode>();
-  endOfWord: boolean = false;
-  constructor(val: string | null = null) {
-    this.val = val;
   }
 }
 
