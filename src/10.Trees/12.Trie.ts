@@ -1,16 +1,10 @@
-/**
- * 208. Implement Trie (Prefix Tree)
- * https://leetcode.com/problems/implement-trie-prefix-tree/
- */
-
 class TrieNode {
   children = new Map<string, TrieNode>();
-  endOfWord: boolean = false;
+  end: boolean = false;
 }
 
-// Recursive
 class Trie {
-  public root: TrieNode = new TrieNode();
+  public root = new TrieNode();
 
   constructor() {}
 
@@ -24,11 +18,15 @@ class Trie {
     }
     const substr = word.slice(1);
     if (!substr.length) {
-      node.endOfWord = true;
+      node.end = true;
       return;
-    } else {
-      return this.insert(substr, node);
     }
+    this.insert(substr, node);
+  }
+
+  // O(h) - h is height of tree
+  public search(word: string): boolean {
+    return Boolean(this.getNode(word)?.end);
   }
 
   // O(h) - h is height of tree
@@ -37,66 +35,75 @@ class Trie {
   }
 
   // O(h) - h is height of tree
-  public search(word: string): boolean {
-    return Boolean(this.getNode(word)?.endOfWord);
-  }
-
-  // O(h) - h is height of tree
-  private getNode(word: string, node: TrieNode = this.root): TrieNode | null {
+  private getNode(word: string, parent = this.root): TrieNode | null {
     const char = word[0];
-    const charNode = node.children.get(char);
-    if (!charNode) return null;
+    const node = parent.children.get(char);
+    if (!node) return null;
     const substr = word.slice(1);
-    if (!substr.length) return charNode;
-    return this.getNode(substr, charNode);
+    if (!substr.length) return node;
+    return this.getNode(substr, node);
   }
 }
 
-// Iterative
 class Trie2 {
-  root: TrieNode = new TrieNode();
+  public root = new TrieNode();
 
   constructor() {}
 
   // O(h) - h is height of tree
   public insert(word: string): void {
-    let curr = this.root;
+    let parent = this.root;
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
-      if (!curr.children.has(char)) {
-        curr.children.set(char, new TrieNode());
+      let node = parent.children.get(char);
+      if (!node) {
+        node = new TrieNode();
+        parent.children.set(char, node);
       }
-      curr = curr.children.get(char)!;
+      parent = node;
     }
-    curr.endOfWord = true;
-  }
-
-  // O(h) - h is height of tree
-  public startsWith(prefix: string): boolean {
-    return Boolean(this.getNode(prefix));
+    parent.end = true;
   }
 
   // O(h) - h is height of tree
   public search(word: string): boolean {
-    return Boolean(this.getNode(word)?.endOfWord);
+    let parent = this.root;
+    for (let i = 0; i < word.length; i++) {
+      const char = word[i];
+      const node = parent.children.get(char);
+      if (!node) return false;
+      parent = node;
+    }
+    return parent.end;
   }
 
   // O(h) - h is height of tree
-  private getNode(word: string): TrieNode | null {
-    let curr = this.root;
-    for (let i = 0; i < word.length; i++) {
-      const char = word[i];
-      if (!curr.children.has(char)) return null;
-      curr = curr.children.get(char)!;
+  public startsWith(prefix: string): boolean {
+    let parent = this.root;
+    for (let i = 0; i < prefix.length; i++) {
+      const char = prefix[i];
+      const node = parent.children.get(char);
+      if (!node) return false;
+      parent = node;
     }
-    return curr;
+    return Boolean(parent);
   }
 }
 
-const trie = new Trie();
+/**
+ * Your Trie object will be instantiated and called as such:
+ * var obj = new Trie()
+ * obj.insert(word)
+ * var param_2 = obj.search(word)
+ * var param_3 = obj.startsWith(prefix)
+ */
+
+const trie = new Trie2();
 trie.insert("apple");
 console.log(trie.search("apple")); // return True
 console.log(trie.search("app")); // return False
-console.log(trie.startsWith("app"));
+console.log(trie.startsWith("app")); // return True
 trie.insert("app");
-console.log(trie.search("app"));
+console.log(trie.search("app")); // return True
+
+export {};
