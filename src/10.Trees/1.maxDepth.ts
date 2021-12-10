@@ -60,3 +60,5 @@ function maxDepth4(root: TreeNode | null): number {
   }
   return maxDep;
 }
+
+export {};
