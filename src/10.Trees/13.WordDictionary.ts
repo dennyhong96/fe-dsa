@@ -4,6 +4,11 @@
  */
 
 // Use a prefix tree (trie)
+class WordDictionaryNode {
+  children = new Map<string, WordDictionaryNode>();
+  end = false;
+}
+
 class WordDictionary {
   root = new WordDictionaryNode();
 
@@ -12,14 +17,14 @@ class WordDictionary {
   // O(h) - h is height of tree
   addWord(word: string, parent = this.root): void {
     const char = word[0];
-    let node = parent.children[char];
+    let node = parent.children.get(char);
     if (!node) {
       node = new WordDictionaryNode();
-      parent.children[char] = node;
+      parent.children.set(char, node);
     }
     const substr = word.slice(1);
     if (!substr.length) {
-      node.endOfWord = true;
+      node.end = true;
       return;
     } else {
       return this.addWord(substr, node);
@@ -27,28 +32,32 @@ class WordDictionary {
   }
 
   // O(h * l) - h is height of tree, l is word length
-  search(word: string): boolean {
-    const dfs = (startIndex: number, node: WordDictionaryNode) => {
-      let curr = node;
-      for (let i = startIndex; i < word.length; i++) {
-        const char = word[i];
-        if (char === ".") {
-          for (const childNode of Object.values(curr.children)) {
-            if (dfs(i + 1, childNode!)) return true;
-          }
-          return false;
-        } else {
-          if (!curr.children[char]) return false;
-          curr = curr.children[char]!;
+  search(word: string, startIndex = 0, node = this.root): boolean {
+    let parent = node;
+    for (let i = startIndex; i < word.length; i++) {
+      const char = word[i];
+      if (char === ".") {
+        for (const [, childNode] of parent.children) {
+          if (this.search(word, i + 1, childNode)) return true;
         }
+        return false;
+      } else {
+        const node = parent.children.get(char);
+        if (!node) return false;
+        parent = node;
       }
-      return curr.endOfWord;
-    };
-    return dfs(0, this.root);
+    }
+    return parent.end;
   }
 }
 
-class WordDictionaryNode {
-  children: Record<string, WordDictionaryNode | undefined> = {};
-  endOfWord = false;
-}
+const wordDictionary = new WordDictionary();
+wordDictionary.addWord("bad");
+wordDictionary.addWord("dad");
+wordDictionary.addWord("mad");
+console.log(wordDictionary.search("pad")); // return False
+console.log(wordDictionary.search("bad")); // return True
+console.log(wordDictionary.search(".ad")); // return True
+console.log(wordDictionary.search("b..")); // return True
+
+export {};
