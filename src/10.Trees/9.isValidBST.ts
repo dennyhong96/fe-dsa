@@ -5,7 +5,7 @@
 
 import { TreeNode } from "./BinarySearchTree";
 
-// O(n) time; O(m) space - m is depth of tree
+// O(n) time; O(h) space - h is depth of tree
 function isValidBST(root: TreeNode | null): boolean {
   const validator = (
     root: TreeNode | null,
@@ -20,3 +20,5 @@ function isValidBST(root: TreeNode | null): boolean {
   };
   return validator(root, -Infinity, Infinity);
 }
+
+export {};
