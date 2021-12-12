@@ -9,12 +9,16 @@ class TrieNode {
 }
 
 class Trie {
-  public root = new TrieNode();
+  root = new TrieNode();
 
   constructor() {}
 
-  // O(h) - h is height of tree
-  public insert(word: string, parent = this.root): void {
+  // O(h) time; O(1) space
+  insert(word: string, parent = this.root): void {
+    if (word.length === 0) {
+      parent.end = true;
+      return;
+    }
     const char = word[0];
     let node = parent.children.get(char);
     if (!node) {
@@ -22,86 +26,76 @@ class Trie {
       parent.children.set(char, node);
     }
     const substr = word.slice(1);
-    if (!substr.length) {
-      node.end = true;
-      return;
-    }
-    this.insert(substr, node);
+    return this.insert(substr, node);
   }
 
-  // O(h) - h is height of tree
-  public search(word: string): boolean {
-    return Boolean(this.getNode(word)?.end);
+  // O(h) time; O(1) space; h is height of tree
+  search(word: string): boolean {
+    const foundNode = this.findNode(word);
+    return Boolean(foundNode?.end);
   }
 
-  // O(h) - h is height of tree
-  public startsWith(prefix: string): boolean {
-    return Boolean(this.getNode(prefix));
+  // O(h) time; O(1) space; h is height of tree
+  startsWith(prefix: string): boolean {
+    const foundNode = this.findNode(prefix);
+    return Boolean(foundNode);
   }
 
-  // O(h) - h is height of tree
-  private getNode(word: string, parent = this.root): TrieNode | null {
+  private findNode(word: string, parent = this.root): TrieNode | null {
+    if (!word.length) return parent;
     const char = word[0];
     const node = parent.children.get(char);
     if (!node) return null;
     const substr = word.slice(1);
-    if (!substr.length) return node;
-    return this.getNode(substr, node);
+    return this.findNode(substr, node);
   }
 }
 
+// Iterative Trie
 class Trie2 {
-  public root = new TrieNode();
+  root = new TrieNode();
 
   constructor() {}
 
-  // O(h) - h is height of tree
-  public insert(word: string): void {
-    let parent = this.root;
+  // O(h) time; O(1) space
+  insert(word: string): void {
+    let currNode = this.root;
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
-      let node = parent.children.get(char);
+      let node = currNode.children.get(char);
       if (!node) {
         node = new TrieNode();
-        parent.children.set(char, node);
+        currNode.children.set(char, node);
       }
-      parent = node;
+      currNode = node;
     }
-    parent.end = true;
+    currNode.end = true;
   }
 
-  // O(h) - h is height of tree
-  public search(word: string): boolean {
-    let parent = this.root;
+  // O(h) time; O(1) space; h is height of tree
+  search(word: string): boolean {
+    let currNode = this.root;
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
-      const node = parent.children.get(char);
+      const node = currNode.children.get(char);
       if (!node) return false;
-      parent = node;
+      currNode = node;
     }
-    return parent.end;
+    return currNode.end;
   }
 
-  // O(h) - h is height of tree
-  public startsWith(prefix: string): boolean {
-    let parent = this.root;
+  // O(h) time; O(1) space; h is height of tree
+  startsWith(prefix: string): boolean {
+    let currNode = this.root;
     for (let i = 0; i < prefix.length; i++) {
       const char = prefix[i];
-      const node = parent.children.get(char);
+      const node = currNode.children.get(char);
       if (!node) return false;
-      parent = node;
+      currNode = node;
     }
-    return Boolean(parent);
+    return true;
   }
 }
-
-/**
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
- */
 
 const trie = new Trie2();
 trie.insert("apple");
