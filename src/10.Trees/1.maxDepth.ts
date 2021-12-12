@@ -5,7 +5,7 @@ import { TreeNode } from "./BinarySearchTree";
  * https://leetcode.com/problems/maximum-depth-of-binary-tree/
  */
 
-// DFS recursive in order - O(n) time; O(m) space where h is the maximal depth the tree.
+// DFS recursive preorder - O(n) time; O(h) space where h is the height the tree
 function maxDepth(root: TreeNode | null): number {
   if (!root) return 0;
   const leftMaxDepth = maxDepth(root.left);
@@ -13,7 +13,7 @@ function maxDepth(root: TreeNode | null): number {
   return 1 + Math.max(leftMaxDepth, rightMaxDepth);
 }
 
-// O(n) time; O(n) space, Iterative DFS Pre-order
+// Iterative DFS preorder - O(n) time; O(n) space
 function maxDepth2(root: TreeNode | null): number {
   if (!root) return 0;
   const stack: { node: TreeNode; depth: number }[] = [];
@@ -28,7 +28,7 @@ function maxDepth2(root: TreeNode | null): number {
   return maxDep;
 }
 
-// O(n) time; O(n) space - Iterative BFS
+// Iterative BFS - O(n) time; O(n) space
 function maxDepth3(root: TreeNode | null): number {
   if (!root) return 0;
   const queue: { node: TreeNode; depth: number }[] = [];
@@ -43,7 +43,7 @@ function maxDepth3(root: TreeNode | null): number {
   return maxDep;
 }
 
-// O(n) time; O(n) space - Iterative BFS 2
+// Iterative BFS 2 - O(n) time; O(n) space
 function maxDepth4(root: TreeNode | null): number {
   if (!root) return 0;
   const queue: TreeNode[] = [];

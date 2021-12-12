@@ -5,22 +5,22 @@ import { TreeNode } from "./BinarySearchTree";
  * https://leetcode.com/problems/subtree-of-another-tree/
  */
 
-// O(n * m) time; O(h * i) space -h is height of root, i is height of subRoot;
+// O(n * m) time; O(h * i) space;
 function isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {
   if (!root) return false;
   if (!subRoot) return true;
-  if (isSameTree(root, subRoot)) return true;
+  if (isSametree(root, subRoot)) return true;
   const isLeftSubtree = isSubtree(root.left, subRoot);
   const isRightSubtree = isSubtree(root.right, subRoot);
   return isLeftSubtree || isRightSubtree;
 }
 
-// O(n) time; O(h) space - h is height of smaller tree
-function isSameTree(a: TreeNode | null, b: TreeNode | null): boolean {
-  if ((!a && b) || (a && !b) || (a && b && a.val !== b.val)) return false;
-  if (!a && !b) return true;
-  const isLeftSubtreeSame = isSameTree(a!.left, b!.left);
-  const isRightSubtreeSame = isSameTree(a!.right, b!.right);
+// O(m) time - m num of nodes in subRoot; O(i) space - i is height of subRoot
+function isSametree(p: TreeNode | null, q: TreeNode | null): boolean {
+  if ((p && !q) || (!p && q) || (p && q && p.val !== q.val)) return false;
+  if (!p && !q) return true;
+  const isLeftSubtreeSame = isSametree(p!.left, q!.left);
+  const isRightSubtreeSame = isSametree(p!.right, q!.right);
   return isLeftSubtreeSame && isRightSubtreeSame;
 }
 

@@ -5,38 +5,38 @@ import { TreeNode } from "./BinarySearchTree";
  * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
  */
 
-// Recursive preorder DFS, O(n) time; O(n) space
+// Inorder recursive DFS - O(n) time; O(n) space;
 function kthSmallest(root: TreeNode | null, k: number): number {
+  if (!root) return -1;
   const result: number[] = [];
-  const dfs = (root: TreeNode | null) => {
-    if (!root) return;
-    if (root.left) dfs(root.left);
-    result.push(root.val);
-    if (root.right) dfs(root.right);
+  const inorder = (node: TreeNode) => {
+    if (node.left) inorder(node.left);
+    result.push(node.val);
+    if (node.right) inorder(node.right);
   };
-  dfs(root);
+  inorder(root);
   return result[k - 1];
 }
 
-// Iterative preorder DFS - O(n) time; O(n) space
+// Iterative inorder DFS - O(n) time; O(n) space
 function kthSmallest1(root: TreeNode | null, k: number): number {
-  let n = 0;
   const stack: TreeNode[] = [];
-  let currNode = root;
-  while (currNode || stack.length) {
-    while (currNode) {
-      stack.push(currNode);
-      currNode = currNode.left;
+  let n = 0;
+  let curr = root;
+  while (curr || stack.length) {
+    while (curr) {
+      stack.push(curr);
+      curr = curr.left;
     }
     const node = stack.pop()!;
     n++;
-    if (n === k) return node.val;
-    currNode = node.right;
+    if (n == k) return node.val;
+    curr = node.right;
   }
   return -1;
 }
 
-// Iterative preorder DFS - O(n) time; O(n) space
+// Iterative inorder DFS - O(n) time; O(n) space
 function kthSmallest2(root: TreeNode | null, k: number): number {
   const stack: TreeNode[] = [];
   const result: number[] = [];
