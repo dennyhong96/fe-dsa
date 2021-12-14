@@ -5,47 +5,45 @@
 
 // O(log(n)) time; O(1) space
 function search(nums: number[], target: number): number {
-  let leftIndex = 0;
-  let rightIndex = nums.length - 1;
+  let leftPointer = 0;
+  let rightPointer = nums.length - 1;
 
-  while (leftIndex <= rightIndex) {
-    const middleIndex = leftIndex + Math.floor((rightIndex - leftIndex) / 2);
-    const middle = nums[middleIndex];
-    if (middle === target) return middleIndex;
+  while (leftPointer <= rightPointer) {
+    const left = nums[leftPointer];
+    const right = nums[rightPointer];
 
-    const right = nums[rightIndex];
+    const midIndex = leftPointer + Math.floor((rightPointer - leftPointer) / 2);
+    const mid = nums[midIndex];
 
-    // [2,4,5,6,7,0,1]
-    // [L     M     R]
-    // middle is within the left sorted sub-array: [2,4,5,6]
-    if (middle > right) {
-      if (target > middle) {
-        leftIndex = middleIndex + 1; // Search right side
+    if (mid === target) return midIndex;
+
+    if (mid < right) {
+      if (target < mid || target > right) {
+        rightPointer = midIndex - 1;
       } else {
-        // if (target < middle), target could be on both side of middle
-        if (target <= right) {
-          leftIndex = middleIndex + 1; // Search right side
-        } else {
-          rightIndex = middleIndex - 1; // Search left side
-        }
+        leftPointer = midIndex + 1;
       }
-
-      // [6,7,0,1,2,4,5]
-      // [L     M     R]
-      // middle is within the right sorted sub-array: [1,2,4,5]
     } else {
-      if (target > middle) {
-        // target could be on both side of middle
-        if (target <= right) {
-          leftIndex = middleIndex + 1; // Search right side
-        } else {
-          rightIndex = middleIndex - 1; // Search left side
-        }
+      if (target > mid || target < left) {
+        leftPointer = midIndex + 1;
       } else {
-        rightIndex = middleIndex - 1; // Search left side
+        rightPointer = midIndex - 1;
       }
     }
   }
-
   return -1;
 }
+
+// [1,2,3,4,5]
+
+// if m = target return
+
+// if m < r
+// [5,1,2,3,4]
+// if (target < m || target > r) search l -> m - 1
+// else search m + 1 -> r
+
+// if m > r
+// [2,3,4,5,1]
+// if (target > m || target < l) search m + 1 -> r
+// else search l -> m - 1
