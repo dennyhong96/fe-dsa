@@ -27,3 +27,14 @@ function findMin(nums: number[]): number {
   }
   return nums[leftIndex]; // can return nums[right] as well, both points to the minimum element
 }
+
+// [1,2,3,4,5]
+
+// [2,3,4,5,1] if (m > r) search m + 1 -> r
+// [5,1]       if (m > r) search m + 1 -> r
+// [1]
+
+// [5,1,2,3,4] if (m < r) search l -> m
+// [5,1,2]     if (m < r) search l -> m
+// [5,1]       if (m > r) search m + 1 -> r
+// [1]
