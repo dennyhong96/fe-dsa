@@ -5,13 +5,13 @@ import { ListNode } from "./LinkedList";
  * https://leetcode.com/problems/reverse-linked-list/
  */
 
-// O(n) time; O(1) space
+// O(n) time; O(1) space;
 function reverseList(head: ListNode | null): ListNode | null {
   if (!head) return null;
-  let currNode = head;
-  while (currNode.next) {
-    const tmp = currNode.next;
-    currNode.next = tmp.next;
+  let currentNode = head;
+  while (currentNode.next) {
+    let tmp = currentNode.next;
+    currentNode.next = currentNode.next.next;
     tmp.next = head;
     head = tmp;
   }
