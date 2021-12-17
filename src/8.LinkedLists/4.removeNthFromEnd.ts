@@ -5,96 +5,93 @@ import { ListNode } from "./LinkedList";
  * https://www.youtube.com/watch?v=XVuQxVej6y8
  */
 
+// One pass offset pointers - O(n) time; O(1) space;
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
-  // Offset the leadingPointer n nodes ahead of head
-  let leadingPointer: ListNode | null = head;
-  while (n > 0) {
-    leadingPointer = leadingPointer!.next;
-    n--;
-  }
+  const dummy = new ListNode(-1);
+  dummy.next = head;
+  head = dummy;
 
-  // Add a dummyNode before head and set it as new head
-  // this is so we don't need to worry about edge case
-  // where the head node need to be removed  const dummyHead = new ListNode(0);
-  const dummyHead = new ListNode(0);
-  dummyHead.next = head;
-  head = dummyHead;
-
+  // Offset the leadingPointer n nodes ahead of trailingPointer
   let trailingPointer = head;
-
-  // when leadingPointer is null (out of bounds)
-  // the next node of trailingPointer is the node we need to remove
-  while (leadingPointer) {
-    leadingPointer = leadingPointer.next;
-    trailingPointer = trailingPointer.next!;
+  let leadingPointer = head;
+  let k = n;
+  while (k > 0) {
+    leadingPointer = leadingPointer.next!;
+    k--;
   }
 
-  const nodeToRemove = trailingPointer.next!;
-  trailingPointer.next = nodeToRemove.next;
-  nodeToRemove.next = null;
+  // leadingPointer stops at the last node
+  // trailingPointer stops at the prev node of the node to remove
+  while (leadingPointer && leadingPointer.next) {
+    trailingPointer = trailingPointer.next!;
+    leadingPointer = leadingPointer.next;
+  }
+
+  const leadingNode = trailingPointer;
+  const tmp1 = leadingNode.next!;
+  leadingNode.next = leadingNode.next!.next;
+  tmp1.next = null;
 
   // remove the dummyNode we added add return the head
-  const tmp = head;
+  const tmp2 = head;
   head = head.next;
-  tmp.next = null;
+  tmp2.next = null;
   return head;
 }
 
-// One pass w/ hashmap - O(n) time; O(n) space
+// One pass w/ array - O(n) time; O(n) space;
 function removeNthFromEnd2(head: ListNode | null, n: number): ListNode | null {
   if (!head) return null;
-  const map = new Map<number, ListNode>(); // index -> ListNode
-  let currNode: ListNode | null = head;
-  let index = 0;
-  while (currNode) {
-    map.set(index, currNode);
-    index++;
-    currNode = currNode.next;
-  }
-  const length = index; // index is length after while loop break off
-  let leadingNode = map.get(length - 1 - n); // to previous node to the node that should be removed
-  let nodeToRemove: ListNode;
 
-  if (!leadingNode) {
-    // Handle edge case where head should be removed
-    nodeToRemove = head;
-    head = head.next;
-  } else {
-    nodeToRemove = leadingNode.next!;
-    leadingNode.next = nodeToRemove!.next;
+  const dummy = new ListNode(-1);
+  dummy.next = head;
+  head = dummy;
+
+  let curr: ListNode | null = head;
+  const arr: ListNode[] = [];
+  while (curr) {
+    arr.push(curr);
+    curr = curr.next;
   }
-  nodeToRemove.next = null;
+
+  const leadingNode = arr[arr.length - 1 - n];
+  const tmp1 = leadingNode.next!;
+  leadingNode.next = leadingNode.next!.next;
+  tmp1.next = null;
+
+  const tmp2 = head;
+  head = tmp2.next;
+  tmp2.next = null;
   return head;
 }
 
 // Two passes - O(n) time; O(1) space
 function removeNthFromEnd3(head: ListNode | null, n: number): ListNode | null {
-  if (!head) return null;
+  const dummy = new ListNode(-1);
+  dummy.next = head;
+  head = dummy;
 
-  // Use the 1st pass to get the total length of the list
-  let length: number = 0;
-  let currNode: ListNode | null = head;
-  while (currNode) {
+  // Find total length and leading node's index
+  let curr: ListNode | null = head;
+  let length = 0;
+  while (curr) {
     length++;
-    currNode = currNode.next;
+    curr = curr.next;
   }
+  const leadingNodeIndex = length - 1 - n;
 
-  // Use the 2nd pass to find the leadingNode
+  // Find leading node
   let leadingNode = head;
-  for (let i = 1; i < length - n; i++) {
+  for (let i = 0; i < leadingNodeIndex; i++) {
     leadingNode = leadingNode.next!;
   }
+  const tmp1 = leadingNode.next!;
+  leadingNode.next = leadingNode.next!.next;
+  tmp1.next = null;
 
-  let nodeToRemove: ListNode;
-  if (length - n < 1) {
-    // Handle edge case where we need to remove the head node
-    nodeToRemove = head;
-    head = head.next;
-  } else {
-    nodeToRemove = leadingNode.next!;
-    leadingNode.next = nodeToRemove.next;
-  }
-
-  nodeToRemove.next = null;
+  // Remove dummy node and return
+  const tmp2 = head;
+  head = head.next;
+  tmp2.next = null;
   return head;
 }
