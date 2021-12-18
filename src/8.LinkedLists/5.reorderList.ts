@@ -8,39 +8,48 @@ import { ListNode } from "./LinkedList";
 // slow & fast pointers - O(n) time; O(1) space
 function reorderList(head: ListNode | null): void {
   if (!head || !head.next) return;
-  // 1. find the middle node with fast & slow pointers
-  let fastPointer: ListNode | null = head.next;
-  let slowPointer = head;
-  while (fastPointer && fastPointer.next) {
-    fastPointer = fastPointer.next.next;
-    slowPointer = slowPointer.next!;
+
+  // Use fast & slow pointers to find the middle node
+  let slow = head;
+  let fast: ListNode | null = head.next;
+  while (fast && fast.next) {
+    fast = fast.next.next;
+    slow = slow.next!;
   }
 
-  // 2. cut the list into left and right halves
-  let rightHalfHead = slowPointer.next!;
-  slowPointer.next = null;
+  // use the middle node to cut list into two halves
+  let rightHalfHead = slow.next;
+  slow.next = null;
 
-  // 3. reverse the right half
-  let currNode = rightHalfHead;
-  while (currNode.next) {
-    const tmp = currNode.next;
-    currNode.next = tmp.next;
+  // reverse the right half
+  let curr = rightHalfHead;
+  while (curr && curr.next) {
+    const tmp = curr.next;
+    curr.next = curr.next.next;
     tmp.next = rightHalfHead;
     rightHalfHead = tmp;
   }
 
-  // 4. re-build the list by merging the left and right halves
-  let leftHalfCurrNode: ListNode | null = head;
-  let rightHalfCurrNode: ListNode | null = rightHalfHead;
-  while (rightHalfCurrNode) {
-    const tmp1: ListNode | null = leftHalfCurrNode!.next;
-    const tmp2: ListNode | null = rightHalfCurrNode.next;
-    leftHalfCurrNode!.next = rightHalfCurrNode;
-    rightHalfCurrNode.next = tmp1;
-    leftHalfCurrNode = tmp1;
-    rightHalfCurrNode = tmp2;
+  // put together the new list by inserting nodes from right half into left half
+  let currLeft: ListNode | null = head;
+  let currRight: ListNode | null = rightHalfHead;
+  while (currLeft && currRight) {
+    const leftTmp: ListNode | null = currLeft.next;
+    const rightTmp: ListNode | null = currRight.next;
+    currLeft.next = currRight;
+    currLeft.next.next = leftTmp;
+    currLeft = leftTmp;
+    currRight = rightTmp;
   }
 }
+
+// 1,2; 4,3
+// 1,4,2; 3
+// 1,4,2,3
+
+// 1,2,3 5,4
+// 1,5,2,3; 4
+// 1,5,2,4,3
 
 // O(n) time; O(n) space
 function reorderList2(head: ListNode | null): void {
