@@ -7,7 +7,7 @@ import { ListNode } from "./LinkedList";
 
 // slow & fast pointers - O(n) time; O(1) space
 function reorderList(head: ListNode | null): void {
-  if (!head || !head.next) return;
+  if (!head) return;
 
   // Use fast & slow pointers to find the middle node
   let slow = head;
@@ -85,50 +85,6 @@ function reorderList2(head: ListNode | null): void {
       tail.next = nodeFromRightHalf;
       nodeFromRightHalf.next = null;
       tail = tail.next;
-    }
-  }
-}
-
-function reorderListbu(head: ListNode | null): void {
-  if (!head || !head.next) return;
-
-  let slowPointerNode = head;
-  let fastPointerNode: ListNode | null = head.next;
-  while (fastPointerNode && fastPointerNode.next) {
-    slowPointerNode = slowPointerNode.next!;
-    fastPointerNode = fastPointerNode.next.next;
-  }
-  let rightHalfHead = slowPointerNode.next!;
-  slowPointerNode.next = null;
-
-  console.log({ rightHalfHead });
-
-  let currNode = rightHalfHead;
-  while (currNode.next) {
-    const tmp = currNode.next.next;
-    currNode.next.next = rightHalfHead;
-    rightHalfHead = currNode.next;
-    currNode.next = tmp;
-  }
-
-  console.log({ rightHalfHead });
-
-  let tail = head;
-  let leftHalfCurrNode: ListNode | null = head.next;
-  let rightHalfCurrNode: ListNode | null = rightHalfHead;
-  while (leftHalfCurrNode || rightHalfCurrNode) {
-    if (rightHalfCurrNode) {
-      tail.next = rightHalfCurrNode;
-      rightHalfCurrNode = rightHalfCurrNode.next;
-      tail = tail.next;
-      tail.next = null;
-    }
-
-    if (leftHalfCurrNode) {
-      tail.next = leftHalfCurrNode;
-      leftHalfCurrNode = leftHalfCurrNode.next;
-      tail = tail.next;
-      tail.next = null;
     }
   }
 }

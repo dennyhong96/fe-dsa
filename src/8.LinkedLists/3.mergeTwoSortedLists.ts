@@ -10,12 +10,14 @@ function mergeTwoLists(
   list1: ListNode | null,
   list2: ListNode | null
 ): ListNode | null {
+  // setup pointers
   let curr1 = list1;
   let curr2 = list2;
 
   // Create a dummy node as result head so we don't need to care about edge case of inserting into null
   let head: ListNode | null = new ListNode(-1);
   let tail = head;
+
   while (curr1 && curr2) {
     // Compare and connect the smaller node between the two list to the result list tail
     if (curr1.val < curr2.val) {
@@ -29,10 +31,11 @@ function mergeTwoLists(
       curr2.next = null;
       curr2 = tmp;
     }
-    tail = tail.next;
+
+    tail = tail.next; // update tail
   }
 
-  // connect the reminder nodes if any
+  // connect the remaining nodes if any
   if (curr1) tail.next = curr1;
   if (curr2) tail.next = curr2;
 
