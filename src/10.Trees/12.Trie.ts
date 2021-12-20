@@ -2,98 +2,97 @@
  * 208. Implement Trie (Prefix Tree)
  * https://leetcode.com/problems/implement-trie-prefix-tree/
  */
-
 class TrieNode {
   children = new Map<string, TrieNode>();
-  end: boolean = false;
+  end = false;
 }
 
 class Trie {
-  root = new TrieNode();
+  private root = new TrieNode();
 
   constructor() {}
 
-  // O(h) time; O(1) space
+  // O(h) time; O(h) space
   insert(word: string, parent = this.root): void {
-    if (word.length === 0) {
+    if (!word.length) {
       parent.end = true;
       return;
     }
-    const char = word[0];
-    let node = parent.children.get(char);
-    if (!node) {
-      node = new TrieNode();
-      parent.children.set(char, node);
+    const char = word.slice(0, 1);
+    let foundNode = parent.children.get(char);
+    if (!foundNode) {
+      foundNode = new TrieNode();
+      parent.children.set(char, foundNode);
     }
     const substr = word.slice(1);
-    return this.insert(substr, node);
+    return this.insert(substr, foundNode);
   }
 
-  // O(h) time; O(1) space; h is height of tree
+  // O(h) time; O(h) space
   search(word: string): boolean {
-    const foundNode = this.findNode(word);
+    const foundNode = this.getNode(word);
     return Boolean(foundNode?.end);
   }
 
-  // O(h) time; O(1) space; h is height of tree
+  // O(h) time; O(h) space
   startsWith(prefix: string): boolean {
-    const foundNode = this.findNode(prefix);
+    const foundNode = this.getNode(prefix);
     return Boolean(foundNode);
   }
 
-  private findNode(word: string, parent = this.root): TrieNode | null {
-    if (!word.length) return parent;
-    const char = word[0];
-    const node = parent.children.get(char);
-    if (!node) return null;
-    const substr = word.slice(1);
-    return this.findNode(substr, node);
+  // O(h) time; O(h) space
+  private getNode(str: string, parent = this.root): TrieNode | null {
+    if (!str.length) return parent;
+    const char = str.slice(0, 1);
+    const foundNode = parent.children.get(char);
+    if (!foundNode) return null;
+    const substr = str.slice(1);
+    return this.getNode(substr, foundNode);
   }
 }
 
-// Iterative Trie
 class Trie2 {
-  root = new TrieNode();
+  private root = new TrieNode();
 
   constructor() {}
 
   // O(h) time; O(1) space
   insert(word: string): void {
-    let currNode = this.root;
+    let curr = this.root;
     for (let i = 0; i < word.length; i++) {
       const char = word[i];
-      let node = currNode.children.get(char);
+      let node = curr.children.get(char);
       if (!node) {
         node = new TrieNode();
-        currNode.children.set(char, node);
+        curr.children.set(char, node);
       }
-      currNode = node;
+      curr = node;
     }
-    currNode.end = true;
+    curr.end = true;
   }
 
-  // O(h) time; O(1) space; h is height of tree
+  // O(h) time; O(1) space
   search(word: string): boolean {
-    let currNode = this.root;
-    for (let i = 0; i < word.length; i++) {
-      const char = word[i];
-      const node = currNode.children.get(char);
-      if (!node) return false;
-      currNode = node;
-    }
-    return currNode.end;
+    const foundNode = this.getNode(word);
+    return Boolean(foundNode?.end);
   }
 
-  // O(h) time; O(1) space; h is height of tree
+  // O(h) time; O(1) space
   startsWith(prefix: string): boolean {
-    let currNode = this.root;
-    for (let i = 0; i < prefix.length; i++) {
-      const char = prefix[i];
-      const node = currNode.children.get(char);
-      if (!node) return false;
-      currNode = node;
+    const foundNode = this.getNode(prefix);
+    return Boolean(foundNode);
+  }
+
+  // O(h) time; O(1) space
+  private getNode(str: string): TrieNode | null {
+    let curr = this.root;
+    for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      let node = curr.children.get(char);
+      if (!node) return null;
+      curr = node;
     }
-    return true;
+    return curr;
   }
 }
 
