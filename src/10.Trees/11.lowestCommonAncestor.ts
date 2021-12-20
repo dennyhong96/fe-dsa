@@ -11,6 +11,8 @@ function lowestCommonAncestor(
     return lowestCommonAncestor(root.left, p, q);
   if (p.val > root.val && q.val > root.val)
     return lowestCommonAncestor(root.right, p, q);
+
+  // either root splits the two nodes, or root is one of the two nodes
   return root;
 }
 

@@ -7,11 +7,11 @@ import { TreeNode } from "./BinarySearchTree";
 
 // O(n * m) time; O(h * i) space;
 function isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {
-  if (!root) return false;
+  if (!root && subRoot) return false;
   if (!subRoot) return true;
   if (isSametree(root, subRoot)) return true;
-  const isLeftSubtree = isSubtree(root.left, subRoot);
-  const isRightSubtree = isSubtree(root.right, subRoot);
+  const isLeftSubtree = isSubtree(root!.left, subRoot);
+  const isRightSubtree = isSubtree(root!.right, subRoot);
   return isLeftSubtree || isRightSubtree;
 }
 
