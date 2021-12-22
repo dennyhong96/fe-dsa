@@ -5,23 +5,25 @@
 
 // Two pointers - O(n) time; O(1) space
 function lengthOfLongestSubstring(s: string): number {
-  const set = new Set<string>(); // set will has at most 26 items in it, it doesn't scale with n, so O(1) space.
+  const set: Set<string> = new Set(); // set will has at most 26 items in it, it doesn't scale with n, so O(1) space.
+  let pointerA = 0;
+  let pointerB = 0;
   let maxLength = 0;
-  let startPointer = 0;
-  for (let i = 0; i < s.length; i++) {
-    const char = s[i];
+  while (pointerB < s.length) {
+    const charB = s[pointerB];
 
     // Remove everything before and include duplicate char
     // This doesn't add to time complexity becuase we do it at most 26 times
     // So it doesn't scale with n
-    while (set.has(char)) {
-      set.delete(s[startPointer]);
-      startPointer++;
+    while (set.has(charB)) {
+      const charA = s[pointerA];
+      set.delete(charA);
+      pointerA++;
     }
 
-    set.add(char);
-    const length = i - startPointer + 1;
-    maxLength = Math.max(maxLength, length);
+    set.add(charB);
+    pointerB++;
+    maxLength = Math.max(maxLength, set.size);
   }
   return maxLength;
 }
@@ -30,14 +32,14 @@ function lengthOfLongestSubstring(s: string): number {
 function lengthOfLongestSubstring2(s: string): number {
   let store: Record<string, number> = {}; // char -> index
 
-  let longestSubstringLength = 0;
-  let currSubstringLength = 0;
+  let longestSubstrLength = 0;
+  let runningSubstrLength = 0;
 
   for (let i = 0; i < s.length; i++) {
     const char = s[i];
 
     if (store[char] === undefined) {
-      currSubstringLength++;
+      runningSubstrLength++;
     } else {
       const lastSeenIndex = store[char];
       let removedCount = 0;
@@ -46,15 +48,12 @@ function lengthOfLongestSubstring2(s: string): number {
         removedCount++;
         delete store[char];
       });
-      currSubstringLength = currSubstringLength - removedCount;
+      runningSubstrLength = runningSubstrLength - removedCount;
     }
 
     store[char] = i;
-    longestSubstringLength = Math.max(
-      longestSubstringLength,
-      currSubstringLength
-    );
+    longestSubstrLength = Math.max(longestSubstrLength, runningSubstrLength);
   }
 
-  return longestSubstringLength;
+  return longestSubstrLength;
 }

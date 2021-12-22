@@ -12,7 +12,7 @@ class Trie {
 
   constructor() {}
 
-  // O(h) time; O(h) space
+  // O(n) time; O(h) space
   insert(word: string, parent = this.root): void {
     if (!word.length) {
       parent.end = true;
@@ -28,19 +28,19 @@ class Trie {
     return this.insert(substr, foundNode);
   }
 
-  // O(h) time; O(h) space
+  // O(n) time; O(h) space
   search(word: string): boolean {
     const foundNode = this.getNode(word);
     return Boolean(foundNode?.end);
   }
 
-  // O(h) time; O(h) space
+  // O(n) time; O(h) space
   startsWith(prefix: string): boolean {
     const foundNode = this.getNode(prefix);
     return Boolean(foundNode);
   }
 
-  // O(h) time; O(h) space
+  // O(n) time; O(h) space
   private getNode(str: string, parent = this.root): TrieNode | null {
     if (!str.length) return parent;
     const char = str.slice(0, 1);
@@ -56,7 +56,7 @@ class Trie2 {
 
   constructor() {}
 
-  // O(h) time; O(1) space
+  // O(n) time; O(1) space
   insert(word: string): void {
     let curr = this.root;
     for (let i = 0; i < word.length; i++) {
@@ -71,19 +71,19 @@ class Trie2 {
     curr.end = true;
   }
 
-  // O(h) time; O(1) space
+  // O(n) time; O(1) space
   search(word: string): boolean {
     const foundNode = this.getNode(word);
     return Boolean(foundNode?.end);
   }
 
-  // O(h) time; O(1) space
+  // O(n) time; O(1) space
   startsWith(prefix: string): boolean {
     const foundNode = this.getNode(prefix);
     return Boolean(foundNode);
   }
 
-  // O(h) time; O(1) space
+  // O(n) time; O(1) space
   private getNode(str: string): TrieNode | null {
     let curr = this.root;
     for (let i = 0; i < str.length; i++) {

@@ -14,7 +14,7 @@ class WordDictionary {
 
   constructor() {}
 
-  // O(h) time; O(1) space
+  // O(n) time; O(h) space
   addWord(word: string, parent = this.root): void {
     if (word.length === 0) {
       parent.end = true;
@@ -30,27 +30,48 @@ class WordDictionary {
     return this.addWord(substr, node);
   }
 
-  // O(h * l) - h is height of tree, l is word length
-  search(word: string): boolean {
-    const dfs = (node: WordDictionaryNode, index: number) => {
-      let parent = node;
-      for (let i = index; i < word.length; i++) {
-        const char = word[i];
-        if (char === ".") {
-          for (const [_, node] of parent.children) {
-            if (dfs(node, i + 1)) return true;
-          }
-          return false;
-        } else {
-          const node = parent.children.get(char);
-          if (!node) return false;
-          parent = node;
-        }
-      }
+  // Recursive - O(n) time; O(h) space;
+  search(word: string, parent = this.root): boolean {
+    if (!word.length) {
       return parent.end;
-    };
-    return dfs(this.root, 0);
+    }
+    const char = word.slice(0, 1);
+    const substr = word.slice(1);
+    if (char === ".") {
+      for (const [, childNode] of parent.children) {
+        if (this.search(substr, childNode)) return true;
+      }
+      return false;
+    } else {
+      const node = parent.children.get(char);
+      if (!node) {
+        return false;
+      }
+      return this.search(substr, node);
+    }
   }
+
+  // Iterative - O(n * h)
+  // search2(word: string): boolean {
+  //   const dfs = (node: WordDictionaryNode, index: number) => {
+  //     let parent = node;
+  //     for (let i = index; i < word.length; i++) {
+  //       const char = word[i];
+  //       if (char === ".") {
+  //         for (const [_, node] of parent.children) {
+  //           if (dfs(node, i + 1)) return true;
+  //         }
+  //         return false;
+  //       } else {
+  //         const node = parent.children.get(char);
+  //         if (!node) return false;
+  //         parent = node;
+  //       }
+  //     }
+  //     return parent.end;
+  //   };
+  //   return dfs(this.root, 0);
+  // }
 }
 
 const wordDictionary = new WordDictionary();
@@ -65,3 +86,8 @@ console.log(wordDictionary.search("b..")); // return True
 console.log(wordDictionary.search("..."));
 
 export {};
+
+class Node {
+  children = new Map<string, Node>();
+  end = false;
+}

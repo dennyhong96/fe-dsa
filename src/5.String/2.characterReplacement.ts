@@ -46,41 +46,76 @@ function characterReplacement(s: string, k: number): number {
   return longest;
 }
 
+// O(n^2) time; O(1) space;
+function characterReplacement1(s: string, k: number): number {
+  const map = new Map<string, number>(); // 26 records max O(1) space
+  map.set(s[0], 1);
+  let maxLength = 1;
+
+  let pointerA = 0;
+  let pointerB = 1;
+  while (pointerB < s.length) {
+    const charB = s[pointerB];
+    map.set(charB, (map.get(charB) ?? 0) + 1);
+
+    let maxOccurance = 0;
+    for (const [_, occurance] of map) {
+      maxOccurance = Math.max(maxOccurance, occurance);
+    }
+
+    let substrLength = pointerB - pointerA + 1;
+
+    while (substrLength - maxOccurance > k) {
+      const charA = s[pointerA];
+      const charAOccurances = map.get(charA)!;
+      if (charAOccurances > 1) {
+        map.set(charA, charAOccurances - 1);
+      } else {
+        map.delete(charA);
+      }
+      for (const [_, occurance] of map) {
+        maxOccurance = Math.max(maxOccurance, occurance);
+      }
+      substrLength--;
+      pointerA++;
+    }
+
+    maxLength = Math.max(maxLength, substrLength);
+    pointerB++;
+  }
+
+  return maxLength;
+}
+
 // Brute force - O(n^2) time; O(1) space
 function characterReplacement2(s: string, k: number): number {
-  let longest = 0;
+  let maxLength = 1;
 
   // map will have at most 26 key value pairs (26 letters), doesn't scale with n
   // O(26) space, treat as O(1) space
   const map = new Map<string, number>();
 
   for (let i = 0; i < s.length - 1; i++) {
+    map.clear();
     const char = s[i];
     map.set(char, 1);
 
     for (let j = i + 1; j < s.length; j++) {
       const char2 = s[j];
-      if (map.get(char2) !== undefined) {
-        map.set(char2, map.get(char2)! + 1);
-      } else {
-        map.set(char2, 1);
+      map.set(char2, (map.get(char2) ?? 0) + 1);
+
+      let maxOccurance: number = 0;
+      for (const [_, val] of map) {
+        // map will have at most 26 key value pairs, O(26) time treat as O(1) time
+        maxOccurance = Math.max(maxOccurance, val);
       }
 
-      // map will have at most 26 key value pairs, O(26) time treat as O(1) time
-      let maxFrequency = 0;
-      map.forEach((val) => {
-        maxFrequency = Math.max(maxFrequency, val);
-      });
-
-      const subStringLength = j - i + 1;
-      if (subStringLength - maxFrequency <= k) {
-        // feasible non-repeating substring
-        longest = Math.max(longest, subStringLength);
+      const substrLength = j - i + 1;
+      if (substrLength - maxOccurance <= k) {
+        maxLength = Math.max(maxLength, substrLength);
       }
     }
-
-    map.clear();
   }
 
-  return longest;
+  return maxLength;
 }
