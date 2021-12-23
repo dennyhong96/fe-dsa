@@ -51,45 +51,75 @@ function minWindow(s: string, t: string): string {
   return minWindowSubstring ?? "";
 }
 
-// Sliding window - O(n) time; O(1) space
-function minWindow2(s: string, t: string): string {
-  let minWindowSubstring: string | null = null;
+// Two pointers - O(n) time; O(1) space;
+function minWindow1(s: string, t: string): string {
+  let minWindowSubstr = "";
+  const mapT = new Map<string, number>(); // O(26) space -> O(1) space
+  for (let i = 0; i < t.length; i++) {
+    const char = t[i];
+    mapT.set(char, (mapT.get(char) ?? 0) + 1);
+  }
 
+  const mapS = new Map<string, number>(); // O(26) space -> O(1) space
   let leftPointer = 0;
   let rightPointer = 0;
 
-  const sMap = new Map<string, number>();
-
-  const tMap = new Map<string, number>();
-  for (let i = 0; i < t.length; i++) {
-    const c = t[i];
-    tMap.set(c, (tMap.get(c) ?? 0) + 1);
-  }
-
   while (rightPointer < s.length) {
-    const substring = s.substring(leftPointer, rightPointer + 1);
-    const rChar = s[rightPointer];
-    sMap.set(rChar, (sMap.get(rChar) ?? 0) + 1);
+    const substr = s.slice(leftPointer, rightPointer + 1);
+    const char = s[rightPointer];
+    mapS.set(char, (mapS.get(char) ?? 0) + 1);
 
-    let hasAll = true;
-    tMap.forEach((val, key) => {
-      if (sMap.get(key) === undefined || sMap.get(key)! < val) {
-        hasAll = false;
+    let isSubstring = true;
+    // O(26) time -> O(1) time
+    for (const [char, count] of mapT) {
+      if (!mapS.get(char) || mapS.get(char)! < count) {
+        isSubstring = false;
       }
-    });
-
-    if (hasAll) {
-      if (!minWindowSubstring || substring.length < minWindowSubstring.length) {
-        minWindowSubstring = substring;
+    }
+    if (isSubstring) {
+      if (!minWindowSubstr || substr.length < minWindowSubstr.length) {
+        minWindowSubstr = substr;
       }
-      const lChar = s[leftPointer];
-      sMap.set(lChar, sMap.get(lChar)! - 1);
-      sMap.set(rChar, sMap.get(rChar)! - 1);
+      const leftChar = s[leftPointer];
+      mapS.set(leftChar, mapS.get(leftChar)! - 1);
+      mapS.set(char, mapS.get(char)! - 1); // -1 since we are adding it back into mapS next iteration
       leftPointer++;
     } else {
       rightPointer++;
     }
   }
+  return minWindowSubstr;
+}
 
-  return minWindowSubstring ?? "";
+// Brute force - O(n^2) time; O(1) space;
+function minWindow3(s: string, t: string): string {
+  if (s === t) return s;
+  let minWindowSubstr = "";
+  const mapT = new Map<string, number>(); // O(26) space -> O(1) space
+  for (let i = 0; i < t.length; i++) {
+    const char = t[i];
+    mapT.set(char, (mapT.get(char) ?? 0) + 1);
+  }
+  const mapS = new Map<string, number>(); // O(26) space -> O(1) space
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i; j < s.length; j++) {
+      const char = s[j];
+      const substr = s.slice(i, j + 1);
+      mapS.set(char, (mapS.get(char) ?? 0) + 1);
+      let isSubstring = true;
+      // O(26) time -> O(1) time
+      for (const [char, count] of mapT) {
+        if (!mapS.get(char) || mapS.get(char)! < count) {
+          isSubstring = false;
+        }
+      }
+      if (isSubstring) {
+        if (!minWindowSubstr || substr.length < minWindowSubstr.length) {
+          minWindowSubstr = substr;
+        }
+      }
+    }
+    mapS.clear();
+  }
+  return minWindowSubstr;
 }
