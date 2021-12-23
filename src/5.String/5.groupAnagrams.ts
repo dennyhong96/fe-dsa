@@ -1,43 +1,63 @@
-// O(m * n) time; O(m * n) space
+// O(m * n) time; O(n) space
 function groupAnagrams(strs: string[]): string[][] {
-  const map = new Map<string, string[]>(); // O(n) space
+  const map = new Map<string, Array<string>>(); // O(n) space;
 
-  // O(m)
+  // O(n) time;
   for (const str of strs) {
-    // O(n) - avg. length character count of a string
-    const key: number[] = [];
-    for (let s of str) {
-      const index = s.charCodeAt(0) - "a".charCodeAt(0);
-      const count = key[index];
-      key[index] = count === undefined ? 0 : count + 1;
+    const key: number[] = []; // O(26) -> O(1) space;
+
+    // O(m) time;
+    for (const c of str) {
+      const index = c.charCodeAt(0) - "a".charCodeAt(0);
+      key[index] = (key[index] ?? 0) + 1;
     }
     const serializedKey = JSON.stringify(key);
-
-    const existingAnagrams = map.get(serializedKey);
-    if (existingAnagrams) {
-      existingAnagrams.push(str);
+    if (map.get(serializedKey)) {
+      map.get(serializedKey)!.push(str);
     } else {
       map.set(serializedKey, [str]);
     }
   }
-
   return [...map.values()];
 }
 
-// O(m * nlog(n)) time; O(n) space
+// O(m * nlogn) time; O(m) space;
 function groupAnagrams2(strs: string[]): string[][] {
-  const map = new Map<string, string[]>(); // O(n) space
-
-  // m
-  for (const str of strs) {
-    const key = [...str].sort().join(""); // nlog(n)
-    const existingAnagrams = map.get(key);
-    if (existingAnagrams) {
-      existingAnagrams.push(str);
+  const map = new Map<string, Array<string>>(); // O(m) space
+  for (let i = 0; i < strs.length; i++) {
+    const str = strs[i];
+    const key = [...str].sort().join(""); // O(nlogn) time
+    if (map.get(key) !== undefined) {
+      map.get(key)!.push(str);
     } else {
       map.set(key, [str]);
     }
   }
-
   return [...map.values()];
+}
+
+// Brute force - O(n^2) time; O(1) space;
+function groupAnagrams3(strs: string[]): string[][] {
+  // O(nlogn) time;
+  const isAnaGram = (s: string, t: string) =>
+    [...s].sort().join("") === [...t].sort().join("");
+
+  const result: string[][] = [];
+  for (let i = 0; i < strs.length; i++) {
+    const str = strs[i];
+    let existingGroup: string[] | null = null;
+    for (let j = 0; j < result.length; j++) {
+      const [example] = result[j];
+      if (isAnaGram(str, example)) {
+        existingGroup = result[j];
+        break;
+      }
+    }
+    if (existingGroup) {
+      existingGroup.push(str);
+    } else {
+      result.push([str]);
+    }
+  }
+  return result;
 }
