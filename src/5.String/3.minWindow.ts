@@ -49,52 +49,52 @@ function minWindow(s: string, t: string): string {
 
 // O(n) time; O(1) space;
 function minWindow1(s: string, t: string): string {
-  let minWindowSubstr = "";
-
+  let minSubstr = "";
   const tMap = new Map<string, number>(); // O(26) -> O(1) space;
   for (let i = 0; i < t.length; i++) {
     const char = t[i];
     tMap.set(char, (tMap.get(char) ?? 0) + 1);
   }
-
-  let leftPointer = 0;
-  let rightPointer = 0;
-
   const sMap = new Map<string, number>(); // O(26) -> O(1) space;
-  while (rightPointer < s.length) {
-    const char = s[rightPointer];
-    sMap.set(char, (sMap.get(char) ?? 0) + 1);
+  let l = 0;
+  for (let r = 0; r < s.length; r++) {
+    const char = s[r];
+    if (tMap.has(char)) {
+      sMap.set(char, (sMap.get(char) ?? 0) + 1);
+    }
 
     // Check if our substring has all the chars from t
-    let hasAllChars = true;
-    for (const [c, n] of tMap) {
-      if (sMap.get(c) === undefined || sMap.get(c)! < n) {
-        hasAllChars = false;
+    let hasAllCharCount = true;
+    for (const [char, count] of tMap) {
+      if (sMap.get(char) === undefined || sMap.get(char)! < count) {
+        hasAllCharCount = false;
         break;
       }
     }
-
-    if (hasAllChars) {
+    if (hasAllCharCount) {
       // if we have all the chars from t, we try to move leftPointer right
       // so we potentially have a shorter substring next iteration
-      const substr = s.slice(leftPointer, rightPointer + 1);
-      if (!minWindowSubstr || substr.length < minWindowSubstr.length) {
-        minWindowSubstr = substr;
+
+      const substr = s.slice(l, r + 1);
+      if (!minSubstr || substr.length < minSubstr.length) {
+        minSubstr = substr;
       }
-      const leftChar = s[leftPointer];
-      sMap.set(leftChar, sMap.get(leftChar)! - 1);
+      const lChar = s[l];
+      if (tMap.has(lChar)) {
+        sMap.set(lChar, sMap.get(lChar)! - 1);
+      }
+      l++;
 
       // need to remove one count of char on rightPointer since rightPointer stays at it's position, it'll be added back next iteration
-      sMap.set(char, sMap.get(char)! - 1);
-      leftPointer++;
-    } else {
-      // if we DON'T have all the chars from t, we try to move rightPointer right
-      // so we potentially will have all the chars next iteration
-      rightPointer++;
+      if (tMap.has(char)) {
+        sMap.set(char, sMap.get(char)! - 1);
+      }
+      r--;
     }
+    // if we DON'T have all the chars from t, we try to move rightPointer right
+    // so we potentially will have all the chars next iteration
   }
-
-  return minWindowSubstr;
+  return minSubstr;
 }
 
 // Brute force - O(n^2) time; O(1) space;

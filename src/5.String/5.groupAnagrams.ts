@@ -1,21 +1,17 @@
-// O(m * n) time; O(n) space
+// O(n*m) time; O(n) space; m is avg. length of strs
 function groupAnagrams(strs: string[]): string[][] {
-  const map = new Map<string, Array<string>>(); // O(n) space;
-
-  // O(n) time;
+  const map = new Map<string, string[]>();
   for (const str of strs) {
-    const key: number[] = []; // O(26) -> O(1) space;
-
-    // O(m) time;
-    for (const c of str) {
-      const index = c.charCodeAt(0) - "a".charCodeAt(0);
-      key[index] = (key[index] ?? 0) + 1;
+    const keyArr: (number | undefined)[] = [];
+    for (const char of str) {
+      const index = char.charCodeAt(0) - "a".charCodeAt(0);
+      keyArr[index] = (keyArr[index] ?? 0) + 1;
     }
-    const serializedKey = JSON.stringify(key);
-    if (map.get(serializedKey)) {
-      map.get(serializedKey)!.push(str);
+    const keyStr = keyArr.toString();
+    if (map.has(keyStr)) {
+      map.get(keyStr)!.push(str);
     } else {
-      map.set(serializedKey, [str]);
+      map.set(keyStr, [str]);
     }
   }
   return [...map.values()];

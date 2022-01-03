@@ -3,88 +3,31 @@
  * https://leetcode.com/problems/longest-repeating-character-replacement/
  */
 
-// Sliding window - O(n) time; O(1) space
+// Two pointers - O(n) time; O(1) space;
 function characterReplacement(s: string, k: number): number {
-  let startPointer = 0;
-  let endPointer = 0;
   let longest = 0;
-
-  // map will have at most 26 key value pairs (26 letters), doesn't scale with n
-  // O(26) space, treat as O(1) space
-  const map = new Map<string, number>(); // char -> occurrence count
-
-  while (endPointer < s.length) {
-    const endChar = s[endPointer];
-    map.set(endChar, (map.get(endChar) ?? 0) + 1);
-
-    const subStringLength = endPointer - startPointer + 1;
-
-    // map will have at most 26 key value pairs, O(26) time treat as O(1) time
-    let maxOccurrences = 0;
-    map.forEach((val) => {
-      maxOccurrences = Math.max(maxOccurrences, val);
-    });
-
-    // subStringLength - maxOccurrences is number of replacements we need to do
-    // k is the maxium number of replacements we are allowed to do
-    if (subStringLength - maxOccurrences > k) {
-      const startChar = s[startPointer];
-      map.set(startChar, map.get(startChar)! - 1);
-      startPointer++;
-    } else {
-      // This is a valid longest repeating substring candidate
-      longest = Math.max(longest, subStringLength);
-    }
-
-    // Increment endPointer regardless of wether we found a valid longest repeating substring candidate
-    // or not, since otherwise we will count same endChar twice for occurrences
-    // And even if there is a valid longest repeating substring candidate after we increment the startPointer
-    // without incrementing the endPointer, it would have a length less than or same as the longest repeating substring
-    endPointer++;
-  }
-
-  return longest;
-}
-
-// O(n^2) time; O(1) space;
-function characterReplacement1(s: string, k: number): number {
-  const map = new Map<string, number>(); // 26 records max O(1) space
-  map.set(s[0], 1);
-  let maxLength = 1;
-
-  let pointerA = 0;
-  let pointerB = 1;
-  while (pointerB < s.length) {
-    const charB = s[pointerB];
-    map.set(charB, (map.get(charB) ?? 0) + 1);
-
+  const map = new Map<string, number>(); // O(26) space at most -> O(1) space
+  let l = 0;
+  for (let r = 0; r < s.length; r++) {
+    const char = s[r];
+    map.set(char, (map.get(char) ?? 0) + 1);
     let maxOccurance = 0;
-    for (const [_, occurance] of map) {
-      maxOccurance = Math.max(maxOccurance, occurance);
+    let totalOccurance = 0;
+    map.forEach((val) => {
+      maxOccurance = Math.max(maxOccurance, val);
+      totalOccurance += val;
+    });
+    const needReplacementCount = totalOccurance - maxOccurance;
+    if (needReplacementCount <= k) {
+      const substrLength = r - l + 1;
+      longest = Math.max(longest, substrLength);
+    } else {
+      const lChar = s[l];
+      map.set(lChar, map.get(lChar)! - 1);
+      l++;
     }
-
-    let substrLength = pointerB - pointerA + 1;
-
-    while (substrLength - maxOccurance > k) {
-      const charA = s[pointerA];
-      const charAOccurances = map.get(charA)!;
-      if (charAOccurances > 1) {
-        map.set(charA, charAOccurances - 1);
-      } else {
-        map.delete(charA);
-      }
-      for (const [_, occurance] of map) {
-        maxOccurance = Math.max(maxOccurance, occurance);
-      }
-      substrLength--;
-      pointerA++;
-    }
-
-    maxLength = Math.max(maxLength, substrLength);
-    pointerB++;
   }
-
-  return maxLength;
+  return longest;
 }
 
 // Brute force - O(n^2) time; O(1) space

@@ -3,8 +3,27 @@
  * https://leetcode.com/problems/longest-substring-without-repeating-characters/
  */
 
-// Two pointers - O(n) time; O(1) space
+// Two pointers - O(n) time; O(1) space;
 function lengthOfLongestSubstring(s: string): number {
+  let maxLength = 0;
+  let l = 0;
+  const map = new Map<string, boolean>(); // O(26) space at most -> O(1) space
+  for (let r = 0; r < s.length; r++) {
+    const char = s[r];
+    while (map.has(char)) {
+      const lChar = s[l];
+      map.delete(lChar);
+      l++;
+    }
+    map.set(char, true);
+    const substrLength = r - l + 1;
+    maxLength = Math.max(maxLength, substrLength);
+  }
+  return maxLength;
+}
+
+// Two pointers - O(n) time; O(1) space
+function lengthOfLongestSubstring1(s: string): number {
   const set: Set<string> = new Set(); // set will has at most 26 items in it, it doesn't scale with n, so O(1) space.
   let pointerA = 0;
   let pointerB = 0;
@@ -28,7 +47,7 @@ function lengthOfLongestSubstring(s: string): number {
   return maxLength;
 }
 
-// O(n^2) time; O(n) space;
+// Brute force O(n^2) time; O(n) space;
 function lengthOfLongestSubstring2(s: string): number {
   let store: Record<string, number> = {}; // char -> index
 

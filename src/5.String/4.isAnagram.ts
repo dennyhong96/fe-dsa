@@ -5,6 +5,7 @@
 
 // O(n) time; O(1) space
 function isAnagram(s: string, t: string): boolean {
+  if (s === t) return true;
   if (s.length !== t.length) return false;
   const map = new Map<string, number>();
   for (let i = 0; i < s.length; i++) {
@@ -13,11 +14,12 @@ function isAnagram(s: string, t: string): boolean {
   }
   for (let i = 0; i < t.length; i++) {
     const char = t[i];
-    if (map.get(char) === undefined) continue;
-    if (map.get(char)! > 1) {
-      map.set(char, map.get(char)! - 1);
-    } else {
-      map.delete(char);
+    if (map.has(char)) {
+      if (map.get(char)! > 1) {
+        map.set(char, (map.get(char) ?? 0) - 1);
+      } else {
+        map.delete(char);
+      }
     }
   }
   return map.size === 0;
