@@ -5,23 +5,22 @@
 
 // O(n^2) time; O(1) space
 function longestPalindrome(s: string): string {
-  let longestPalinDromeRange: number[] = [];
+  const longestSubstrRange: number[] = [];
 
-  const updateLongestPalinDrome = (
-    leftPointer: number,
-    rightPointer: number
-  ) => {
+  // O(n) time; O(1) space; check isPalinDrome with "from middle to sides" approach
+  const updateLongestSubstr = (leftPointer: number, rightPointer: number) => {
     while (
       leftPointer >= 0 &&
       rightPointer < s.length &&
       s[leftPointer] === s[rightPointer]
     ) {
-      const length = rightPointer - leftPointer + 1;
+      const substrLength = rightPointer - leftPointer + 1;
       if (
-        longestPalinDromeRange.length !== 2 ||
-        length > longestPalinDromeRange[1] - longestPalinDromeRange[0] + 1
+        !longestSubstrRange.length ||
+        substrLength > longestSubstrRange[1] - longestSubstrRange[0] + 1
       ) {
-        longestPalinDromeRange = [leftPointer, rightPointer];
+        longestSubstrRange[0] = leftPointer;
+        longestSubstrRange[1] = rightPointer;
       }
       leftPointer--;
       rightPointer++;
@@ -29,59 +28,57 @@ function longestPalindrome(s: string): string {
   };
 
   for (let i = 0; i < s.length; i++) {
-    // Check for potential odd palindrome substring
-    let leftPointer = i;
-    let rightPointer = i;
-    updateLongestPalinDrome(leftPointer, rightPointer);
-
-    // Check for potential even palindrome substring
-    leftPointer = i;
-    rightPointer = i + 1;
-    updateLongestPalinDrome(leftPointer, rightPointer);
+    updateLongestSubstr(i, i); // check for potential odd palindrome
+    updateLongestSubstr(i, i + 1); // check for potential even palindrome
   }
 
-  let longestPalinDrome = "";
-  if (longestPalinDromeRange.length === 2) {
-    for (
-      let i = longestPalinDromeRange[0];
-      i <= longestPalinDromeRange[1];
-      i++
-    ) {
-      longestPalinDrome += s[i];
+  // Build and return substr
+  if (!longestSubstrRange.length) return "";
+  let resultSubstr = "";
+  for (let i = 0; i < s.length; i++) {
+    if (i >= longestSubstrRange[0] && i <= longestSubstrRange[1]) {
+      resultSubstr += s[i];
     }
   }
-
-  return longestPalinDrome;
+  return resultSubstr;
 }
 
-// Brute force - O(n^3)
-function longestPalindrome2(s: string): string {
-  let longestSubstring = "";
+// Brute force (check isPalinDrome with "from sides to middle" approach) - O(n^3) time; O(1) space;
+function longestPalindrome1(s: string): string {
+  const longestSubstrRange: number[] = [];
 
-  const isPalinDrome = (s: string, startIndex: number, endIndex: number) => {
-    let isPalindrome = true;
+  // O(n) time; O(1) space;
+  const isPalinDrome = (startIndex: number, endIndex: number) => {
     while (startIndex <= endIndex) {
       const lChar = s[startIndex];
       const rChar = s[endIndex];
-      if (lChar !== rChar) {
-        isPalindrome = false;
-        break;
-      }
+      if (lChar !== rChar) return false;
       startIndex++;
       endIndex--;
     }
-    return isPalindrome;
+    return true;
   };
 
   for (let i = 0; i < s.length; i++) {
-    for (let j = s.length - 1; j >= i; j--) {
-      const isPa = isPalinDrome(s, i, j);
-      const length = j - i + 1;
-      if (isPa && length > longestSubstring.length) {
-        longestSubstring = s.slice(i, j + 1);
-        break;
+    for (let j = 0; j < s.length; j++) {
+      if (isPalinDrome(i, j)) {
+        if (
+          !longestSubstrRange.length ||
+          j - i + 1 > longestSubstrRange[1] - longestSubstrRange[0] + 1
+        ) {
+          longestSubstrRange[0] = i;
+          longestSubstrRange[1] = j;
+        }
       }
     }
   }
-  return longestSubstring;
+
+  if (!longestSubstrRange.length) return "";
+  let resultSubstr = "";
+  for (let i = 0; i < s.length; i++) {
+    if (i >= longestSubstrRange[0] && i <= longestSubstrRange[1]) {
+      resultSubstr += s[i];
+    }
+  }
+  return resultSubstr;
 }

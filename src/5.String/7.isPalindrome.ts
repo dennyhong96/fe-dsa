@@ -5,36 +5,31 @@
 
 // Two pointers - O(n) time; O(1) space
 function isPalindrome(s: string): boolean {
-  let leftPointer = 0;
-  let rightPointer = s.length - 1;
-
-  const isValidChar = (s: string) =>
-    (s.toLowerCase().charCodeAt(0) >= "a".charCodeAt(0) &&
-      s.toLowerCase().charCodeAt(0) <= "z".charCodeAt(0)) ||
-    (s.charCodeAt(0) >= "0".charCodeAt(0) &&
-      s.charCodeAt(0) <= "9".charCodeAt(0));
-
-  while (leftPointer <= rightPointer) {
-    const lChar = s[leftPointer];
+  const isValidChar = (char: string) => {
+    return (
+      (char.charCodeAt(0) >= "a".charCodeAt(0) &&
+        char.charCodeAt(0) <= "z".charCodeAt(0)) ||
+      (char.charCodeAt(0) >= "0".charCodeAt(0) &&
+        char.charCodeAt(0) <= "9".charCodeAt(0))
+    );
+  };
+  let l = 0;
+  let r = s.length - 1;
+  while (l <= r) {
+    const lChar = s[l].toLowerCase();
     if (!isValidChar(lChar)) {
-      leftPointer++;
+      l++;
       continue;
     }
-
-    const rChar = s[rightPointer];
+    const rChar = s[r].toLowerCase();
     if (!isValidChar(rChar)) {
-      rightPointer--;
+      r--;
       continue;
     }
-
-    if (lChar.toLowerCase() !== rChar.toLowerCase()) {
-      return false;
-    }
-
-    leftPointer++;
-    rightPointer--;
+    if (lChar !== rChar) return false;
+    l++;
+    r--;
   }
-
   return true;
 }
 
@@ -60,3 +55,6 @@ function isPalindrome2(s: string): boolean {
 
   return forward === reversed;
 }
+
+// abcba
+// abba
