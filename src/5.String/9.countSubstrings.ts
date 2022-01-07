@@ -3,8 +3,25 @@
  *https://leetcode.com/problems/palindromic-substrings/
  */
 
-// O(n^2) time; O(1) space
+// O(n^2) time; O(1) space;
 function countSubstrings(s: string): number {
+  let palindromeCount = 0;
+  const updatePalinDromeCount = (l: number, r: number) => {
+    while (l >= 0 && r < s.length && s[l] === s[r]) {
+      palindromeCount++;
+      l--;
+      r++;
+    }
+  };
+  for (let i = 0; i < s.length; i++) {
+    updatePalinDromeCount(i, i);
+    updatePalinDromeCount(i, i + 1);
+  }
+  return palindromeCount;
+}
+
+// O(n^2) time; O(1) space
+function countSubstrings1(s: string): number {
   let palindromeCount = 0;
 
   const getPalindromeCountForIndex = (
