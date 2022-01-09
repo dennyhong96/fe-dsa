@@ -30,6 +30,40 @@ function characterReplacement(s: string, k: number): number {
   return longest;
 }
 
+// O(n) time; O(1) space;
+const characterReplacement1 = (s: string, k: number) => {
+  const map = new Map<string, number>(); // O(26) space;
+  let longestSubstrLength = 0;
+  let l = 0;
+  let r = 0;
+
+  while (r < s.length) {
+    const rChar = s[r];
+    map.set(rChar, (map.get(rChar) ?? 0) + 1);
+
+    // Find out how many chars need to replace
+    let maxCharOccurances = 0;
+    let totalCharOccurances = 0;
+    map.forEach((val) => {
+      maxCharOccurances = Math.max(maxCharOccurances, val);
+      totalCharOccurances += val;
+    }); // O(26) time;
+    const needToReplaceCount = totalCharOccurances - maxCharOccurances;
+
+    // Update longest substring length and move pointers
+    if (needToReplaceCount <= k) {
+      longestSubstrLength = Math.max(longestSubstrLength, r - l + 1);
+      r++;
+    } else {
+      const lChar = s[l];
+      map.set(lChar, map.get(lChar)! - 1);
+      map.set(rChar, map.get(rChar)! - 1); // need to remove one count of rChar since it will be added in next iteration
+      l++;
+    }
+  }
+  return longestSubstrLength;
+};
+
 // Brute force - O(n^2) time; O(1) space
 function characterReplacement2(s: string, k: number): number {
   let maxLength = 1;
