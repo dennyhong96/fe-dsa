@@ -56,5 +56,7 @@ function isPalindrome2(s: string): boolean {
   return forward === reversed;
 }
 
+export {};
+
 // abcba
 // abba
