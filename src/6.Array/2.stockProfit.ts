@@ -5,6 +5,26 @@
 
 // Sliding window - O(n) time; O(1) space
 function maxProfit(prices: number[]): number {
+  let max = 0;
+  let l = 0;
+  for (let r = 0; r < prices.length; r++) {
+    const buyPrice = prices[l];
+    const sellPrice = prices[r];
+    const profit = sellPrice - buyPrice;
+    if (profit <= 0) {
+      l = r;
+    } else {
+      max = Math.max(max, profit);
+    }
+  }
+  return max;
+}
+
+// [7,1,5,3,6,4], 5
+// [7,6,4,3,1], 0
+
+// Sliding window - O(n) time; O(1) space
+function maxProfit1(prices: number[]): number {
   if (prices.length < 2) return 0;
   let max = 0;
   let buyIndex = 0;

@@ -25,6 +25,14 @@ function productExceptSelf(nums: number[]): number[] {
   return result;
 }
 
+// [1,2,3,4]
+// [1,1,2,6] - prefix
+// [24,12,4,1] - postfix
+// [24,12,8,6] - result
+
+// [1,2,3,4]
+// [1,1,2,6]
+
 // O(n) time; O(n) space (not counting result arr)
 function productExceptSelf2(nums: number[]): number[] {
   // prefix tracks product of to the left of a index (including that index)
