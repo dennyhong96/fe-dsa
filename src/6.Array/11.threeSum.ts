@@ -21,7 +21,6 @@ function threeSum(nums: number[], target = 0): number[][] {
       if (sum === target) {
         result.push([num1, left, right]);
         leftPointer++;
-        rightPointer--;
 
         // if value on new leftPointer index is the same as last index where we found a solution
         // we don't need to do any duplicate work, increment leftPointer until we have a new value
@@ -30,6 +29,7 @@ function threeSum(nums: number[], target = 0): number[][] {
         }
 
         // Either keep incrementing leftPointer or keep decrementing rightPointer
+        // rightPointer--;
         // while (nums[rightPointer] === nums[rightPointer + 1]) {
         //   rightPointer--;
         // }
