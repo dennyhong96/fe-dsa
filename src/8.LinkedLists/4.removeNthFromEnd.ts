@@ -5,38 +5,35 @@ import { ListNode } from "./LinkedList";
  * https://www.youtube.com/watch?v=XVuQxVej6y8
  */
 
-// One pass offset pointers - O(n) time; O(1) space;
+// O(n) + O(m) time; O(1) space; Offset pointers one pass
 function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
-  const dummy = new ListNode(-1);
-  dummy.next = head;
-  head = dummy;
+  if (!head) return null;
 
-  // Offset the leadingPointer n nodes ahead of trailingPointer
-  let trailingPointer = head;
-  let leadingPointer = head;
-  let k = n;
-  while (k > 0) {
-    leadingPointer = leadingPointer.next!;
-    k--;
+  const dummyHead = new ListNode(-1);
+  dummyHead.next = head;
+
+  let pointer = dummyHead;
+  let offsetPointer = pointer;
+  // move the offsetPointer n nodes behind of pointer
+  for (let i = 0; i < n; i++) {
+    offsetPointer = offsetPointer.next!;
   }
 
-  // leadingPointer stops at the last node
-  // trailingPointer stops at the prev node of the node to remove
-  while (leadingPointer && leadingPointer.next) {
-    trailingPointer = trailingPointer.next!;
-    leadingPointer = leadingPointer.next;
+  // offsetPointer stops at the last node
+  // pointer stops at the prev node of the node to remove
+  while (offsetPointer && offsetPointer.next) {
+    pointer = pointer.next!;
+    offsetPointer = offsetPointer.next;
   }
 
-  const leadingNode = trailingPointer;
-  const tmp1 = leadingNode.next!;
-  leadingNode.next = leadingNode.next!.next;
-  tmp1.next = null;
+  // Cut the remove nod
+  const removeNode = pointer.next!;
+  pointer.next = pointer.next!.next;
+  removeNode.next = null;
 
-  // remove the dummyNode we added add return the head
-  const tmp2 = head;
-  head = head.next;
-  tmp2.next = null;
-  return head;
+  const resultHead = dummyHead.next;
+  dummyHead.next = null;
+  return resultHead;
 }
 
 // One pass w/ array - O(n) time; O(n) space;

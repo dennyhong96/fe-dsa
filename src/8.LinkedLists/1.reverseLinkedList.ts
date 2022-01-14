@@ -7,11 +7,10 @@ import { ListNode } from "./LinkedList";
 
 // O(n) time; O(1) space;
 function reverseList(head: ListNode | null): ListNode | null {
-  if (!head) return null;
-  let currentNode = head;
-  while (currentNode.next) {
-    let tmp = currentNode.next;
-    currentNode.next = currentNode.next.next;
+  let curr = head;
+  while (curr && curr.next) {
+    let tmp = curr.next;
+    curr.next = curr.next.next;
     tmp.next = head;
     head = tmp;
   }

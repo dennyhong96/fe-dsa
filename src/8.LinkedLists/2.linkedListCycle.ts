@@ -8,13 +8,12 @@ import { ListNode } from "./LinkedList";
 // floyd tortoise and hare algorithm (Fast & slow pointers)
 // O(n) time; O(1) space
 function hasCycle(head: ListNode | null): boolean {
-  if (!head) return false;
-  let slow = head;
-  let fast = head.next;
-  while (fast && fast.next) {
-    if (slow === fast) return true;
-    slow = slow.next!;
-    fast = fast.next.next;
+  let slowPointer = head;
+  let fastPointer = head?.next;
+  while (fastPointer && fastPointer.next && fastPointer.next.next) {
+    if (fastPointer === slowPointer) return true;
+    fastPointer = fastPointer.next.next;
+    slowPointer = slowPointer!.next;
   }
   return false;
 }
