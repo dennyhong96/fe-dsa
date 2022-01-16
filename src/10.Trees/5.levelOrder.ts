@@ -26,6 +26,30 @@ function levelOrder(root: TreeNode | null): number[][] {
 }
 
 // Recursive - O(n) time; O(n) space;
+function levelOrder1(root: TreeNode | null): number[][] {
+  if (!root) return [];
+  const result: number[][] = [];
+  const queue: TreeNode[] = [root];
+  const traverse = (depth = 0) => {
+    const levelNodeLength = queue.length;
+    if (!levelNodeLength) return;
+    for (let i = 0; i < levelNodeLength; i++) {
+      const node = queue.shift()!;
+      if (result[depth]) {
+        result[depth].push(node.val);
+      } else {
+        result[depth] = [node.val];
+      }
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    traverse(depth + 1);
+  };
+  traverse();
+  return result;
+}
+
+// Recursive2 - O(n) time; O(n) space;
 function levelOrder2(root: TreeNode | null): number[][] {
   if (!root) return [];
   const queue: Array<{ node: TreeNode; level: number }> = [];
