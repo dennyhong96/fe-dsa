@@ -104,3 +104,5 @@ maxHeap.insert(55);
 console.log(maxHeap.toString());
 console.log(maxHeap.extractMax());
 console.log(maxHeap.toString());
+
+export {};
