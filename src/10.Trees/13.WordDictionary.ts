@@ -4,55 +4,75 @@
  */
 
 // Use a prefix tree (trie)
+
 class WordDictionaryNode {
-  children = new Map<string, WordDictionaryNode>();
-  end = false;
+  public children: Map<string, WordDictionaryNode>;
+  public end: boolean;
+  constructor() {
+    this.children = new Map<string, WordDictionaryNode>();
+    this.end = false;
+  }
 }
 
 class WordDictionary {
-  root = new WordDictionaryNode();
+  public root: WordDictionaryNode;
 
-  constructor() {}
-
-  // O(n) time; O(h) space
-  addWord(word: string, parent = this.root): void {
-    if (word.length === 0) {
-      parent.end = true;
-      return;
-    }
-    const char = word[0];
-    let node = parent.children.get(char);
-    if (!node) {
-      node = new WordDictionaryNode();
-      parent.children.set(char, node);
-    }
-    const substr = word.slice(1);
-    return this.addWord(substr, node);
+  constructor() {
+    this.root = new WordDictionaryNode();
   }
 
-  // Recursive - O(n) time; O(h) space;
-  search(word: string, parent = this.root): boolean {
-    if (!word.length) {
-      return parent.end;
+  // Iterative - O(n) time; O(1) space;
+  public addWord(word: string): void {
+    let parent = this.root;
+    for (let i = 0; i < word.length; i++) {
+      const char = word[i];
+      let node = parent.children.get(char);
+      if (!node) {
+        node = new WordDictionaryNode();
+        parent.children.set(char, node);
+      }
+      parent = node;
     }
+    parent.end = true;
+  }
+
+  // Recursive - O(n) time; O(h) space
+  // public addWord(word: string, parent = this.root): void {
+  //   if (word.length === 0) {
+  //     parent.end = true;
+  //     return;
+  //   }
+  //   const char = word[0];
+  //   let node = parent.children.get(char);
+  //   if (!node) {
+  //     node = new WordDictionaryNode();
+  //     parent.children.set(char, node);
+  //   }
+  //   const substr = word.slice(1);
+  //   return this.addWord(substr, node);
+  // }
+
+  // Recursive - O(n) time; O(h) space;
+  public search(word: string, parent = this.root): boolean {
+    if (!word.length) return parent.end;
     const char = word.slice(0, 1);
-    const substr = word.slice(1);
     if (char === ".") {
-      for (const [, childNode] of parent.children) {
-        if (this.search(substr, childNode)) return true;
+      for (const [_, node] of parent.children) {
+        if (this.search(word.slice(1), node)) return true;
       }
       return false;
     } else {
-      const node = parent.children.get(char);
-      if (!node) {
+      if (parent.children.has(char)) {
+        const node = parent.children.get(char);
+        return this.search(word.slice(1), node);
+      } else {
         return false;
       }
-      return this.search(substr, node);
     }
   }
 
-  // Iterative - O(n * h)
-  // search2(word: string): boolean {
+  // Iterative - O(n * h) time; O(h) space;
+  // search(word: string): boolean {
   //   const dfs = (node: WordDictionaryNode, index: number) => {
   //     let parent = node;
   //     for (let i = index; i < word.length; i++) {
@@ -74,20 +94,22 @@ class WordDictionary {
   // }
 }
 
+function printNode(rootNode: WordDictionaryNode, prefix = "") {
+  if (!rootNode.children.size) return;
+  rootNode.children.forEach((val, key) => {
+    console.log(prefix + key, val.end);
+    printNode(val, prefix + "  ");
+  });
+}
+
 const wordDictionary = new WordDictionary();
 wordDictionary.addWord("bad");
 wordDictionary.addWord("dad");
 wordDictionary.addWord("mad");
-
+printNode(wordDictionary.root);
 console.log(wordDictionary.search("pad")); // return False
 console.log(wordDictionary.search("bad")); // return True
 console.log(wordDictionary.search(".ad")); // return True
 console.log(wordDictionary.search("b..")); // return True
-console.log(wordDictionary.search("..."));
 
 export {};
-
-class Node {
-  children = new Map<string, Node>();
-  end = false;
-}

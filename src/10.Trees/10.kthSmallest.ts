@@ -6,22 +6,23 @@ import { TreeNode } from "./BinarySearchTree";
  */
 
 // Inorder recursive DFS - O(n) time; O(n) space;
-function kthSmallest(root: TreeNode | null, k: number): number {
+function kthSmallest(
+  root: TreeNode | null,
+  k: number,
+  result: number[] = []
+): number {
   if (!root) return -1;
-  const result: number[] = [];
-  const inorder = (node: TreeNode) => {
-    if (node.left) inorder(node.left);
-    result.push(node.val);
-    if (node.right) inorder(node.right);
-  };
-  inorder(root);
+  if (root.left) kthSmallest(root.left, k, result);
+  if (result.length === k) return result[k - 1]; // bail early as long as we have kth smallest
+  result.push(root.val);
+  if (root.right) kthSmallest(root.right, k, result);
   return result[k - 1];
 }
 
 // Iterative inorder DFS - O(n) time; O(n) space
 function kthSmallest1(root: TreeNode | null, k: number): number {
+  let nthSmallest = 0;
   const stack: TreeNode[] = [];
-  let n = 0;
   let curr = root;
   while (curr || stack.length) {
     while (curr) {
@@ -29,32 +30,30 @@ function kthSmallest1(root: TreeNode | null, k: number): number {
       curr = curr.left;
     }
     const node = stack.pop()!;
-    n++;
-    if (n == k) return node.val;
-    curr = node.right;
+    nthSmallest++;
+    if (nthSmallest === k) return node.val;
+    if (node.right) {
+      curr = node.right;
+    }
   }
   return -1;
 }
 
 // Iterative inorder DFS - O(n) time; O(n) space
 function kthSmallest2(root: TreeNode | null, k: number): number {
-  const stack: TreeNode[] = [];
   const result: number[] = [];
-  let currNode = root;
-  while (currNode) {
-    stack.push(currNode);
-    currNode = currNode.left;
-  }
-  while (stack.length) {
-    const node = stack.pop()!;
-    result.push(node.val);
-    let curr = node.right;
+  const stack: TreeNode[] = [];
+  let curr = root;
+  while (curr || stack.length) {
     while (curr) {
       stack.push(curr);
       curr = curr.left;
     }
+    const node = stack.pop()!;
+    result.push(node.val);
+    if (node.right) {
+      curr = node.right;
+    }
   }
   return result[k - 1];
 }
-
-export {};

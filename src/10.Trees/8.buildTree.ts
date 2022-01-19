@@ -23,7 +23,7 @@ function buildTree(
   return node;
 }
 
-// O(n) time; O(h) space;
+// O(n) time; O(h * n) space;
 // Use preorder to decide the order of nodes
 // Use inorder array to decide which are left and right child of each node
 function buildTree1(preorder: number[], inorder: number[]): TreeNode | null {
