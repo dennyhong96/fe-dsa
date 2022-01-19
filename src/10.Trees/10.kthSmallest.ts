@@ -9,14 +9,14 @@ import { TreeNode } from "./BinarySearchTree";
 function kthSmallest(
   root: TreeNode | null,
   k: number,
-  result: number[] = []
+  results: number[] = []
 ): number {
   if (!root) return -1;
-  if (root.left) kthSmallest(root.left, k, result);
-  if (result.length === k) return result[k - 1]; // bail early as long as we have kth smallest
-  result.push(root.val);
-  if (root.right) kthSmallest(root.right, k, result);
-  return result[k - 1];
+  if (root.left) kthSmallest(root.left, k, results);
+  results.push(root.val);
+  if (results.length === k) return results[k - 1];
+  if (root.right) kthSmallest(root.right, k, results);
+  return results[k - 1];
 }
 
 // Iterative inorder DFS - O(n) time; O(n) space

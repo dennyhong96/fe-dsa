@@ -72,23 +72,25 @@ class WordDictionary {
   }
 
   // Iterative - O(n * h) time; O(h) space;
-  // search(word: string): boolean {
-  //   const dfs = (node: WordDictionaryNode, index: number) => {
-  //     let parent = node;
-  //     for (let i = index; i < word.length; i++) {
+  // public search(word: string): boolean {
+  //   const dfs = (node: WordDictionaryNode, startIndex: number): boolean => {
+  //     let curr = node;
+  //     for (let i = startIndex; i < word.length; i++) {
   //       const char = word[i];
   //       if (char === ".") {
-  //         for (const [_, node] of parent.children) {
-  //           if (dfs(node, i + 1)) return true;
+  //         for (const [_, n] of curr.children) {
+  //           if (dfs(n, i + 1)) return true;
   //         }
   //         return false;
   //       } else {
-  //         const node = parent.children.get(char);
-  //         if (!node) return false;
-  //         parent = node;
+  //         if (curr.children.has(char)) {
+  //           curr = curr.children.get(char)!;
+  //         } else {
+  //           return false;
+  //         }
   //       }
   //     }
-  //     return parent.end;
+  //     return curr.end;
   //   };
   //   return dfs(this.root, 0);
   // }
