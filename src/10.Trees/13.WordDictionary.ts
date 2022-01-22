@@ -71,7 +71,7 @@ class WordDictionary {
     }
   }
 
-  // Iterative - O(n * h) time; O(h) space;
+  // Iterative - O(n) time; O(h) space;
   // public search(word: string): boolean {
   //   const dfs = (node: WordDictionaryNode, startIndex: number): boolean => {
   //     let curr = node;

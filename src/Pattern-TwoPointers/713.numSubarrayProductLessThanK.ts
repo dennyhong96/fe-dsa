@@ -2,19 +2,20 @@
 function numSubarrayProductLessThanK(nums: number[], k: number): number {
   if (k <= 1) return 0; // subarray product not possible to be less than 1
   let count = 0;
-  let leftPointer = 0;
-  let rightPointer = 0;
   let product = 1;
-  while (rightPointer < nums.length) {
-    product *= nums[rightPointer];
+  let l = 0;
+  let r = 0;
+  while (r < nums.length) {
+    const rNum = nums[r];
+    product *= rNum;
     while (product >= k) {
-      product /= nums[leftPointer];
-      leftPointer++;
+      const lNum = nums[l];
+      product /= lNum;
+      l++;
     }
-    count += rightPointer - leftPointer + 1;
-    rightPointer++;
+    count += r - l + 1; // the new rNum itself, and every subarray adding the new rNum
+    r++;
   }
-
   return count;
 }
 

@@ -1,4 +1,4 @@
-// avg. O(n log(n)) time, worst O(n^2) time, O(n log(n)) space
+// quickSort - avg. O(nlogn) time, worst O(n^2) time, avg O(logn) space ,worst O(n) space
 export function quickSort(
   arr: number[],
   startIndex = 0,
