@@ -1,24 +1,24 @@
 // Partition, 1 pass - O(n) time; O(1) space;
 function sortColors(nums: number[]): void {
-  let swapZeroIndex = 0;
-  let swapTwoindex = nums.length - 1;
-  let currIndex = 0;
-  // The algorithm is everything <= currIndex is either a 0 or a 1
-  // everything > currIndex is a 2
-  while (currIndex <= swapTwoindex) {
+  let swapZeroToIndex = 0; // number at index < swapZeroToIndex must be 0
+  let swapTwoToindex = nums.length - 1; // number at index > swapTwoToindex must be 2
+  let currIndex = 0; // number at index < currIndex must be 0 or 1, number at index > currIndex must be 2
+  // number at index swapZeroToIndex <= index < currIndex must be 1
+  while (currIndex <= swapTwoToindex) {
     const num = nums[currIndex];
     if (num === 0) {
-      const tmp = nums[swapZeroIndex];
-      nums[swapZeroIndex] = num;
+      const tmp = nums[swapZeroToIndex];
+      nums[swapZeroToIndex] = num;
       nums[currIndex] = tmp;
-      swapZeroIndex++;
+      swapZeroToIndex++;
       currIndex++;
+      // can increment currIndex since its guaranteed tmp is 1. This is because all 0s and 2s are moved to the edges.
     } else if (num === 2) {
-      const tmp = nums[swapTwoindex];
-      nums[swapTwoindex] = num;
+      const tmp = nums[swapTwoToindex];
+      nums[swapTwoToindex] = num;
       nums[currIndex] = tmp;
-      swapTwoindex--;
-      // can't increment currIndex in this case because the new num at currIndex might be a 0 or a 1, if it's a 0 we still need to swap it to swapZeroIndex
+      swapTwoToindex--;
+      // can't increment currIndex, because the new num at currIndex might be a 0 or a 2, which still needs swapping
     } else {
       currIndex++;
     }
