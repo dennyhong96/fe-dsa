@@ -55,7 +55,7 @@ const quickSort = (
   quickSort(nums, pivotIndex + 1, endIndex);
 };
 
-// Move firstPositiveIndex to 0 - O(n^2) time; O(1) space;
+// Partition - Move firstPositiveIndex to 0 - O(n^2) time; O(1) space;
 function sortedSquares2(nums: number[]): number[] {
   let firstPositiveIndex = -1;
   for (let i = 0; i < nums.length; i++) {
