@@ -20,3 +20,4 @@
 ## Patterns
 
 11. [Two Pointers](src/Pattern-TwoPointers)
+12. [Sliding Window](src/Pattern-SlidingWIndow)

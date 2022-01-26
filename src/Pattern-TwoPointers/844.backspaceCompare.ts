@@ -38,3 +38,5 @@ function backspaceCompare1(s: string, t: string): boolean {
   };
   return buildString(s) === buildString(t);
 }
+
+export {};
