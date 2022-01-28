@@ -1,3 +1,5 @@
+// Find s1's anagram in s2
+
 // Sliding window - O(26*n) time; O(1) space;
 function checkInclusion(s1: string, s2: string): boolean {
   if (!s1.length) return true;
