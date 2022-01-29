@@ -4,7 +4,7 @@ function findDuplicates(nums: number[]): number[] {
 
   // Loop throught the nums array
   for (let i = 0; i < nums.length; i++) {
-    const pointer = Math.abs(nums[i]) - 1; // Go to the number at (num - 1) index,
+    const pointer = Math.abs(nums[i]) - 1; // Go to the number at (num - 1) index, -1 to avoid out of bounds
     if (nums[pointer] < 0) {
       // When we see a number at (num - 1) index that's negetive
       // We know we have seen the same num before
