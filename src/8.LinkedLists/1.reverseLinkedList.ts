@@ -16,3 +16,15 @@ function reverseList(head: ListNode | null): ListNode | null {
   }
   return head;
 }
+
+// recursive
+// O(n) time; O(n) space;
+function reverseList1(head: ListNode | null): ListNode | null {
+  if (!head || !head.next) return head;
+  const newHead = reverseList1(head.next);
+  head.next.next = head;
+  head.next = null;
+  return newHead;
+}
+
+export {};
