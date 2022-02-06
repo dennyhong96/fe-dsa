@@ -2,31 +2,34 @@ import { ListNode } from "./LinkedList";
 
 // O(n) time; O(1) space;
 function rotateRight(head: ListNode | null, k: number): ListNode | null {
-  if (!head || k === 0) return head;
+  if (!head || !head.next || k === 0) return head;
 
-  // Find the length of the list and get a ref of the tail
-  let tail = head;
+  // get the length of list
+  // get a ref of the tail
   let length = 1;
+  let tail = head;
   while (tail.next) {
     tail = tail.next;
     length++;
   }
   k = k % length;
   if (k === 0) return head;
+  console.log({ length, tail });
 
-  // Get the leading node of the segment
+  // get the leading node using length and k
   let leading = head;
-  const moveBy = length - k - 1;
-  for (let i = 0; i < moveBy; i++) {
+  let moveBy = length - k - 1;
+  while (moveBy > 0) {
     leading = leading.next!;
+    moveBy--;
   }
 
-  // Move the segment to the left of head
+  // cut the segment of nodes on the right of the leading node
   const segmentHead = leading.next;
   leading.next = null;
-  tail.next = head;
 
-  // Assign new head to the segment's head and return it
+  // put the segment on the left of head
+  tail.next = head;
   head = segmentHead;
   return head;
 }

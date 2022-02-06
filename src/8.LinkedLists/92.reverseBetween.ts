@@ -11,23 +11,23 @@ function reverseBetween(
 
   let index = 0;
   let curr = dummyHead;
-  let leadingNode: ListNode;
-  let partialHead: ListNode;
+  let leading: ListNode;
+  let segmentHead: ListNode;
+  let segmentCurr: ListNode;
   while (index < right) {
-    if (index + 1 <= left) {
+    if (index < left) {
       if (index + 1 === left) {
-        leadingNode = curr;
-        partialHead = leadingNode.next!;
-        curr = partialHead;
-      } else {
-        curr = curr.next!;
+        leading = curr;
+        segmentHead = leading.next!;
+        segmentCurr = segmentHead;
       }
+      curr = curr.next!;
     } else {
-      const tmp = curr.next!;
-      curr.next = tmp.next;
-      leadingNode!.next = tmp;
-      tmp.next = partialHead!;
-      partialHead = tmp;
+      const tmp = segmentCurr!.next!;
+      segmentCurr!.next = tmp.next;
+      leading!.next = tmp;
+      tmp.next = segmentHead!;
+      segmentHead = tmp;
     }
     index++;
   }
