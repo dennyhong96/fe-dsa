@@ -1,34 +1,44 @@
 import { ListNode } from "./LinkedList";
 
 // O(n) time; O(1) space;
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
 function rotateRight(head: ListNode | null, k: number): ListNode | null {
   if (!head || !head.next || k === 0) return head;
 
-  // get the length of list
-  // get a ref of the tail
-  let length = 1;
+  // one pass get list length and tail
+  let len = 1;
   let tail = head;
   while (tail.next) {
     tail = tail.next;
-    length++;
+    len++;
   }
-  k = k % length;
+  k = k % len;
   if (k === 0) return head;
-  console.log({ length, tail });
 
-  // get the leading node using length and k
+  // get leading node
   let leading = head;
-  let moveBy = length - k - 1;
-  while (moveBy > 0) {
+  let index = 0;
+  while (index < len - k - 1) {
     leading = leading.next!;
-    moveBy--;
+    index++;
   }
 
-  // cut the segment of nodes on the right of the leading node
+  // cut segment after leading node
   const segmentHead = leading.next;
   leading.next = null;
 
-  // put the segment on the left of head
+  // re-arrange segment to be before head
   tail.next = head;
   head = segmentHead;
   return head;
