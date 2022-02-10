@@ -96,3 +96,5 @@ function characterReplacement2(s: string, k: number): number {
 
   return maxLength;
 }
+
+export {};
