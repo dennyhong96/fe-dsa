@@ -1,9 +1,11 @@
 import { ListNode } from "./LinkedList";
 
 function swapPairs(head: ListNode | null): ListNode | null {
+  // Create dummy head to handle edge case
   const dummyHead = new ListNode(-1);
   dummyHead.next = head;
 
+  // Swap pairs
   let curr: ListNode | null = dummyHead;
   while (curr && curr.next && curr.next.next) {
     const tmp: ListNode = curr.next;
@@ -15,8 +17,8 @@ function swapPairs(head: ListNode | null): ListNode | null {
     curr = curr.next.next;
   }
 
+  // Remove dummy head and return head
   head = dummyHead.next;
-  dummyHead.next = null;
   return head;
 }
 

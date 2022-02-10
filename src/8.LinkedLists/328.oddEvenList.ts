@@ -4,6 +4,7 @@ import { ListNode } from "./LinkedList";
 function oddEvenList(head: ListNode | null): ListNode | null {
   if (!head) return null;
 
+  // keep dragging "odd" nodes to the position after insertAfter node
   let currIndex = 0;
   let curr: ListNode | null = head;
   let insertAfter = head;
