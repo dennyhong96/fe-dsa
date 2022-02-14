@@ -12,25 +12,41 @@ class Node {
   }
 }
 
-// Recursive O(n) time; O(1) space;
+// Recursive - O(n) time; O(1) space;
 function connect(root: Node | null): Node | null {
-  if (!root || !root.left) return root;
+  if (!root || (!root.left && !root.right)) return root;
 
-  // a node's left child's next is the node's right child
-  root.left.next = root.right;
-
-  // if a node's next exists, the node's right child's next is the node's next node's left child
-  if (root.next) {
-    root.right!.next = root.next.left;
+  if (root.left) {
+    root.left.next = root.right ?? findNextNode(root);
   }
 
-  connect(root.left);
+  if (root.right) {
+    root.right.next = findNextNode(root);
+  }
+
+  // Need to connect right side nodes first, so we have the connections built for findNextNode to work properly on left side nodes
   connect(root.right);
+  connect(root.left);
 
   return root;
 }
 
-// Iterative O(n) time; O(n) space;
+// Find the next connection node from the given node or its next nodes' left or right child
+function findNextNode(node: Node): Node | null {
+  let nextNode = node.next;
+  while (nextNode) {
+    if (nextNode.left) {
+      return nextNode.left;
+    }
+    if (nextNode.right) {
+      return nextNode.right;
+    }
+    nextNode = nextNode.next;
+  }
+  return null;
+}
+
+// Iterative - O(n) time; O(n) space;
 function connect1(root: Node | null): Node | null {
   if (!root) return null;
   const queue: Node[] = [root];
