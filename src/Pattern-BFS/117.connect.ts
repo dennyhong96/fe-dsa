@@ -17,11 +17,10 @@ function connect(root: Node | null): Node | null {
   if (!root || (!root.left && !root.right)) return root;
 
   if (root.left) {
-    root.left.next = root.right ?? findNextNode(root);
+    root.left.next = root.right ?? findNext(root);
   }
-
   if (root.right) {
-    root.right.next = findNextNode(root);
+    root.right.next = findNext(root);
   }
 
   // Need to connect right side nodes first, so we have the connections built for findNextNode to work properly on left side nodes
@@ -32,16 +31,12 @@ function connect(root: Node | null): Node | null {
 }
 
 // Find the next connection node from the given node or its next nodes' left or right child
-function findNextNode(node: Node): Node | null {
-  let nextNode = node.next;
-  while (nextNode) {
-    if (nextNode.left) {
-      return nextNode.left;
-    }
-    if (nextNode.right) {
-      return nextNode.right;
-    }
-    nextNode = nextNode.next;
+function findNext(root: Node): Node | null {
+  let curr = root.next;
+  while (curr) {
+    if (curr.left) return curr.left;
+    if (curr.right) return curr.right;
+    curr = curr.next;
   }
   return null;
 }

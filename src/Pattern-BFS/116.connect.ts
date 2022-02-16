@@ -14,10 +14,10 @@ class Node {
 
 // Recursive O(n) time; O(1) space;
 function connect(root: Node | null): Node | null {
-  if (!root || !root.left) return root;
+  if (!root || (!root.left && !root.right)) return root;
 
   // a node's left child's next is the node's right child
-  root.left.next = root.right;
+  root.left!.next = root.right;
 
   // if a node's next exists, the node's right child's next is the node's next node's left child
   if (root.next) {
