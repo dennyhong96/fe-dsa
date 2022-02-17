@@ -1,5 +1,6 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
+// O(n) time; o(logn) space;
 export function invertTree(root: TreeNode | null): TreeNode | null {
   if (!root || (!root.left && !root.right)) return root;
   const left = root.left;

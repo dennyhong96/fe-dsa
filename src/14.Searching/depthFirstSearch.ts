@@ -18,6 +18,24 @@ export function dfsInOrder(root: TreeNode, result: number[] = []) {
   return result;
 }
 
+export function dfsInOrder2(root: TreeNode) {
+  const result: number[] = [];
+  const stack: TreeNode[] = [];
+  let curr: TreeNode | null = root;
+  while (curr || stack.length) {
+    while (curr) {
+      stack.push(curr);
+      curr = curr.left;
+    }
+    const node = stack.pop()!;
+    result.push(node.val);
+    if (node.right) {
+      curr = node.right;
+    }
+  }
+  return result;
+}
+
 export function dfsPreOrder(root: TreeNode, result: number[] = []) {
   result.push(root.val);
   if (root.left) dfsPreOrder(root.left);

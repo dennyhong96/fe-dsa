@@ -5,33 +5,32 @@ import { TreeNode } from "./BinarySearchTree";
  * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
  */
 
-// Inorder recursive DFS - O(n) time; O(n) space;
-function kthSmallest(
-  root: TreeNode | null,
-  k: number,
-  results: number[] = []
-): number {
-  if (!root) return -1;
-  if (root.left) kthSmallest(root.left, k, results);
-  results.push(root.val);
-  if (results.length === k) return results[k - 1];
-  if (root.right) kthSmallest(root.right, k, results);
-  return results[k - 1];
+// Inorder recursive DFS - O(n) time; O(logn) space;
+function kthSmallest(root: TreeNode | null, k: number): number {
+  let count = 0;
+  let result = -1;
+  const dfs = (root: TreeNode | null) => {
+    if (!root) return;
+    if (root.left) dfs(root.left);
+    if (++count === k) result = root.val;
+    if (root.right) dfs(root.right);
+  };
+  dfs(root);
+  return result;
 }
 
 // Iterative inorder DFS - O(n) time; O(n) space
 function kthSmallest1(root: TreeNode | null, k: number): number {
-  let nthSmallest = 0;
   const stack: TreeNode[] = [];
-  let curr = root;
+  let curr: TreeNode | null = root;
+  let count = 0;
   while (curr || stack.length) {
     while (curr) {
       stack.push(curr);
       curr = curr.left;
     }
     const node = stack.pop()!;
-    nthSmallest++;
-    if (nthSmallest === k) return node.val;
+    if (++count === k) return node.val;
     if (node.right) {
       curr = node.right;
     }
