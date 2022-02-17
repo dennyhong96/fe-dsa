@@ -6,10 +6,10 @@ function distanceK(
   target: TreeNode | null,
   k: number
 ): number[] {
-  if (!root || !target) return [];
-  if (k === 0) return [target.val];
+  if (!root || !target || k < 0) return [];
+  if (k === 0) return [target.val]; // distance 0 is the target itself
 
-  // Map node to its adjacent nodes (parent,left,right)
+  // map node to it's adjacent nodes
   const adjacentNodes = new Map<TreeNode, TreeNode[]>();
   const dfs = (root: TreeNode) => {
     if (root.left) {
@@ -24,27 +24,25 @@ function distanceK(
     }
   };
   dfs(root);
-  if (!adjacentNodes.size) return [];
+  if (adjacentNodes.size === 0) return [];
 
-  // BFS, starts from target node
+  // start from target, go through its adjacent nodes level by level using bfs
+  const queue: TreeNode[] = [target];
   const seen = new Set<TreeNode>();
-  const queue: TreeNode[] = [];
   let level = 0;
-  queue.push(target);
   while (queue.length) {
     const len = queue.length;
     for (let i = 0; i < len; i++) {
       const node = queue.shift()!;
       seen.add(node);
       const adjacents = adjacentNodes.get(node)!;
-      for (const ad of adjacents) {
-        if (!seen.has(ad)) {
-          queue.push(ad);
-        }
+      for (const adjacent of adjacents) {
+        // Prevent adding visited nodes
+        if (seen.has(adjacent)) continue;
+        queue.push(adjacent);
       }
     }
     if (++level === k) break;
   }
-
   return queue.map((n) => n.val);
 }
