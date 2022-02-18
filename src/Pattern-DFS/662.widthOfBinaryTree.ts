@@ -1,6 +1,6 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
-// DFS - O(n) time; O(logn) space;
+// DFS - O(n) time; O(n) space;
 export function widthOfBinaryTree(root: TreeNode | null): number {
   let maxWidth = 0;
   const levelFirstNode = new Map<number, number>(); // map depth to its left most node's position
