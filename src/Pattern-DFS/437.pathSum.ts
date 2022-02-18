@@ -4,19 +4,19 @@ import { TreeNode } from "../10.Trees/BinarySearchTree";
 function pathSum(root: TreeNode | null, targetSum: number): number {
   if (!root) return 0;
   return (
-    pathSum(root.left, targetSum) + // count number of paths of left sub tree
-    findPathCount(root, targetSum) + // count number of paths that starts from this node
-    pathSum(root.right, targetSum) // count number of paths of right sub tree
+    pathSum(root.left, targetSum) + // total path count starting from curr node's left child
+    findPathCount(root, targetSum) + // total path count starting from curr node
+    pathSum(root.right, targetSum) // total path count starting from curr node's right child
   );
 }
 
 function findPathCount(root: TreeNode | null, targetSum: number): number {
   if (!root) return 0;
-  let count = 0;
-  if (targetSum === root.val) count++;
-  count += findPathCount(root.left, targetSum - root.val);
-  count += findPathCount(root.right, targetSum - root.val);
-  return count;
+  let pathCount = 0;
+  if (root.val === targetSum) pathCount++;
+  pathCount += findPathCount(root.left, targetSum - root.val);
+  pathCount += findPathCount(root.right, targetSum - root.val);
+  return pathCount;
 }
 
 // O(n^2) time; O(logn) space;

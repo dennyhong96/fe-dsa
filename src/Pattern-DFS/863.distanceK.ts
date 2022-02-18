@@ -1,15 +1,15 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // O(n) time; O(n) space; - Map node to its adjacent nodes (parent,left,right)
-function distanceK(
+export function distanceK(
   root: TreeNode | null,
   target: TreeNode | null,
   k: number
 ): number[] {
   if (!root || !target || k < 0) return [];
-  if (k === 0) return [target.val]; // distance 0 is the target itself
+  if (k === 0) return [target.val];
 
-  // map node to it's adjacent nodes
+  // store node's adjacent nodes in a map
   const adjacentNodes = new Map<TreeNode, TreeNode[]>();
   const dfs = (root: TreeNode) => {
     if (root.left) {
@@ -24,11 +24,11 @@ function distanceK(
     }
   };
   dfs(root);
-  if (adjacentNodes.size === 0) return [];
+  if (!adjacentNodes.size) return [];
 
-  // start from target, go through its adjacent nodes level by level using bfs
-  const queue: TreeNode[] = [target];
+  // BFS from target out level by level, until k level
   const seen = new Set<TreeNode>();
+  const queue: TreeNode[] = [target];
   let level = 0;
   while (queue.length) {
     const len = queue.length;
@@ -37,12 +37,13 @@ function distanceK(
       seen.add(node);
       const adjacents = adjacentNodes.get(node)!;
       for (const adjacent of adjacents) {
-        // Prevent adding visited nodes
         if (seen.has(adjacent)) continue;
         queue.push(adjacent);
       }
     }
     if (++level === k) break;
   }
+
+  // the queue should contain the result
   return queue.map((n) => n.val);
 }
