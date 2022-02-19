@@ -4,20 +4,12 @@ export function nextGreatestLetter(letters: string[], target: string): string {
   let r = letters.length - 1;
   while (l < r) {
     const m = l + Math.floor((r - l) / 2);
-
-    console.log({ l }, { r }, { m }, { "letters[m]": letters[m] }, { target });
-
     if (letters[m] <= target) {
       l = m + 1; // when letters[m] === target, m + 1 handles moving l to the smallest letter larger than target
-      console.log("letters[m] <= target");
     } else {
       r = m; // we potentially have the result at m
-      console.log("letters[m] > target");
     }
   }
-
-  console.log("loop breaks", { l }, { r });
-
   // when there is no result, while loop breaks off at l = r = letters.length - 1,
   // we need to check if letters[l] is actually larger than target
   // if letters[l] is not larger than target we know we didn't fina a result, return first letter
