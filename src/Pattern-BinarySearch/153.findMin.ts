@@ -1,18 +1,40 @@
-export function findMin(nums: number[]): number {
-  let l = 0;
-  let r = nums.length - 1;
-  while (l < r) {
-    const m = l + Math.floor((r - l) / 2);
-    if (nums[m] > nums[r]) {
-      l = m + 1;
-      // [3, 4, 5, 1, 2] // smallest is in (m + 1 -> r)
-      //  l     m     r
+/**
+ * 153. Find Minimum in Rotated Sorted Array
+ * https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+ * https://www.youtube.com/watch?v=nIVW4P8b1VA
+ */
+
+function findMin(nums: number[]): number {
+  let leftIndex = 0;
+  let rightIndex = nums.length - 1;
+
+  // while loop will break off with both left and right converging at one index, which will be
+  // the minimum index
+  while (leftIndex < rightIndex) {
+    const right = nums[rightIndex];
+    const middleIndex = Math.floor((leftIndex + rightIndex) / 2);
+    const middle = nums[middleIndex];
+
+    if (middle > right) {
+      // [2,3,4,5,1], min is somewhere between middle -> right
+      //  L   M   R
+      leftIndex = middleIndex + 1;
     } else {
-      r = m;
-      // [5, 1, 2, 3, 4] // smallest is in (l -> m)
-      //  l     m    r
+      // [5,1,2,3,4] - min is somewhere between left -> middle
+      //  L   M   R
+      rightIndex = middleIndex;
     }
   }
-  console.log(nums[l]);
-  return nums[l]; // r
+  return nums[leftIndex]; // can return nums[right] as well, both points to the minimum element
 }
+
+// [1,2,3,4,5]
+
+// [2,3,4,5,1] if (m > r) search m + 1 -> r
+// [5,1]       if (m > r) search m + 1 -> r
+// [1]
+
+// [5,1,2,3,4] if (m < r) search l -> m
+// [5,1,2]     if (m < r) search l -> m
+// [5,1]       if (m > r) search m + 1 -> r
+// [1]

@@ -1,5 +1,11 @@
+/**
+ * 98. Validate Binary Search Tree
+ * https://leetcode.com/problems/validate-binary-search-tree/
+ */
+
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
+// O(n) time; O(h) space - h is depth of tree
 function isValidBST(
   root: TreeNode | null,
   min = -Infinity,
