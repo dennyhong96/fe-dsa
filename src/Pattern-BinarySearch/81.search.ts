@@ -6,7 +6,9 @@ export function search(nums: number[], target: number): boolean {
     if (nums[m] === target) {
       return true;
     } else if (nums[m] === nums[l] && nums[m] === nums[r]) {
-      // shrink l and r to account for duplicate numbers
+      // this condition means we have duplicate nums wrapping across two halves
+      // shrink l and r to account for duplicate numbers, so we don't miss any potential result
+      // handles cases like this - [1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1] -> [1,1,1,1,1,1,1,1,2]
       l++;
       r--;
     } else if (nums[m] <= nums[r]) {
