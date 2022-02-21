@@ -1,4 +1,4 @@
-function construct2DArray(
+export function construct2DArray(
   original: number[],
   m: number,
   n: number
@@ -15,5 +15,3 @@ function construct2DArray(
   }
   return result;
 }
-
-export {};

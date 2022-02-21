@@ -1,18 +1,24 @@
 // O(n) time; o(n) space;
-function longestConsecutive(nums: number[]): number {
-  const set = new Set<number>(nums);
+export function longestConsecutive(nums: number[]): number {
+  // nums = [100,4,200,1,3,2]
+  // if we were to sort the nums, the sequences is obvious - 1,2,3,4  100  200
+  // loop through the nums and check if each number is the start of a sequence ( if mySet does not contain num - 1, it is a start of sequence)
+  // a. if num is start of sequence, keep incrementing num with 1, as long as mySet has num + 1.
+  //    This is so we know the length of this current sequence, which is a potential result
+  // b. if num is not start of sequence, do not need to process it, skip to next in nums
+  const mySet = new Set(nums);
   let longest = 0;
   for (let i = 0; i < nums.length; i++) {
-    let num = nums[i];
-    // Test if the num is the start of a sequence
-    if (!set.has(num - 1)) {
-      let runningSequenceLength = 0;
-      while (set.has(num)) {
-        runningSequenceLength++;
-        num++; // Test if next num in sequence is in the set
-      }
-      longest = Math.max(longest, runningSequenceLength);
+    const num = nums[i];
+    const isStartOfSequence = !mySet.has(num - 1);
+    if (!isStartOfSequence) continue;
+    let sequenceLength = 0;
+    let nextInSequence = num;
+    while (mySet.has(nextInSequence)) {
+      sequenceLength++;
+      nextInSequence++;
     }
+    longest = Math.max(longest, sequenceLength);
   }
   return longest;
 }
@@ -27,5 +33,3 @@ function longestConsecutive(nums: number[]): number {
 // 1,2,3,4 -> runningSequenceLength: 4
 // 3
 // 2
-
-export {};
