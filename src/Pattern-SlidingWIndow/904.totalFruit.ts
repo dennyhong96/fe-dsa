@@ -14,6 +14,9 @@ export function totalFruit(fruits: number[], k = 2): number {
   for (let i = 0; i < fruits.length; i++) {
     const num = fruits[i];
     lastSeenIndexes.set(num, i);
+
+    // use if here instead of standard while loop template
+    // because this if causes l to skip through multiple elements
     if (lastSeenIndexes.size > k) {
       const smallestlastSeen = removeSmallestlastSeen(lastSeenIndexes);
       l = smallestlastSeen + 1;

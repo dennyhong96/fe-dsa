@@ -1,41 +1,41 @@
 // Find s1's anagram in s2
 
 // O(n) time; O(1) space;
-export function checkInclusion(s1: string, s2: string): boolean {
+function checkInclusion(s1: string, s2: string): boolean {
   if (!s1.length) return true;
   if (s1.length > s2.length) return false;
 
-  // this is a variation of the sliding window
-  // the idea is to maintain a contant size sliding window on s2 string
-  // for each iteration move the window to the right to check if the window contains all the chars of s1 string
-  const s1Map = new Map<string, number>(); // O(26) space max; char -> count
-  const s2Map = new Map<string, number>(); // O(26) space max; char -> count
+  const s1Map = new Map<string, number>(); // O(26) space; char -> count
+  const s2Map = new Map<string, number>(); // O(26) space; char -> count
   for (let i = 0; i < s1.length; i++) {
     const char1 = s1[i];
     s1Map.set(char1, (s1Map.get(char1) ?? 0) + 1);
     const char2 = s2[i];
     s2Map.set(char2, (s2Map.get(char2) ?? 0) + 1);
   }
-  if (hasAllChars(s1Map, s2Map)) return true;
+  if (hasAllChars(s1Map, s2Map)) return true; // 'ab', 'ab'
 
-  // maintain a constant sliding window size, because we need at least s1.length number of chars in s2 to include all chars of s1
+  // keep a constant sizing sliding window
+  // because of the constant size, we don't need to manually
+  // maintain an extra left pointer
+  // for each iteration move the window to the right to check if the window contains all the chars of s1 string
   for (let i = s1.length; i < s2.length; i++) {
-    // increase the right bound of sliding window by 1
+    // move the sliding window to the right while maintaining the window size
+    // 1. expand the right bound
     const char = s2[i];
     s2Map.set(char, (s2Map.get(char) ?? 0) + 1);
-
-    // shrink the left bound of sliding window by 1
-    const l = i - s1.length; // don't need to maintain a l pointer, we can derive it from i - s1.length
+    // 2. shrink the left bound
+    const l = i - s1.length;
     const lChar = s2[l];
     s2Map.set(lChar, s2Map.get(lChar)! - 1);
-
+    // 3. check includsion for the new sliding window
     if (hasAllChars(s1Map, s2Map)) return true;
   }
 
   return false;
 }
 
-// O(26) time; o(1) space; check if s2Map has all the chars of s1Map
+// O(26) time; O(1) space;
 function hasAllChars(
   s1Map: Map<string, number>,
   s2Map: Map<string, number>
