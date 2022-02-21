@@ -1,32 +1,46 @@
 // Partition, 1 pass - O(n) time; O(1) space;
 function sortColors(nums: number[]): void {
-  let swapZeroToIndex = 0; // number at index < swapZeroToIndex must be 0
-  let swapTwoToindex = nums.length - 1; // number at index > swapTwoToindex must be 2
-  let currIndex = 0; // number at index < currIndex must be 0 or 1, number at index > currIndex must be 2
-  // number at index swapZeroToIndex <= index < currIndex must be 1
-  while (currIndex <= swapTwoToindex) {
-    const num = nums[currIndex];
-    if (num === 0) {
-      const tmp = nums[swapZeroToIndex];
-      nums[swapZeroToIndex] = num;
-      nums[currIndex] = tmp;
-      swapZeroToIndex++;
-      currIndex++;
-      // can increment currIndex since its guaranteed tmp is 1. This is because all 0s and 2s are moved to the edges.
-    } else if (num === 2) {
-      const tmp = nums[swapTwoToindex];
-      nums[swapTwoToindex] = num;
-      nums[currIndex] = tmp;
-      swapTwoToindex--;
-      // can't increment currIndex, because the new num at currIndex might be a 0 or a 2, which still needs swapping
+  let curr = 0;
+  let nextZero = -1;
+  let nextTwo = nums.length;
+
+  // The idea is that we partition the nums array into 3 segments
+  // And we need to maintain these hard constrians:
+  // index 0      -> nextZero        are all 0s
+  // nextZero + 1 -> curr            are all 1s
+  // nextTwo      -> nums.length - 1 are all 2s
+  while (curr < nextTwo) {
+    const num = nums[curr];
+    if (num === 2) {
+      // reserve a space for the 2 first
+      nextTwo--;
+      swap(nums, curr, nextTwo); // [0,1,2*,0,2] -> [0,1,2,0,2*] | [0,1,2*,0,0] -> [0,1,0,0,2*]
+      // can't increment curr, we don't know what number is at curr now
+    } else if (num === 0) {
+      // reseve a space for the 0 first
+      nextZero++;
+      swap(nums, curr, nextZero); // [0,1,0*,2,2] -> [0,0*,1,2,2] | [0,0,0*,1,2,2] -> [0,0,0*,1,2,2]
+      curr++; // we can safely increment curr because we know for sure number at curr now is 0 or 1, and is correctly ordered
     } else {
-      currIndex++;
+      // [0,1,1*,2,0]
+      curr++;
     }
   }
+}
+// https://www.youtube.com/watch?v=aVOm2Kickys
+
+function swap(nums: number[], index1: number, index2: number): void {
+  const tmp = nums[index1];
+  nums[index1] = nums[index2];
+  nums[index2] = tmp;
 }
 
 // Bucket sort, 2 passes - O(n) time; O(1) space
 function sortColors1(nums: number[]): void {
+  // since we have a constant amount of "buckets" - 0,1,2
+  // the idea is to use one pass to record how many element in each bucket
+  // then use another pass to re-arrange the input array accordingly
+
   const buckets = [0, 0, 0]; // O(3) -> O(1) space fixed number of buckets
 
   // O(n)

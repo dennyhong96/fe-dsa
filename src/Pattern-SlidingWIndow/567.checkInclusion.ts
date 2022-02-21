@@ -1,39 +1,49 @@
 // Find s1's anagram in s2
 
-// Sliding window - O(26*n) time; O(1) space;
-function checkInclusion(s1: string, s2: string): boolean {
+// O(n) time; O(1) space;
+export function checkInclusion(s1: string, s2: string): boolean {
   if (!s1.length) return true;
-  if (s2.length < s1.length) return false;
+  if (s1.length > s2.length) return false;
 
-  const s1Map = new Map<string, number>(); // num --> count - O(26) -> O(1) space
-  const s2Map = new Map<string, number>(); // num --> count - O(26) -> O(1) space
+  // this is a variation of the sliding window
+  // the idea is to maintain a contant size sliding window on s2 string
+  // for each iteration move the window to the right to check if the window contains all the chars of s1 string
+  const s1Map = new Map<string, number>(); // O(26) space max; char -> count
+  const s2Map = new Map<string, number>(); // O(26) space max; char -> count
   for (let i = 0; i < s1.length; i++) {
     const char1 = s1[i];
     s1Map.set(char1, (s1Map.get(char1) ?? 0) + 1);
     const char2 = s2[i];
     s2Map.set(char2, (s2Map.get(char2) ?? 0) + 1);
   }
+  if (hasAllChars(s1Map, s2Map)) return true;
 
-  const hasAllMatches = () => {
-    let result = true;
-    for (const [char, count] of s1Map) {
-      if (!s2Map.has(char) || s2Map.get(char)! !== count) {
-        result = false;
-      }
-    }
-    return result;
-  };
-
+  // maintain a constant sliding window size, because we need at least s1.length number of chars in s2 to include all chars of s1
   for (let i = s1.length; i < s2.length; i++) {
-    if (hasAllMatches()) return true;
+    // increase the right bound of sliding window by 1
     const char = s2[i];
     s2Map.set(char, (s2Map.get(char) ?? 0) + 1);
-    const lChar = s2[i - s1.length]; // get the first index of the window
+
+    // shrink the left bound of sliding window by 1
+    const l = i - s1.length; // don't need to maintain a l pointer, we can derive it from i - s1.length
+    const lChar = s2[l];
     s2Map.set(lChar, s2Map.get(lChar)! - 1);
+
+    if (hasAllChars(s1Map, s2Map)) return true;
   }
-  if (hasAllMatches()) return true;
 
   return false;
+}
+
+// O(26) time; o(1) space; check if s2Map has all the chars of s1Map
+function hasAllChars(
+  s1Map: Map<string, number>,
+  s2Map: Map<string, number>
+): boolean {
+  for (const [char, count] of s1Map) {
+    if (!s2Map.has(char) || s2Map.get(char)! < count) return false;
+  }
+  return true;
 }
 
 // Sliding window, extra counter - O(n) time; O(1) space;

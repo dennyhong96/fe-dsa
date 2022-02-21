@@ -2,30 +2,41 @@
 // Longest contiguous substring of k unique characters
 
 // Sliding window - O(n) time; O(1) space;
-function totalFruit(fruits: number[], bucketsCount = 2): number {
-  let max = -Infinity;
-  const map = new Map<number, number>(); // O(1) space - fruit type -> last seen index
+// O(n) time; O(1) space;
+// find longest subarray with k unique elements
+export function totalFruit(fruits: number[], k = 2): number {
+  // the idea is to track the last seen index of each unique element
+  // when we have more than k unique elements, we shrink the left
+  // boundary of the sliding window to the right of the smallest last seen index
+  const lastSeenIndexes = new Map<number, number>(); // O(3) space ma; num -> last seen index
+  let maxLength = 0;
   let l = 0;
-  let r = 0;
-  while (r < fruits.length) {
-    const fruit = fruits[r];
-    if (map.size <= bucketsCount) {
-      map.set(fruit, r); // update last seen index
+  for (let i = 0; i < fruits.length; i++) {
+    const num = fruits[i];
+    lastSeenIndexes.set(num, i);
+    if (lastSeenIndexes.size > k) {
+      const smallestlastSeen = removeSmallestlastSeen(lastSeenIndexes);
+      l = smallestlastSeen + 1;
     }
-    if (map.size > bucketsCount) {
-      let minLastSeenIndex = fruits.length - 1;
-
-      // O(1) time since map has at most 3 records
-      for (const [_, i] of map) {
-        minLastSeenIndex = Math.min(minLastSeenIndex, i);
-      }
-      map.delete(fruits[minLastSeenIndex]);
-      l = minLastSeenIndex + 1;
-    }
-    max = Math.max(max, r - l + 1);
-    r++;
+    maxLength = Math.max(maxLength, i - l + 1);
   }
-  return max;
+
+  return maxLength;
+}
+
+// O(3) time; O(1) space;
+function removeSmallestlastSeen(lastSeenIndexes: Map<number, number>): number {
+  let smallestIndex = Infinity;
+  let smallestLastSeenNum = -1;
+  for (const [num, lastSeen] of lastSeenIndexes) {
+    // lastSeenIndexes has at most 3 records
+    if (lastSeen < smallestIndex) {
+      smallestLastSeenNum = num;
+      smallestIndex = lastSeen;
+    }
+  }
+  lastSeenIndexes.delete(smallestLastSeenNum);
+  return smallestIndex;
 }
 
 // Brute force - O(n^2) time; O(1) space;
@@ -52,5 +63,3 @@ function totalFruit1(fruits: number[]): number {
   }
   return maxFruit;
 }
-
-export {};

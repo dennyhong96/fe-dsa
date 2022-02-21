@@ -1,26 +1,33 @@
 // Sliding window - O(n) time; O(1) space;
-function numSubarrayProductLessThanK(nums: number[], k: number): number {
+export function numSubarrayProductLessThanK(nums: number[], k: number): number {
   if (k <= 1) return 0; // subarray product not possible to be less than 1
-  let count = 0;
-  let product = 1;
+
+  let runningProduct = 1; // product starts off at 1
+  let subarrCount = 0;
+
   let l = 0;
-  let r = 0;
-  while (r < nums.length) {
-    const rNum = nums[r];
-    product *= rNum;
-    while (product >= k) {
+  for (let i = 0; i < nums.length; i++) {
+    // expand the sliding window
+    const num = nums[i];
+    runningProduct *= num;
+
+    // shrink the sliding window until runningProduct is strictly smaller than k
+    while (runningProduct >= k) {
       const lNum = nums[l];
-      product /= lNum;
+      runningProduct /= lNum;
       l++;
     }
-    count += r - l + 1; // the new rNum itself, and every subarray adding the new rNum
-    r++;
+    subarrCount += i - l + 1;
+    // the idea behind incrementing subarrCount:
+    // the new num itself is a new subarr, also the new num together with every previous subarr
+    // For example:
+    // [10, 5, 2, 6], subarrs: [10] [5] [10, 5],                    subarr count 3
+    //         i
+    // when adding 2, subarrs: [10] [5] [10, 5] [2] [5,2] [10,5,2], subarr count 6 (+3), +3 comes from (i - l + 1)
   }
-  return count;
-}
 
-// Input: nums = [10,5,2,6], k = 100
-// Output: 8;
+  return subarrCount;
+}
 
 // Two pointers - O(n) time; O(1) space;
 function numSubarrayProductLessThanK1(nums: number[], k: number): number {

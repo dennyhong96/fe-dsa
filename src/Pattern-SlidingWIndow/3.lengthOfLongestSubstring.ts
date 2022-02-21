@@ -1,21 +1,22 @@
 // O(n) time; O(1) space;
-function lengthOfLongestSubstring(s: string): number {
-  const map = new Map<string, boolean>();
-  let len = 0;
+export function lengthOfLongestSubstring(s: string): number {
+  let charSet = new Set<string>(); // chars
+  let maxLength = 0;
   let l = 0;
   for (let i = 0; i < s.length; i++) {
     const char = s[i];
-    if (map.has(char)) {
-      while (map.has(char)) {
-        const lChar = s[l];
-        map.delete(lChar);
-        l++;
-      }
+
+    // Shrink window until we don't have char in charSet
+    while (charSet.has(char)) {
+      const lChar = s[l];
+      charSet.delete(lChar);
+      l++;
     }
-    map.set(char, true);
-    len = Math.max(len, i - l + 1);
+
+    charSet.add(char);
+    maxLength = Math.max(maxLength, i - l + 1);
   }
-  return len;
+  return maxLength;
 }
 
 // Two pointers - O(n) time; O(1) space
@@ -72,5 +73,3 @@ function lengthOfLongestSubstring2(s: string): number {
 
   return longestSubstrLength;
 }
-
-export {};

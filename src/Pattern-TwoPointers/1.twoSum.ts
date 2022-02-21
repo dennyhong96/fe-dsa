@@ -1,22 +1,16 @@
-/**
- * 1. Two Sum
- * https://leetcode.com/problems/two-sum/
- */
-
-// O(n) time; O(n) space
-function twoSum(nums: number[], target: number): number[] {
-  const map = new Map<number, number>(); // num as key, index as value
+// O(n) time; O(n) space;
+export function twoSum(nums: number[], target: number): number[] {
+  const map = new Map<number, number>(); // diff -> index;
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
     const diff = target - num;
-    const storedIndex = map.get(diff);
-    if (storedIndex !== undefined) {
-      return [i, storedIndex];
+    if (map.has(diff)) {
+      return [i, map.get(diff)!];
     } else {
       map.set(num, i);
     }
   }
-  return [];
+  return []; // should not trigger, problem has exactly one solution
 }
 
 // Brute force - O(n^2) time; O(1) space

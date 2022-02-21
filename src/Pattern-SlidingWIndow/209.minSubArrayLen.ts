@@ -1,22 +1,26 @@
-// O(n) time; O(1) space;
-function minSubArrayLen(target: number, nums: number[]): number {
-  let l = 0;
-  let min = Infinity;
+// O(n) time; O(1) space; standard sliding window template
+export function minSubArrayLen(target: number, nums: number[]): number {
+  let minLen = Infinity;
   let runningSum = 0;
+  let l = 0;
+
   for (let i = 0; i < nums.length; i++) {
+    // Step 1: Expand the sliding window by adding the new num into running sum
     const num = nums[i];
     runningSum += num;
-    // Still O(n) since both left and right points will only iterate list at most once.
-    // After the left items are popped up, they won't loop again
+
+    // Step 2: Keep shrinking the sliding window by moving l right as long as runningSum >= target
+    // while loop instead of if because the current num could be very large
+    // so that we still satisfy runningSum >= target after moving l to the right for the first time
     while (runningSum >= target) {
-      const len = i - l + 1;
-      min = Math.min(min, len);
+      minLen = Math.min(minLen, i - l + 1);
       const lNum = nums[l];
       runningSum -= lNum;
       l++;
     }
   }
-  return min === Infinity ? 0 : min;
+
+  return minLen === Infinity ? 0 : minLen;
 }
 
 // O(n) time; O(1) space;
@@ -42,5 +46,3 @@ function minSubArrayLen1(target: number, nums: number[]): number {
   }
   return min === Infinity ? 0 : min;
 }
-
-export {};

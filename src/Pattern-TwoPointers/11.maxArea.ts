@@ -2,26 +2,27 @@
 function maxArea(height: number[]): number {
   // We initialize the two pointers at first and last index because it results in the lartest width
   // we need large width to result in potentially max area
-  let hIndex1 = 0;
-  let hIndex2 = height.length - 1;
-  let max = 0;
-  while (hIndex1 < hIndex2) {
-    const height1 = height[hIndex1];
-    const height2 = height[hIndex2];
-    const width = hIndex2 - hIndex1;
-    const area = Math.min(height1, height2) * width;
-    max = Math.max(max, area);
-    if (height1 < height2) {
+  let l = 0;
+  let r = height.length - 1;
+  let maxWater = 0;
+  while (l < r) {
+    const leftHeight = height[l];
+    const rightHeight = height[r];
+    const minHeight = Math.min(leftHeight, rightHeight);
+    const width = r - l;
+    const area = minHeight * width;
+    maxWater = Math.max(maxWater, area);
+    if (leftHeight < rightHeight) {
       // If left side height is the bottom neck, try to increment left index and try again
       // We don't touch right index because we know that the right side height is relatively larger
       // we need larger height to result in potentially larger area
-      hIndex1++;
+      l++;
     } else {
       // If right side height is the bottom neck, try to decrement right index and try again
-      hIndex2--;
+      r--;
     }
   }
-  return max;
+  return maxWater;
 }
 
 // Brute force - O(n^2) time; O(1) space

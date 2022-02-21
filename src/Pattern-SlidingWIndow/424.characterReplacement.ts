@@ -1,61 +1,33 @@
-// O(26*n) time; O(26) space;
-function characterReplacement(s: string, k: number): number {
+// O(n) time; O(1) space;
+export function characterReplacement(s: string, k: number): number {
   const map = new Map<string, number>(); // O(26) space - char -> count
-
+  let maxLength = 0;
   let l = 0;
-  let r = 0;
-  let length = 0;
-
-  while (r < s.length) {
-    const char = s[r];
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
     map.set(char, (map.get(char) ?? 0) + 1);
-
-    let mostOccranceCharCount = -Infinity;
-    let totalOccranceCount = 0;
-    for (const [_, count] of map) {
-      totalOccranceCount += count;
-      mostOccranceCharCount = Math.max(mostOccranceCharCount, count);
-    } // O(26) time;
-    let needToReplaceCount = totalOccranceCount - mostOccranceCharCount;
-
-    if (needToReplaceCount <= k) {
-      length = Math.max(length, r - l + 1);
-      r++;
+    if (canReplace(map, k)) {
+      maxLength = Math.max(maxLength, i - l + 1);
     } else {
       const lChar = s[l];
-      l++;
-      map.set(lChar, map.get(lChar)! - 1);
-      map.set(char, map.get(char)! - 1); // added back in next iteration
+      while (s[l] === lChar) {
+        map.set(lChar, map.get(lChar)! - 1);
+        l++;
+      }
     }
   }
-  return length;
+  return maxLength;
 }
 
-// Two pointers - O(n) time; O(1) space;
-function characterReplacement1(s: string, k: number): number {
-  let longest = 0;
-  const map = new Map<string, number>(); // O(26) space at most -> O(1) space
-  let l = 0;
-  for (let r = 0; r < s.length; r++) {
-    const char = s[r];
-    map.set(char, (map.get(char) ?? 0) + 1);
-    let maxOccurance = 0;
-    let totalOccurance = 0;
-    map.forEach((val) => {
-      maxOccurance = Math.max(maxOccurance, val);
-      totalOccurance += val;
-    });
-    const needReplacementCount = totalOccurance - maxOccurance;
-    if (needReplacementCount <= k) {
-      const substrLength = r - l + 1;
-      longest = Math.max(longest, substrLength);
-    } else {
-      const lChar = s[l];
-      map.set(lChar, map.get(lChar)! - 1);
-      l++;
-    }
+// O(26) time; O(1) space;
+function canReplace(map: Map<string, number>, k: number) {
+  let maxOccurance = 0;
+  let totalOccurance = 0;
+  for (const [_, count] of map) {
+    totalOccurance += count;
+    maxOccurance = Math.max(maxOccurance, count);
   }
-  return longest;
+  return totalOccurance - maxOccurance <= k;
 }
 
 // Brute force - O(n^2) time; O(1) space
@@ -91,4 +63,35 @@ function characterReplacement2(s: string, k: number): number {
   return maxLength;
 }
 
-export {};
+// O(26*n) time; O(26) space;
+function characterReplacement1(s: string, k: number): number {
+  const map = new Map<string, number>(); // O(26) space - char -> count
+
+  let l = 0;
+  let r = 0;
+  let length = 0;
+
+  while (r < s.length) {
+    const char = s[r];
+    map.set(char, (map.get(char) ?? 0) + 1);
+
+    let mostOccranceCharCount = -Infinity;
+    let totalOccranceCount = 0;
+    for (const [_, count] of map) {
+      totalOccranceCount += count;
+      mostOccranceCharCount = Math.max(mostOccranceCharCount, count);
+    } // O(26) time;
+    let needToReplaceCount = totalOccranceCount - mostOccranceCharCount;
+
+    if (needToReplaceCount <= k) {
+      length = Math.max(length, r - l + 1);
+      r++;
+    } else {
+      const lChar = s[l];
+      l++;
+      map.set(lChar, map.get(lChar)! - 1);
+      map.set(char, map.get(char)! - 1); // added back in next iteration
+    }
+  }
+  return length;
+}
