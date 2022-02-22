@@ -1,10 +1,5 @@
-/**
- * 20. Valid Parentheses
- * https://leetcode.com/problems/valid-parentheses/
- */
-
 // stack - O(n) time; O(n) space
-function isValid(s: string): boolean {
+export function isValid(s: string): boolean {
   const closeToOpenning: Record<string, string> = {
     ")": "(",
     "}": "{",

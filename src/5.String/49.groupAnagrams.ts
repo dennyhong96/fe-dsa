@@ -1,5 +1,5 @@
 // O(n*m) time; O(n) space; m is avg. length of strs
-function groupAnagrams(strs: string[]): string[][] {
+export function groupAnagrams(strs: string[]): string[][] {
   const map = new Map<string, string[]>();
   for (const str of strs) {
     const keyArr: (number | undefined)[] = [];
