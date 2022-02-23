@@ -1,41 +1,39 @@
 // O(n) time; O(1) space;
-function findDisappearedNumbers(nums: number[]): number[] {
+export function findDisappearedNumbers(nums: number[]): number[] {
+  // Idea, use the original input array
+  // value to index mapping [1, n] -> [0, n - 1]
   for (let i = 0; i < nums.length; i++) {
-    const index = Math.abs(nums[i]) - 1;
-    if (nums[index] > 0) {
-      nums[index] = -nums[index]; // mark index negetive to represent we have the (index + 1) number
+    const pointingIndex = Math.abs(nums[i]) - 1;
+    const pointingNumber = nums[pointingIndex];
+    if (pointingNumber > 0) {
+      // this is the first time the pointingNumber has been pointed tos
+      nums[pointingIndex] = -pointingNumber; // mark this pointingIndex as visited
     }
+    // pointingIndex is already visited, continue
   }
+  // [4,3,2,7,8,2,3,1]
+  // [4,3,2,-7,8,2,3,1]
+  // [4,3,-2,-7,8,2,3,1]
+  // [4,3,-2,-7,8,2,-3,1]
+  // [4,3,-2,-7,8,2,-3,-1]
+  // [4,-3,-2,-7,8,2,-3,-1]
+  // [-4,-3,-2,-7,8,2,-3,-1] -> the result is index 4 and index 5, they have never been pointed to, we are nissing numbers 5 and 6
   const res: number[] = [];
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] > 0) res.push(i + 1);
   }
   return res;
 }
-// [4,3,2,7,8,2,3,1]
-// [4,3,2,-7,8,2,3,1]
-// [4,3,-2,-7,8,2,3,1]
-// [4,-3,-2,-7,8,2,3,1]
-// [4,-3,-2,-7,8,2,-3,1]
-// [4,-3,-2,-7,8,2,-3,-1]
-// [-4,-3,-2,-7,8,2,-3,-1]
 
-// O(n) time; O(1) space;
+// O(n) time; O(n) space;
 function findDisappearedNumbers1(nums: number[]): number[] {
-  const res: (number | undefined)[] = [];
+  const mySet = new Set<number>();
+  for (let i = 1; i <= nums.length; i++) {
+    mySet.add(i);
+  }
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
-    res[num] = (res[num] ?? 0) + 1;
+    if (mySet.has(num)) mySet.delete(num);
   }
-  let nextInsertIndex = 0;
-  for (let i = 1; i <= nums.length; i++) {
-    if (res[i] === undefined) {
-      res[nextInsertIndex] = i;
-      nextInsertIndex++;
-    }
-  }
-  res.length = nextInsertIndex;
-  return res as number[];
+  return [...mySet];
 }
-
-export {};

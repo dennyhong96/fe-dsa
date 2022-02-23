@@ -19,13 +19,14 @@
 
 ## Patterns
 
-11. [Two Pointers](src/Pattern-TwoPointers)
-12. [Sliding Window](src/Pattern-SlidingWIndow)
-13. [Arrays](src/6.Array)
-14. [LinkedList Traversal](src/8.LinkedLists)
-15. [BFS](src/Pattern-BFS)
-16. [DFS](src/Pattern-DFS)
-17. [Binary Search](src/Pattern-BinarySearch)
+14. [Two Pointers](src/Pattern-TwoPointers)
+15. [Sliding Window](src/Pattern-SlidingWIndow)
+16. [Matrix Treversal](src/Pattern-Matrix)
+17. [Arrays](src/6.Array)
+18. [LinkedList](src/8.LinkedLists)
+19. [Tree BFS Treversal](src/Pattern-BFS)
+20. [Tree DFS Treversal](src/Pattern-DFS)
+21. [Binary Search](src/Pattern-BinarySearch)
 
 ## General Tips
 

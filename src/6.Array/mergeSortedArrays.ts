@@ -13,8 +13,8 @@ export function mergeSortedArrays(arr1: number[], arr2: number[]) {
   const newArray = [];
   let arr1Pointer = 0;
   let arr2Pointer = 0;
-  
-  while(newArray.length < arr1.length + arr2.length) {
+
+  while (newArray.length < arr1.length + arr2.length) {
     const arr1Item = arr1[arr1Pointer];
     const arr2Item = arr2[arr2Pointer];
     if (arr1Item !== undefined && arr2Item !== undefined) {

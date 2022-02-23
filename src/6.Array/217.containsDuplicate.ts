@@ -1,19 +1,14 @@
-/**
- * 217. Contains Duplicate
- * https://leetcode.com/problems/contains-duplicate/
- */
-
 // O(n) time; O(n) space
-function containsDuplicate(nums: number[]): boolean {
-  const map = new Map<number, boolean>();
-  for (let i = 0; i < nums.length; i++) {
-    const num = nums[i];
-    const storedNum = map.get(num);
-    if (storedNum) {
-      return true;
-    } else {
-      map.set(num, true);
-    }
+export function containsDuplicate(nums: number[]): boolean {
+  const mySet = new Set<number>(nums);
+  return mySet.size < nums.length;
+}
+
+// O(nlogn) time; O(1) space;
+function containsDuplicate1(nums: number[]): boolean {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] === nums[i + 1]) return true;
   }
   return false;
 }

@@ -1,5 +1,5 @@
 // O(n) time; O(n) space;
-function singleNumber(nums: number[]): number {
+export function singleNumber(nums: number[]): number {
   const set = new Set<number>();
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
@@ -22,5 +22,3 @@ function singleNumber1(nums: number[]): number {
   }
   return result;
 }
-
-export {};

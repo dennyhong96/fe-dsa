@@ -1,23 +1,21 @@
-function findDuplicates(nums: number[]): number[] {
-  // The value of each element -1 can also be an index of the array
-  const results: number[] = [];
-
-  // Loop throught the nums array
+export function findDuplicates(nums: number[]): number[] {
+  const result: number[] = [];
   for (let i = 0; i < nums.length; i++) {
-    const pointer = Math.abs(nums[i]) - 1; // Go to the number at (num - 1) index, -1 to avoid out of bounds
-    if (nums[pointer] < 0) {
-      // When we see a number at (num - 1) index that's negetive
-      // We know we have seen the same num before
-      results.push(Math.abs(nums[i]));
+    const num = Math.abs(nums[i]);
+    const pointingIndex = num - 1; // -1 to avoid out of bounds
+    const pointingNum = nums[pointingIndex];
+    if (pointingNum < 0) {
+      // there was a number pointing to this pointingNum before
+      // which means the current num is a duplicate
+      result.push(num);
     } else {
-      nums[pointer] = -nums[pointer]; // mark as negetive if it's positive
+      // this is the first time pointingNum is being pointed to
+      // we negetive the number to mark as pointed
+      nums[pointingIndex] = -nums[pointingIndex];
     }
   }
-
-  return results;
+  return result;
 }
-
-export {};
 
 // [4,3,2,7,8,2,3,1]
 // [4,3,2,-7,8,2,3,1]

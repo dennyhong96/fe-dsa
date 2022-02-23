@@ -1,8 +1,11 @@
 import { MyArray } from "./MyArray";
 import { reverse } from "./reverse";
-import { mergeSortedArrays } from "./mergeSortedArrays";
-import { moveZeroes } from "./moveZeroes";
-import { rotate } from "./rotate";
+import { mergeSortedArrays } from "./88.mergeSortedArrays";
+import { moveZeroes } from "./283.moveZeroes";
+import { containsDuplicate } from "./217.containsDuplicate";
+
+import { twoSum } from "../Pattern-TwoPointers/167.twoSumII";
+import { rotate } from "./189.rotate";
 
 export async function ArrayDataStructure() {
   const myArray = new MyArray<string>();

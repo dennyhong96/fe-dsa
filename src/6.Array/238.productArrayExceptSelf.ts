@@ -1,37 +1,30 @@
-/**
- * 238. Product of Array Except Self
- * https://leetcode.com/problems/product-of-array-except-self/
- */
+// O(n) time; O(1) space;
+export function productExceptSelf(nums: number[]): number[] {
+  // Idea: for each num
+  //  - calculate product before that num in one scan
+  //  - calculate product after that num in another scan
+  // use a 3rd scan to get the result (product before * product after)
+  // [1,2,3,4]
+  // [1,1,2,6]
+  // [24,12,4,1]
+  let result: number[] = [];
 
-// O(n) time; O(1) space (not counting result arr)
-function productExceptSelf(nums: number[]): number[] {
-  const result: number[] = []; // re-use this for storing product of everything to the left for a index and the acutal result
-
-  let productToTheLeftExcludeSelf = 1;
+  let prefix = 1;
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
-    result[i] = productToTheLeftExcludeSelf; // store product of everything to the left to result array first
-    productToTheLeftExcludeSelf *= num;
+    result[i] = prefix;
+    prefix *= num;
   }
 
-  let productToTheRightExludeSelf = 1;
+  let postfix = 1;
   for (let i = nums.length - 1; i >= 0; i--) {
     const num = nums[i];
-    const productToTheLeftExcludeSelf = result[i]; // set during previous loop
-    result[i] = productToTheLeftExcludeSelf * productToTheRightExludeSelf; // update to the actual result
-    productToTheRightExludeSelf *= num;
+    result[i] = result[i] * postfix;
+    postfix *= num;
   }
 
   return result;
 }
-
-// [1,2,3,4]
-// [1,1,2,6] - prefix
-// [24,12,4,1] - postfix
-// [24,12,8,6] - result
-
-// [1,2,3,4]
-// [1,1,2,6]
 
 // O(n) time; O(n) space (not counting result arr)
 function productExceptSelf2(nums: number[]): number[] {

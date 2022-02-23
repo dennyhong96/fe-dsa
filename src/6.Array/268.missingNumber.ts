@@ -1,10 +1,20 @@
 // O(n) time; O(1) space;
-function missingNumber(nums: number[]): number {
-  let res = nums.length;
+export function missingNumber(nums: number[]): number {
+  // The idea
+  //  - Add all the indexes together with one pass
+  //  - Subtract the numbers we have
+  //  - What's left is the result
+
+  // 3
+  // i   - 0 1 2
+  // num - 3 0 1
+  //      -3 1 1
+  let result = nums.length;
   for (let i = 0; i < nums.length; i++) {
-    res += i - nums[i];
+    const num = nums[i];
+    result += i - num;
   }
-  return res;
+  return result;
 }
 
 // O(n) time; O(1) space;
