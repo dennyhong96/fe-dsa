@@ -1,6 +1,6 @@
 import { MyArray } from "./MyArray";
 import { reverse } from "./reverse";
-import { mergeSortedArrays } from "./88.mergeSortedArrays";
+import { mergeSortedArrays } from "./mergeSortedArrays";
 import { moveZeroes } from "./283.moveZeroes";
 import { containsDuplicate } from "./217.containsDuplicate";
 

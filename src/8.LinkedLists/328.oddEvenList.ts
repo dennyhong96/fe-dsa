@@ -1,39 +1,47 @@
 import { ListNode } from "./LinkedList";
 
 // O(n) time; O(1) space;
-function oddEvenList(head: ListNode | null): ListNode | null {
+export function oddEvenList(head: ListNode | null): ListNode | null {
+  // The idea is to use two pointers
+  // curr pointer is used for traversal
+  // nextInsertAfter is used to maintain the last "odd" node
+  // as we traverse, when we get an additional "odd" node,
+  // stitch it to nextInsertAfter.next
+
   if (!head) return null;
 
-  // keep dragging "odd" nodes to the position after insertAfter node
-  let currIndex = 0;
+  let index = 1;
   let curr: ListNode | null = head;
-  let insertAfter = head;
+  let nextInsertAfter = head;
   while (curr && curr.next) {
-    if (currIndex % 2 !== 0) {
-      const tmp = curr.next;
-      curr.next = curr.next.next;
+    if (index % 2 === 0) {
+      const nextOdd: ListNode = curr.next;
+      const nextEven: ListNode | null = nextOdd.next;
 
-      const tmp2 = insertAfter.next;
-      insertAfter.next = tmp;
-      tmp.next = tmp2;
+      // insert odd node
+      const tmp = nextInsertAfter.next;
+      nextInsertAfter.next = nextOdd;
+      nextOdd.next = tmp;
 
-      insertAfter = tmp;
-      currIndex++; // increment because we inserted a node before currIndex
-    } else {
-      insertAfter = curr;
+      // increment pointers
+      curr.next = nextEven;
+      nextInsertAfter = nextInsertAfter.next;
+
+      index++; // index++ here because we inserted an "odd" node before current index
     }
 
-    currIndex++;
     curr = curr.next;
+    index++;
   }
 
   return head;
 }
 
-// 1 -> 2 -> 3 -> 4 -> 5
-// insertAfter:1 curr:1    currIndex:0    1 -> 2 -> 3 -> 4 -> 5
-// insertAfter:1 curr:2    currIndex:1    1 -> 3 -> 2 -> 4 -> 5
-// insertAfter:3 curr:4    currIndex:3    1 -> 3 -> 5 -> 2 -> 4
-// insertAfter:4 curr:null currIndex:5    1 -> 3 -> 5 -> 2 -> 4
-
-export {};
+// 1 -> 2 -> 3 -> 4 -> 5; i = 1
+// nc
+// 1 -> 2 -> 3 -> 4 -> 5; i = 2
+// n    c
+// 1 -> 3 -> 2 -> 4 -> 5; i = 4
+//      n         c
+// 1 -> 3 -> 5 -> 2 -> 4; i = 6
+//           n              c (null)

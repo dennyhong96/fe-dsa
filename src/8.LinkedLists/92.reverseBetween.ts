@@ -38,40 +38,36 @@ function reverseBetween(
 }
 
 // O(n) time; O(1) space; Two passes
-function reverseBetween1(
+export function reverseBetween1(
   head: ListNode | null,
   left: number,
   right: number
 ): ListNode | null {
+  // dummyHead pattern to handle edge cases
   const dummyHead = new ListNode(-1);
   dummyHead.next = head;
+  head = dummyHead;
 
-  let leading: ListNode;
-  let index = 0;
-  let curr: ListNode | null = dummyHead;
-  while (curr) {
-    if (index + 1 === left) {
-      leading = curr;
-      break;
-    }
-    index++;
-    curr = curr.next;
+  // -1 -> 1 -> 2 -> 3 -> 4 -> 5
+  // find the node before the segment we need to reverse
+  let pointer = head;
+  let i = 0;
+  while (i < left - 1) {
+    pointer = pointer.next!;
+    i++;
   }
 
-  let partialHead = leading!.next!;
-  let curr2 = partialHead;
-  while (left < right) {
-    const tmp = curr2.next!;
-    curr2.next = tmp.next;
-    leading!.next = tmp;
-    tmp.next = partialHead;
-    partialHead = tmp;
-    left++;
+  // reverse the the segment
+  let curr = pointer.next!;
+  for (let i = 0; i < right - left; i++) {
+    const tmp = curr.next!;
+    const tmp2 = tmp.next;
+    tmp.next = pointer.next;
+    curr.next = tmp2;
+    pointer.next = tmp;
   }
 
   head = dummyHead.next;
   dummyHead.next = null;
   return head;
 }
-
-export {};

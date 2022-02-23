@@ -1,39 +1,45 @@
 import { ListNode } from "./LinkedList";
 
-/**
- * 19. Remove Nth Node From End of List
- * https://www.youtube.com/watch?v=XVuQxVej6y8
- */
-
 // O(n) + O(m) time; O(1) space; Offset pointers one pass
-function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
-  if (!head) return null;
+export function removeNthFromEnd(
+  head: ListNode | null,
+  n: number
+): ListNode | null {
+  // The idea is to use offset pointers
+  // setup two pointers that have n nodes in betwwen
+  // so that when the faster pointer traverses to the end,
+  // the slower pointer lands at previous node of the node that needs to be removed
 
+  // dummyHead pattern to prevent edge cases
+  // -1 -> 1 -> 2 -> 3 -> 4 -> 5
   const dummyHead = new ListNode(-1);
   dummyHead.next = head;
+  head = dummyHead;
 
-  let pointer = dummyHead;
-  let offsetPointer = pointer;
-  // move the offsetPointer n nodes behind of pointer
-  for (let i = 0; i < n; i++) {
-    offsetPointer = offsetPointer.next!;
+  // setup offset pointers
+  let slow = head;
+  let fast = head;
+  let offset = 0;
+  while (offset < n) {
+    fast = fast.next!;
+    offset++;
+  } // O(n) time;
+
+  // find the previous node of the node that needs to be removed
+  while (fast.next) {
+    fast = fast.next;
+    slow = slow.next!;
   }
+  // at this point, slow is the previous node of the node that needs to be removed
 
-  // offsetPointer stops at the last node
-  // pointer stops at the prev node of the node to remove
-  while (offsetPointer && offsetPointer.next) {
-    pointer = pointer.next!;
-    offsetPointer = offsetPointer.next;
-  }
+  // remove the node
+  const nodeToBeRemoved = slow.next!;
+  slow.next = nodeToBeRemoved.next;
+  nodeToBeRemoved.next = null;
 
-  // Cut the remove nod
-  const removeNode = pointer.next!;
-  pointer.next = pointer.next!.next;
-  removeNode.next = null;
-
-  const resultHead = dummyHead.next;
+  head = dummyHead.next;
   dummyHead.next = null;
-  return resultHead;
+  return head;
 }
 
 // One pass w/ array - O(n) time; O(n) space;

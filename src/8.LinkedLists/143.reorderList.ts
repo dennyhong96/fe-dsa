@@ -1,45 +1,42 @@
 import { ListNode } from "./LinkedList";
 
-/**
- * 143. Reorder List
- * https://leetcode.com/problems/reorder-list/
- */
-
 // slow & fast pointers - O(n) time; O(1) space
-function reorderList(head: ListNode | null): void {
-  if (!head) return;
-
-  // Use fast & slow pointers to find the middle node
+export function reorderList(head: ListNode | null): void {
+  if (!head || !head.next) return;
+  // use offset pointers to find the cut off point
   let slow = head;
-  let fast: ListNode | null = head.next;
-  while (fast && fast.next) {
+  let fast = head;
+
+  // while loop breaks off with slow being the cutoff point
+  while (fast.next && fast.next.next) {
     fast = fast.next.next;
     slow = slow.next!;
   }
 
-  // use the middle node to cut list into two halves
-  let rightHalfHead = slow.next;
+  let segment2Head = slow.next;
   slow.next = null;
 
-  // reverse the right half
-  let curr = rightHalfHead;
+  // reverse segment2;
+  let curr = segment2Head;
   while (curr && curr.next) {
-    const tmp = curr.next;
-    curr.next = curr.next.next;
-    tmp.next = rightHalfHead;
-    rightHalfHead = tmp;
+    console.log({ curr, "curr.next": curr.next });
+    let tmp = curr.next;
+    let tmp2 = curr.next.next;
+    tmp.next = segment2Head;
+    curr.next = tmp2;
+    segment2Head = tmp;
   }
 
-  // put together the new list by inserting nodes from right half into left half
-  let currLeft: ListNode | null = head;
-  let currRight: ListNode | null = rightHalfHead;
-  while (currLeft && currRight) {
-    const leftTmp: ListNode | null = currLeft.next;
-    const rightTmp: ListNode | null = currRight.next;
-    currLeft.next = currRight;
-    currLeft.next.next = leftTmp;
-    currLeft = leftTmp;
-    currRight = rightTmp;
+  // stitch two segments together
+  let curr1 = head;
+  let curr2 = segment2Head;
+  while (curr1 && curr2) {
+    const tmp = curr1.next!;
+    const tmp2 = curr2.next;
+    curr1.next = curr2;
+    curr2.next = tmp;
+    curr1 = tmp;
+    curr2 = tmp2;
   }
 }
 

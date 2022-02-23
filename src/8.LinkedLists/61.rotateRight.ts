@@ -1,46 +1,42 @@
 import { ListNode } from "./LinkedList";
 
-// O(n) time; O(1) space;
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
+// O(n + k) time; O(1) space;
+export function rotateRight(head: ListNode | null, k: number): ListNode | null {
+  if (!head) return null;
+  if (!head.next || k === 0) return head;
 
-function rotateRight(head: ListNode | null, k: number): ListNode | null {
-  if (!head || !head.next || k === 0) return head;
-
-  // one pass get list length and tail
-  let len = 1;
+  // 1 -> 2 -> 3 -> 4 -> 5
+  let length = 1;
   let tail = head;
   while (tail.next) {
     tail = tail.next;
-    len++;
-  }
-  k = k % len;
+    length++;
+  } // O(n)
+  k = k % length; // handle k > length;
   if (k === 0) return head;
 
-  // get leading node
-  let leading = head;
-  let index = 0;
-  while (index < len - k - 1) {
-    leading = leading.next!;
-    index++;
-  }
+  // setup offset pointers
+  let slow = head;
+  let fast = head;
+  let offset = 0;
+  while (offset < k) {
+    fast = fast.next!;
+    offset++;
+  } // O(k)
 
-  // cut segment after leading node
-  const segmentHead = leading.next;
-  leading.next = null;
+  // while loop breaks off at slow being the previous node of node we need to cut
+  while (fast.next) {
+    fast = fast.next!;
+    slow = slow.next!;
+  } // O(n)
 
-  // re-arrange segment to be before head
-  tail.next = head;
-  head = segmentHead;
+  // cut and stitch
+  const segment = slow.next;
+  slow.next = null;
+  const prevHead = head;
+  head = segment;
+  tail.next = prevHead;
+
   return head;
 }
 
@@ -75,5 +71,3 @@ function rotateRight1(head: ListNode | null, k: number): ListNode | null {
   dummyHead.next = null;
   return head;
 }
-
-export {};
