@@ -1,12 +1,7 @@
-/**
- * 102. Binary Tree Level Order Traversal
- * https://leetcode.com/problems/binary-tree-level-order-traversal/
- */
-
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // Iterative - O(n) time; O(n/2) space (https://youtu.be/6ZnyEApgFYg?t=352)
-function levelOrder(root: TreeNode | null): number[][] {
+export function levelOrder(root: TreeNode | null): number[][] {
   if (!root) return [];
   const queue: Array<TreeNode> = [];
   const result: Array<Array<number>> = [];
@@ -72,5 +67,3 @@ function levelOrder2(root: TreeNode | null): number[][] {
   };
   return traverse();
 }
-
-export {};

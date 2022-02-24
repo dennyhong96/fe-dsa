@@ -1,7 +1,7 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // O(n) time; O(n) space;
-function averageOfLevels(root: TreeNode | null): number[] {
+export function averageOfLevels(root: TreeNode | null): number[] {
   let result: number[] = [];
   if (!root) return result;
   let queue: TreeNode[] = [root];
@@ -18,5 +18,3 @@ function averageOfLevels(root: TreeNode | null): number[] {
   }
   return result;
 }
-
-export {};

@@ -12,18 +12,20 @@ class Node {
   }
 }
 
-// Recursive O(n) time; O(1) space;
-function connect(root: Node | null): Node | null {
-  if (!root || (!root.left && !root.right)) return root;
+// Recursive O(n) time; O(logn) space;
+export function connect(root: Node | null): Node | null {
+  if (!root || !root.left) return root;
 
-  // a node's left child's next is the node's right child
-  root.left!.next = root.right;
+  // connect left child to right child
+  root.left.next = root.right;
 
-  // if a node's next exists, the node's right child's next is the node's next node's left child
-  if (root.next) {
-    root.right!.next = root.next.left;
+  // if root is on left branch but has next(right branch)
+  // connect root right child to next right's left child
+  if (root.right && root.next) {
+    root.right.next = root.next.left;
   }
 
+  // recursively connect left and right child
   connect(root.left);
   connect(root.right);
 
@@ -38,16 +40,10 @@ function connect1(root: Node | null): Node | null {
     const len = queue.length;
     for (let i = 0; i < len; i++) {
       const node = queue.shift()!;
-      if (i < len - 1) {
-        node.next = queue[0];
-      } else {
-        node.next = null;
-      }
+      if (i < len - 1) node.next = queue[0];
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
   }
   return root;
 }
-
-export {};

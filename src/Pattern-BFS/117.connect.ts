@@ -12,26 +12,28 @@ class Node {
   }
 }
 
-// Recursive - O(n) time; O(1) space;
+// Recursive - O(n^2) time; O(logn) space;
 function connect(root: Node | null): Node | null {
-  if (!root || (!root.left && !root.right)) return root;
-
+  if (!root) return null;
   if (root.left) {
-    root.left.next = root.right ?? findNext(root);
+    // try with root's right child first
+    // if doesn't exist, traverse right to find a sibling that has a left or right child
+    root.left.next = root.right ?? findNextNode(root);
   }
   if (root.right) {
-    root.right.next = findNext(root);
+    root.right.next = findNextNode(root);
   }
-
-  // Need to connect right side nodes first, so we have the connections built for findNextNode to work properly on left side nodes
+  // need to connect the right subtree first before connecting left
+  // because we potentially need those connections on the left side
   connect(root.right);
   connect(root.left);
-
   return root;
 }
 
-// Find the next connection node from the given node or its next nodes' left or right child
-function findNext(root: Node): Node | null {
+// find a next slibling node that is at same level as root
+// which has either a left or right node
+// O(n/2) time; O(1) space;
+function findNextNode(root: Node): Node | null {
   let curr = root.next;
   while (curr) {
     if (curr.left) return curr.left;
@@ -49,11 +51,7 @@ function connect1(root: Node | null): Node | null {
     const len = queue.length;
     for (let i = 0; i < len; i++) {
       const node = queue.shift()!;
-      if (i < len - 1) {
-        node.next = queue[0];
-      } else {
-        node.next = null;
-      }
+      if (i < len - 1) node.next = queue[0];
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
