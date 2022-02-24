@@ -52,25 +52,6 @@ class WordDictionary {
   //   return this.addWord(substr, node);
   // }
 
-  // Recursive - O(n) time; O(h) space;
-  public search(word: string, parent = this.root): boolean {
-    if (!word.length) return parent.end;
-    const char = word.slice(0, 1);
-    if (char === ".") {
-      for (const [_, node] of parent.children) {
-        if (this.search(word.slice(1), node)) return true;
-      }
-      return false;
-    } else {
-      if (parent.children.has(char)) {
-        const node = parent.children.get(char);
-        return this.search(word.slice(1), node);
-      } else {
-        return false;
-      }
-    }
-  }
-
   // Iterative - O(n) time; O(h) space;
   // public search(word: string): boolean {
   //   const dfs = (node: WordDictionaryNode, startIndex: number): boolean => {
@@ -94,6 +75,27 @@ class WordDictionary {
   //   };
   //   return dfs(this.root, 0);
   // }
+
+  // Recursive - O(n) time; O(h) space;
+  search(word: string, parent = this.root): boolean {
+    if (!word.length) {
+      return parent.end;
+    }
+    const char = word.slice(0, 1);
+    const substr = word.slice(1);
+    if (char === ".") {
+      for (const [, childNode] of parent.children) {
+        if (this.search(substr, childNode)) return true;
+      }
+      return false;
+    } else {
+      const node = parent.children.get(char);
+      if (!node) {
+        return false;
+      }
+      return this.search(substr, node);
+    }
+  }
 }
 
 function printNode(rootNode: WordDictionaryNode, prefix = "") {

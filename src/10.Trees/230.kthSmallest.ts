@@ -1,19 +1,17 @@
 import { TreeNode } from "./BinarySearchTree";
 
-/**
- * 230. Kth Smallest Element in a BST
- * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
- */
-
 // Inorder recursive DFS - O(n) time; O(logn) space;
 function kthSmallest(root: TreeNode | null, k: number): number {
   let count = 0;
   let result = -1;
   const dfs = (root: TreeNode | null) => {
     if (!root) return;
-    if (root.left) dfs(root.left);
-    if (++count === k) result = root.val;
-    if (root.right) dfs(root.right);
+    dfs(root.left);
+    if (++count === k) {
+      result = root.val;
+      return;
+    }
+    dfs(root.right);
   };
   dfs(root);
   return result;
