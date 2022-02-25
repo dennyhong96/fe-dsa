@@ -6,11 +6,16 @@ function lowestCommonAncestor(
   p: TreeNode | null,
   q: TreeNode | null
 ): TreeNode | null {
+  // The idea is that in a BST
+  // root value must be strictly greater than root left child
+  // root value must be strictly smaller than root right child
   if (!root || !p || !q) return null;
-  if (p.val < root.val && q.val < root.val)
+  if (root.val > p.val && root.val > q.val) {
     return lowestCommonAncestor(root.left, p, q);
-  if (p.val > root.val && q.val > root.val)
+  }
+  if (root.val < p.val && root.val < q.val) {
     return lowestCommonAncestor(root.right, p, q);
+  }
 
   // either root splits the two nodes, or root is one of the two nodes
   return root;

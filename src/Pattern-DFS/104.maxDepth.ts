@@ -6,11 +6,11 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // DFS recursive preorder - O(n) time; O(h) space where h is the height the tree
-function maxDepth(root: TreeNode | null): number {
+export function maxDepth(root: TreeNode | null): number {
   if (!root) return 0;
-  const leftMaxDepth = maxDepth(root.left);
-  const rightMaxDepth = maxDepth(root.right);
-  return 1 + Math.max(leftMaxDepth, rightMaxDepth);
+  const leftDepth = maxDepth(root.left);
+  const rightDepth = maxDepth(root.right);
+  return 1 + Math.max(leftDepth, rightDepth); // The larger subtree height out of two sides + 1
 }
 
 // Iterative DFS preorder - O(n) time; O(n) space
@@ -42,23 +42,3 @@ function maxDepth3(root: TreeNode | null): number {
   }
   return maxDep;
 }
-
-// Iterative BFS 2 - O(n) time; O(n) space
-function maxDepth4(root: TreeNode | null): number {
-  if (!root) return 0;
-  const queue: TreeNode[] = [];
-  queue.push(root);
-  let maxDep = 0;
-  while (queue.length) {
-    maxDep++;
-    const currLevelNodesLength = queue.length;
-    for (let i = 0; i < currLevelNodesLength; i++) {
-      const node = queue.shift()!;
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
-    }
-  }
-  return maxDep;
-}
-
-export {};

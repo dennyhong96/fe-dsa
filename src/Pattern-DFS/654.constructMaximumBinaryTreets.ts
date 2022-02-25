@@ -1,30 +1,24 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
-// O(n^2) time; O(logn - n) space;
-export function constructMaximumBinaryTree(
-  nums: number[],
-  startIndex = 0,
-  endIndex = nums.length - 1
-): TreeNode | null {
-  if (!nums.length || endIndex - startIndex < 0) return null;
-  const maxIndex = findMaxIndex(nums, startIndex, endIndex);
-  const root = new TreeNode(nums[maxIndex]);
-  root.left = constructMaximumBinaryTree(nums, startIndex, maxIndex - 1);
-  root.right = constructMaximumBinaryTree(nums, maxIndex + 1, endIndex);
+// O(n^2) time; O(logn) space;
+export function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
+  if (!nums.length) return null;
+  const [largest, largestIndex] = findLargest(nums);
+  const root = new TreeNode(largest);
+  root.left = constructMaximumBinaryTree(nums.slice(0, largestIndex));
+  root.right = constructMaximumBinaryTree(nums.slice(largestIndex + 1));
   return root;
 }
 
-// O(n) time; O(1) space;
-const findMaxIndex = (
-  nums: number[],
-  startIndex: number,
-  endIndex: number
-): number => {
-  let maxIndex = startIndex;
-  for (let i = startIndex; i <= endIndex; i++) {
-    if (nums[i] > nums[maxIndex]) {
+function findLargest(nums: number[]): [number, number] {
+  let max = -Infinity;
+  let maxIndex = -1;
+  for (let i = 0; i < nums.length; i++) {
+    const num = nums[i];
+    if (num > max) {
+      max = num;
       maxIndex = i;
     }
   }
-  return maxIndex;
-};
+  return [max, maxIndex];
+}

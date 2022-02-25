@@ -2,6 +2,10 @@ import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // DFS - O(n) time; O(n) space;
 export function widthOfBinaryTree(root: TreeNode | null): number {
+  // The idea is to use a map to track the first most node's postition per level on the left subtree first
+  // When we traverse to the right subtree, get the differece between right node's position and the first node's position of thie level
+  // then update the maxWidth
+
   let maxWidth = 0;
   const levelFirstNode = new Map<number, number>(); // map depth to its left most node's position
   const dfs = (root: TreeNode | null, depth = 0, position = 0) => {
@@ -11,7 +15,7 @@ export function widthOfBinaryTree(root: TreeNode | null): number {
       levelFirstNode.set(depth, position);
     }
     // When we traverse on right branches we can calculate diff between curr position and stored position of this depth
-    const diff = position - levelFirstNode.get(depth)!;
+    const diff = position - levelFirstNode.get(depth)!; // always 0 on left branches
     maxWidth = Math.max(maxWidth, diff + 1);
 
     dfs(root.left, depth + 1, diff * 2);
