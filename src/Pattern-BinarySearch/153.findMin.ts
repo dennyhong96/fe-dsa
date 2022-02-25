@@ -1,31 +1,28 @@
-/**
- * 153. Find Minimum in Rotated Sorted Array
- * https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
- * https://www.youtube.com/watch?v=nIVW4P8b1VA
- */
-
-function findMin(nums: number[]): number {
-  let leftIndex = 0;
-  let rightIndex = nums.length - 1;
+export function findMin(nums: number[]): number {
+  let l = 0;
+  let r = nums.length - 1;
 
   // while loop will break off with both left and right converging at one index, which will be
   // the minimum index
-  while (leftIndex < rightIndex) {
-    const right = nums[rightIndex];
-    const middleIndex = Math.floor((leftIndex + rightIndex) / 2);
-    const middle = nums[middleIndex];
+  while (l < r) {
+    const m = l + Math.floor((r - l) / 2);
 
-    if (middle > right) {
-      // [2,3,4,5,1], min is somewhere between middle -> right
-      //  L   M   R
-      leftIndex = middleIndex + 1;
+    // The idea is to compare the number on middle index to the number on the right index
+    // this can tell us whether middle index is in the left or right sorted portion
+    // so we know where the min could be
+    if (nums[m] > nums[r]) {
+      // [3, 4, 5, 1, 2] - m is in the left sorted portion
+      //  l     m     r
+      // min must be between m + 1 -> r
+      l = m + 1;
     } else {
-      // [5,1,2,3,4] - min is somewhere between left -> middle
-      //  L   M   R
-      rightIndex = middleIndex;
+      // [5, 1, 2, 3, 4] - m is in the right sorted portion
+      //  l     m     r
+      // min must be between l -> m (m could be the min)
+      r = m;
     }
   }
-  return nums[leftIndex]; // can return nums[right] as well, both points to the minimum element
+  return nums[l]; // can return nums[right] as well, both points to the minimum element
 }
 
 // [1,2,3,4,5]
