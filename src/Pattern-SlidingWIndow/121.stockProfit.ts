@@ -3,7 +3,7 @@ export function maxProfit(prices: number[]): number {
   // the idea is to use l pointer to track buy price
   // loop through the prices, for each iteraction update max profit when sell price >= buy price
   // otherwise we are losing money, there's no way current buy and sell price is the result
-  // increase l to try buying at a later date
+  // increase l to i and try buying at a later date
 
   let l = 0;
   let max = 0;

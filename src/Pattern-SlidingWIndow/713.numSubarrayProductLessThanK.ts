@@ -1,6 +1,6 @@
 // Sliding window - O(n) time; O(1) space;
 export function numSubarrayProductLessThanK(nums: number[], k: number): number {
-  if (k <= 1) return 0; // subarray product not possible to be less than 1
+  if (k <= 1) return 0; // subarray product not possible to be strictly less than 1
 
   let runningProduct = 1; // product starts off at 1
   let subarrCount = 0;

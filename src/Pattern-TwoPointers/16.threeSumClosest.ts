@@ -12,7 +12,7 @@ function threeSumClosest(nums: number[], target: number): number {
       const num2 = nums[l];
       const num3 = nums[r];
       const sum = num1 + num2 + num3;
-      if (sum === target) return sum;
+      if (sum === target) return sum; // if sum === target sum must be the closest
       if (Math.abs(sum - target) < Math.abs(closest - target)) {
         closest = sum;
       }

@@ -1,49 +1,33 @@
 // Longest contiguous subarray of k unique numbers
 // Longest contiguous substring of k unique characters
 
-// Sliding window - O(n) time; O(1) space;
-// O(n) time; O(1) space;
-// find longest subarray with k unique elements
-export function totalFruit(fruits: number[], k = 2): number {
-  // the idea is to track the last seen index of each unique element
-  // when we have more than k unique elements, we shrink the left
-  // boundary of the sliding window to the right of the smallest last seen index
-  const lastSeenIndexes = new Map<number, number>(); // O(3) space ma; num -> last seen index
-  let maxLength = 0;
+// Sliding window - O(n) time; O(1) space
+function totalFruit(nums: number[], k = 2): number {
+  // this problem is basically maximium subarray length with k unique elements
+  const map = new Map<number, number>(); // O(k + 1) space max; number -> occurances count
+  let maxLen = 0;
   let l = 0;
-  for (let i = 0; i < fruits.length; i++) {
-    const num = fruits[i];
-    lastSeenIndexes.set(num, i);
-
-    // use if here instead of standard while loop template
-    // because this if causes l to skip through multiple elements
-    if (lastSeenIndexes.size > k) {
-      const smallestlastSeen = removeSmallestlastSeen(lastSeenIndexes);
-      l = smallestlastSeen + 1;
+  for (let i = 0; i < nums.length; i++) {
+    const num = nums[i];
+    map.set(num, (map.get(num) ?? 0) + 1);
+    // keep shrinking window until we satisfy lessThanKUnique
+    while (map.size > k) {
+      const lNum = nums[l];
+      if (map.get(lNum)! > 1) {
+        map.set(lNum, map.get(lNum)! - 1);
+      } else {
+        map.delete(lNum);
+      }
+      l++;
     }
-    maxLength = Math.max(maxLength, i - l + 1);
+    // potentially update the maxLen
+    maxLen = Math.max(maxLen, i - l + 1);
   }
-
-  return maxLength;
-}
-
-// O(3) time; O(1) space;
-function removeSmallestlastSeen(lastSeenIndexes: Map<number, number>): number {
-  let smallestIndex = Infinity;
-  let smallestLastSeenNum = -1;
-  for (const [num, lastSeen] of lastSeenIndexes) {
-    // lastSeenIndexes has at most 3 records
-    if (lastSeen < smallestIndex) {
-      smallestLastSeenNum = num;
-      smallestIndex = lastSeen;
-    }
-  }
-  lastSeenIndexes.delete(smallestLastSeenNum);
-  return smallestIndex;
+  return maxLen;
 }
 
 // Brute force - O(n^2) time; O(1) space;
-function totalFruit1(fruits: number[]): number {
+function totalFruit2(fruits: number[]): number {
   let maxFruit = -Infinity;
   let buckets: number[] = []; // O(1) space;
   for (let i = 0; i < fruits.length; i++) {

@@ -6,9 +6,10 @@ function sortColors(nums: number[]): void {
 
   // The idea is that we partition the nums array into 3 segments
   // And we need to maintain these hard constrians:
-  // index 0      -> nextZero        are all 0s
-  // nextZero + 1 -> curr            are all 1s
-  // nextTwo      -> nums.length - 1 are all 2s
+  // Partition into 3 segments
+  // 0 index       <= i  <= nextZero    - all 0s
+  // nextZero + 1  < i   < nextTwo      - all 1s
+  // nextTwo       <= i  < nums.length  - all2s
   while (curr < nextTwo) {
     const num = nums[curr];
     if (num === 2) {

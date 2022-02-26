@@ -29,43 +29,15 @@ export function search(nums: number[], target: number): boolean {
   }
   return false;
 }
+// [3, 4, 5, 6, 1, 2]
+//  l     m        r
 
-// [2, 5, 6, 0, 0, 1, 2], t = 0
-//. l        m        r
+// [5, 6, 1, 2, 3, 4]
+//  l     m        r
 
-// [1, 2, 2, 5, 6, 0, 0], t = 0
-//. l        m        r
-
-function search1(nums: number[], target: number): boolean {
-  let l = 0;
-  let r = nums.length - 1;
-  while (l <= r) {
-    const m = l + Math.floor((r - l) / 2);
-    if (nums[m] === target) return true;
-    if (nums[l] === nums[m] && nums[r] === nums[m]) {
-      l++;
-      r--;
-    } else if (nums[m] === nums[r]) {
-      // m is in the right sorted portion
-      if (target > nums[m] && target <= nums[r]) {
-        l = m + 1;
-      } else {
-        r = m - 1;
-      }
-    } else {
-      // m is in the left sorted portion
-      if (target >= nums[l] && target < nums[m]) {
-        r = m - 1;
-      } else {
-        l = m + 1;
-      }
-    }
-  }
-  return false;
-}
-
-// [5, 6, 0, 0, 1, 2, 2]
-//  l        m        r
-
-// [2, 2, 3, 5, 6, 0, 1]
-//  l        m        r
+// [1, 0, 1, 1, 1] - 0
+//  l     m     r
+// [1, 0, 1, 1, 1] - 0
+//     l  m  r
+// [1, 0, 1, 1, 1] - 0
+//    lmr

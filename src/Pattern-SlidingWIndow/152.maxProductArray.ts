@@ -1,31 +1,34 @@
 // O(n) time; O(1) space
-function maxProduct(nums: number[]): number {
-  if (!nums.length) return 0;
-
-  // the idea is to use two variables to hold both running min and running max values
-  // since negative * negative could also be positive
-  let max = nums[0];
-  let runningMax = 1; // product starts off at 1
+export function maxProduct(nums: number[]): number {
+  let max = -Infinity;
+  let runningMax = 1;
   let runningMin = 1;
+
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
+
+    // any thing product with 0 is 0
+    // we need to compare current max with 0
+    // we also need to reset runningMax and runningMin
     if (num === 0) {
-      // reset runningMax and runningMin to 1 here so that later iteration works
-      // anything * 0 = 0
       runningMax = 1;
       runningMin = 1;
       max = Math.max(max, 0);
-    } else {
-      const runningMaxCopy = runningMax;
-      // new runningMax could be:
-      //      current runningMax * new num when runningMax and new num are both positive
-      //      current runningMin * new num when runningMin and new num are both negetive
-      //      new num itself, which means we basically starts over the contiguous subarr with the new num
-      // same goes for new runningMin
-      runningMax = Math.max(runningMax * num, runningMin * num, num);
-      runningMin = Math.min(runningMaxCopy * num, runningMin * num, num);
-      max = Math.max(max, runningMax, runningMin); // update max
+      continue;
     }
+
+    // update runningMax and runningMin
+    // need to compare 3 things,
+    // - Case1: expand subarray, include the new num
+    //      - 1. the new runningMax profuct with num
+    //      - 2. the new runningMin product with num
+    // - Case2: init a new subarray starting from the new num
+    //      - 3. the new num itself
+    const runningMaxCopy = runningMax;
+    runningMax = Math.max(runningMax * num, runningMin * num, num);
+    runningMin = Math.min(runningMaxCopy * num, runningMin * num, num);
+    max = Math.max(max, runningMax, runningMin);
   }
+
   return max;
 }
