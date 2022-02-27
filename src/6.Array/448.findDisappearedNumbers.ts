@@ -3,13 +3,13 @@ export function findDisappearedNumbers(nums: number[]): number[] {
   // Idea, use the original input array
   // value to index mapping [1, n] -> [0, n - 1]
   for (let i = 0; i < nums.length; i++) {
-    const pointingIndex = Math.abs(nums[i]) - 1;
-    const pointingNumber = nums[pointingIndex];
+    const pointer = Math.abs(nums[i]) - 1;
+    const pointingNumber = nums[pointer];
     if (pointingNumber > 0) {
       // this is the first time the pointingNumber has been pointed tos
-      nums[pointingIndex] = -pointingNumber; // mark this pointingIndex as visited
+      nums[pointer] = -pointingNumber; // mark this pointer as visited
     }
-    // pointingIndex is already visited, continue
+    // pointer is already visited, continue
   }
   // [4,3,2,7,8,2,3,1]
   // [4,3,2,-7,8,2,3,1]

@@ -1,6 +1,3 @@
-// 53. Maximum Subarray
-// https://leetcode.com/problems/maximum-subarray/
-
 // O(n) time; O(1) space
 function maxSubArray(nums: number[]): number {
   let max = -Infinity;
