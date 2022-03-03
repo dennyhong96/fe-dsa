@@ -17,8 +17,8 @@ export function lowestCommonAncestor(
   // root splits left and right, root is LCA
   if (foundLeft && foundRight) return root;
 
-  // otherwise, return which ever target thatwas found
-  // if we found left, that means  right must be a child of left, return left as a descendant of itself
+  // otherwise, return which ever target that was found
+  // if we found left, that means right must be a child of left, return left as a descendant of itself
   // if we found right, that measn left must be a child of right, return right as a descendant of itself
   return foundLeft ?? foundRight;
 }

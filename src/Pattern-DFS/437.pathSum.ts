@@ -4,31 +4,27 @@ import { TreeNode } from "../10.Trees/BinarySearchTree";
 export function pathSum(root: TreeNode | null, targetSum: number): number {
   // The idea is to use DFS twice,
   // for each node, find the number of paths that starts with the node and sums to target
-  if (!root) return 0;
+  let totalCount = 0;
 
-  let count = 0;
-
-  // find the number of paths that starts with the node and sums to target
-  const findPaths = (root: TreeNode | null, target = targetSum) => {
-    if (!root) return;
-    if (root.val === target) {
-      count++;
-      // dont return yet, because there could be longer paths starts with current path
-    }
-    const leftOver = target - root.val;
-    findPaths(root.left, leftOver);
-    findPaths(root.right, leftOver);
-  };
-
-  // repeat findPaths for each node of the tree
+  // call countPaths for each node of the tree
   const dfs = (root: TreeNode | null) => {
     if (!root) return;
-    findPaths(root);
+    totalCount += countPaths(root, targetSum);
     dfs(root.left);
     dfs(root.right);
   };
   dfs(root);
+  return totalCount;
+}
 
+// count the number of paths that starts with the node and sums to target
+function countPaths(root: TreeNode | null, targetSum: number): number {
+  let count = 0;
+  if (!root) return count;
+  if (root.val === targetSum) count++;
+  const remainder = targetSum - root.val;
+  count += countPaths(root.left, remainder);
+  count += countPaths(root.right, remainder);
   return count;
 }
 

@@ -1,22 +1,21 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
 // O(n) time; O(logn) space;
-export function pathSum(root: TreeNode | null, targetSum: number): number[][] {
-  const result: number[][] = [];
-  const dfs = (
-    root: TreeNode | null,
-    targetSum: number,
-    path: number[] = []
-  ) => {
-    if (!root) return;
-    path.push(root.val);
-    if (root.val === targetSum && !root.left && !root.right) {
-      return result.push(path);
-    }
-    const leftOver = targetSum - root.val;
-    dfs(root.left, leftOver, [...path]);
-    dfs(root.right, leftOver, [...path]);
-  };
-  dfs(root, targetSum);
-  return result;
+export function pathSum(
+  root: TreeNode | null,
+  targetSum: number,
+  paths: number[][] = [],
+  currPath: number[] = []
+): number[][] {
+  if (!root) return paths;
+  if (root.val === targetSum && !root.left && !root.right) {
+    currPath.push(root.val);
+    paths.push(currPath);
+    return paths;
+  }
+  const remainder = targetSum - root.val;
+  currPath.push(root.val);
+  pathSum(root.left, remainder, paths, [...currPath]);
+  pathSum(root.right, remainder, paths, [...currPath]);
+  return paths;
 }
