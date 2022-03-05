@@ -27,7 +27,7 @@ export function maxProduct(nums: number[]): number {
     const runningMaxCopy = runningMax;
     runningMax = Math.max(runningMax * num, runningMin * num, num);
     runningMin = Math.min(runningMaxCopy * num, runningMin * num, num);
-    max = Math.max(max, runningMax, runningMin);
+    max = Math.max(max, runningMax);
   }
 
   return max;

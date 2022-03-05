@@ -1,5 +1,5 @@
-export class HashTable<T extends string,U> {
-  public data:[T, U][][];
+export class HashTable<T extends string, U> {
+  public data: [T, U][][];
 
   constructor(size: number) {
     this.data = new Array(size);
@@ -15,7 +15,7 @@ export class HashTable<T extends string,U> {
       const [k, v] = currItem;
       if (k === key) return v;
     }
-  };
+  }
 
   // O(1)
   public set(key: T, val: U): void {
@@ -24,7 +24,7 @@ export class HashTable<T extends string,U> {
       this.data[address] = [];
     }
     this.data[address].push([key, val]);
-  };
+  }
 
   // O(n) if no collision, O(n^2) with collision
   public keys(): T[] {

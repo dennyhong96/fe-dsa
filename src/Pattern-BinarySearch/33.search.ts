@@ -9,14 +9,14 @@ export function search(nums: number[], target: number): number {
       if (target >= nums[l] && target <= nums[m]) {
         r = m;
       } else {
-        l = m + 1;
+        l = m + 1; // maintain this across two cases
       }
     } else {
       // nums[m] <= nums[r]
       // [6, 7, 1, 2, 3, 4, 5]
       //  l        m        r
       if (target <= nums[r] && target > nums[m]) {
-        l = m + 1;
+        l = m + 1; // maintain this across two cases
       } else {
         r = m;
       }
