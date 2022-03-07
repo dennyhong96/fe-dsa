@@ -1,4 +1,4 @@
-// O(n) time; O(1) space;
+// O(nlogn) time; O(1) space;
 export function merge(intervals: number[][]): number[][] {
   // Sort intervals into order
   intervals.sort(([aStart, aEnd], [bStart, bEnd]) => {

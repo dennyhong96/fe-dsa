@@ -20,6 +20,7 @@ export function findDisappearedNumbers(nums: number[]): number[] {
   // [-4,-3,-2,-7,8,2,-3,-1] -> the result is index 4 and index 5, they have never been pointed to, we are nissing numbers 5 and 6
   const res: number[] = [];
   for (let i = 0; i < nums.length; i++) {
+    // num at i is negetive when i has been pointed to, which means n + 1 is in the array,
     if (nums[i] > 0) res.push(i + 1);
   }
   return res;

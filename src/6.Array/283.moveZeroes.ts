@@ -1,34 +1,36 @@
+// O(n) time; O(1) space; Array partition
 export function moveZeroes(nums: number[]): void {
-  // Array patition
-  // the idea is to move all non-0 elements to the start of the array
-  let nextInsertIndex = 0;
-  for (let i = 0; i < nums.length; i++) {
-    const num = nums[i];
-
-    // if num is 0, we have no work to do
-    if (num === 0) continue;
-
-    // if num is not 0, we swap it with the nextInsertIndex
-    // then we increment nextInsertIndex
-    // We maintain that number on indexes 0 <= i <= nextInsertIndex are all 0s
-    swap(nums, i, nextInsertIndex);
-    nextInsertIndex++;
+  // move all non-zero nums to the from
+  // we maintain that 0 <= i <= nonZeroBound are all non-0 numbers
+  // we maintain that nonZeroBound < i < nums.length are all 0
+  let nonZeroBound = -1;
+  let curr = 0;
+  while (curr < nums.length) {
+    const num = nums[curr];
+    if (num !== 0) {
+      nonZeroBound++; // allocate a space for the non-0 number
+      swap(nums, curr, nonZeroBound);
+      // after swapping the new number at curr index must be a zero
+    }
+    curr++;
   }
 }
 
-function swap(nums: number[], index1: number, index2: number) {
-  const tmp = nums[index1];
-  nums[index1] = nums[index2];
-  nums[index2] = tmp;
-}
+const swap = (nums: number[], i: number, j: number): void => {
+  const tmp = nums[i];
+  nums[i] = nums[j];
+  nums[j] = tmp;
+};
 
-//  [0, 1, 0, 3, 12]
-//   zi
-//  [1, 0, 0, 3, 12]
-//   z  i
-//  [1, 0, 0, 3, 12]
-//      z  i
-//  [1, 3, 0, 0, 12]
-//          z     i
-//  [1, 3, 12, 0, 0]
-//            z   i
+// [1, 0, 0, 2, 3]
+//n c
+// [1, 0, 0, 2, 3]
+//  n  c
+// [1, 0, 0, 2, 3]
+//  n     c
+// [1, 0, 0, 2, 3]
+//  n        c
+// [1, 2, 0, 0, 3]
+//     n        c
+// [1, 2, 3, 0, 0]
+//        n     c

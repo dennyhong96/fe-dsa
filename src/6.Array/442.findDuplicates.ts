@@ -1,17 +1,18 @@
+// O(n) time; O(1) space;
 export function findDuplicates(nums: number[]): number[] {
   const result: number[] = [];
+  // all numbers are in range [1,n], positive
   for (let i = 0; i < nums.length; i++) {
-    const num = Math.abs(nums[i]);
-    const pointingIndex = num - 1; // -1 to avoid out of bounds
-    const pointingNum = nums[pointingIndex];
-    if (pointingNum < 0) {
-      // there was a number pointing to this pointingNum before
-      // which means the current num is a duplicate
-      result.push(num);
+    const cursor = Math.abs(nums[i]) - 1; // -1 since numbers in range [1,n], index starts off as 0
+    // when we point to an index for the first time,
+    // we mark that index negetive visited by marking number at that index negetive
+    if (nums[cursor] > 0) {
+      nums[cursor] = -nums[cursor];
     } else {
-      // this is the first time pointingNum is being pointed to
-      // we negetive the number to mark as pointed
-      nums[pointingIndex] = -nums[pointingIndex];
+      // when we see number at that index is negetive,
+      // we know that we've pointed to that index before
+      // so this cursor is duplicated
+      result.push(cursor + 1); // cursor + 1 is current num at i index
     }
   }
   return result;
