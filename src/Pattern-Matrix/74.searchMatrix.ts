@@ -1,4 +1,4 @@
-// O(n) time; O(1) space
+// O(n + m) time; O(1) space
 function searchMatrix(matrix: number[][], target: number): boolean {
   // Ascending matrix diagonal traversal
   const rows = matrix.length;

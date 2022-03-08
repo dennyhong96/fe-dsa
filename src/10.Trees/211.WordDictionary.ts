@@ -53,46 +53,43 @@ class WordDictionary {
   // }
 
   // Iterative - O(n) time; O(h) space;
-  search(word: string, startIndex = 0, root = this.root): boolean {
-    let parent = root;
-    for (let i = startIndex; i < word.length; i++) {
-      const char = word[i];
-      if (char === ".") {
-        for (const [_, node] of parent.children) {
-          if (this.search(word, i + 1, node)) {
-            return true;
-          }
-        }
-        return false;
-      } else {
-        const node = parent.children.get(char);
-        if (!node) return false;
-        parent = node;
-      }
-    }
-    return parent.end;
-  }
+  // search(word: string, startIndex = 0, root = this.root): boolean {
+  //   let parent = root;
+  //   for (let i = startIndex; i < word.length; i++) {
+  //     const char = word[i];
+  //     if (char === ".") {
+  //       for (const [_, node] of parent.children) {
+  //         if (this.search(word, i + 1, node)) {
+  //           return true;
+  //         }
+  //       }
+  //       return false;
+  //     } else {
+  //       const node = parent.children.get(char);
+  //       if (!node) return false;
+  //       parent = node;
+  //     }
+  //   }
+  //   return parent.end;
+  // }
 
   // Recursive - O(n) time; O(h) space;
-  // search(word: string, parent = this.root): boolean {
-  //   if (!word.length) {
-  //     return parent.end;
-  //   }
-  //   const char = word.slice(0, 1);
-  //   const substr = word.slice(1);
-  //   if (char === ".") {
-  //     for (const [, childNode] of parent.children) {
-  //       if (this.search(substr, childNode)) return true;
-  //     }
-  //     return false;
-  //   } else {
-  //     const node = parent.children.get(char);
-  //     if (!node) {
-  //       return false;
-  //     }
-  //     return this.search(substr, node);
-  //   }
-  // }
+  search(word: string, index = 0, parent = this.root): boolean {
+    if (index === word.length) return parent.end;
+    const char = word[index];
+    if (char === ".") {
+      for (const [_, child] of parent.children) {
+        if (this.search(word, index + 1, child)) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      const node = parent.children.get(char);
+      if (!node) return false;
+      return this.search(word, index + 1, node);
+    }
+  }
 }
 
 function printNode(rootNode: WordDictionaryNode, prefix = "") {

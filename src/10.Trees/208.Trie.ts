@@ -1,4 +1,4 @@
-class TrieNode {
+export class TrieNode {
   public children: Map<string, TrieNode>;
   public end: boolean;
   constructor() {
@@ -7,30 +7,14 @@ class TrieNode {
   }
 }
 
-export class Trie {
+class Trie {
   public root: TrieNode;
 
   constructor() {
     this.root = new TrieNode();
   }
 
-  // O(n) time; O(n) space;
-  public insert(word: string, parent = this.root): void {
-    if (!word.length) {
-      if (parent === this.root) return;
-      parent.end = true;
-      return;
-    }
-    const char = word[0];
-    let node = parent.children.get(char);
-    if (!node) {
-      node = new TrieNode();
-      parent.children.set(char, node);
-    }
-    this.insert(word.slice(1), node);
-  }
-
-  // O(n) time; O(1) space;
+  // O(n)time;O(1)space; n is string length
   // public insert(word: string): void {
   //     let curr = this.root;
   //     for (let i = 0; i < word.length; i++) {
@@ -45,26 +29,33 @@ export class Trie {
   //     curr.end = true;
   // }
 
-  // O(n) time; O(1) space;
+  // O(n) time; O(h) space;
+  public insert(word: string, index = 0, parent = this.root): void {
+    if (index === word.length) {
+      parent.end = true;
+      return;
+    }
+    const char = word[index];
+    let node = parent.children.get(char);
+    if (!node) {
+      node = new TrieNode();
+      parent.children.set(char, node);
+    }
+    this.insert(word, index + 1, node);
+  }
+
+  // O(n)time;O(1)space; n is string length
   public search(word: string): boolean {
     return Boolean(this.getNode(word)?.end);
   }
 
-  // O(n) time; O(1) space;
+  // O(n)time;O(1)space; n is string length
   public startsWith(prefix: string): boolean {
     return Boolean(this.getNode(prefix));
   }
 
-  private getNode(str: string, parent = this.root): TrieNode | null {
-    if (!str.length) return parent;
-    const char = str[0];
-    const node = parent.children.get(char);
-    if (!node) return null;
-    return this.getNode(str.slice(1), node);
-  }
-
-  // O(n) time; O(1) space;
-  // private getNode(str:string): TrieNode | null {
+  // O(n)time;O(1)space; n is string length
+  // private getNode(str: string): TrieNode | null {
   //     let curr = this.root;
   //     for (let i = 0; i < str.length; i++) {
   //         const char = str[i];
@@ -74,7 +65,24 @@ export class Trie {
   //     }
   //     return curr;
   // }
+
+  // O(n) time; O(h) space;
+  private getNode(str: string, index = 0, parent = this.root): TrieNode | null {
+    if (index === str.length) return parent;
+    const char = str[index];
+    const node = parent.children.get(char);
+    if (!node) return null;
+    return this.getNode(str, index + 1, node);
+  }
 }
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * var obj = new Trie()
+ * obj.insert(word)
+ * var param_2 = obj.search(word)
+ * var param_3 = obj.startsWith(prefix)
+ */
 
 function printTrieNode(rootNode: TrieNode) {
   if (!rootNode.children.size) return;
