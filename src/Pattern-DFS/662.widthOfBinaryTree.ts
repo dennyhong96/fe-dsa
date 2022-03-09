@@ -1,5 +1,23 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
+// BFS level order traversal - O(n) time; O(n) space;
+export function widthOfBinaryTree1(root: TreeNode | null): number {
+  let maxWidth = 0;
+  if (!root) return maxWidth;
+  const queue: [TreeNode, number][] = [[root, 0]]; // TreeNode, Position
+  while (queue.length) {
+    const levelWidth = queue[queue.length - 1][1] - queue[0][1] + 1;
+    maxWidth = Math.max(maxWidth, levelWidth);
+    const len = queue.length;
+    for (let i = 0; i < len; i++) {
+      const [node, pos] = queue.shift()!;
+      if (node.left) queue.push([node.left, pos * 2]);
+      if (node.right) queue.push([node.right, pos * 2 + 1]);
+    }
+  }
+  return maxWidth;
+}
+
 // DFS - O(n) time; O(n) space;
 export function widthOfBinaryTree(root: TreeNode | null): number {
   // The idea is to use a map to track the first most node's postition per level on the left subtree first
@@ -22,27 +40,5 @@ export function widthOfBinaryTree(root: TreeNode | null): number {
     dfs(root.right, depth + 1, diff * 2 + 1);
   };
   dfs(root);
-  return maxWidth;
-}
-
-// BFS level order traversal - O(n) time; O(n) space;
-export function widthOfBinaryTree1(root: TreeNode | null): number {
-  let maxWidth = 0;
-  if (!root) return maxWidth;
-  const queue: [TreeNode, number][] = [[root, 0]]; // TreeNode, Position
-  while (queue.length) {
-    const levelWidth = queue[queue.length - 1][1] - queue[0][1] + 1;
-    maxWidth = Math.max(maxWidth, levelWidth);
-    const len = queue.length;
-    for (let i = 0; i < len; i++) {
-      const [node, pos] = queue.shift()!;
-      if (node.left) {
-        queue.push([node.left, pos * 2]);
-      }
-      if (node.right) {
-        queue.push([node.right, pos * 2 + 1]);
-      }
-    }
-  }
   return maxWidth;
 }
