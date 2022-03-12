@@ -17,3 +17,11 @@ export function minDepth(root: TreeNode | null): number {
   }
   return -1;
 }
+
+// O(n) time; O(h) space
+export function minDepth1(root: TreeNode | null): number {
+  if (!root) return 0;
+  if (!root.left) return 1 + minDepth(root.right); // handle when no left subtree
+  if (!root.right) return 1 + minDepth(root.left); // handle when no right subtree
+  return 1 + Math.min(minDepth(root.left), minDepth(root.right)); // have both subtrees, pick smaller depth
+}

@@ -73,14 +73,15 @@ class WordDictionary {
   //   return parent.end;
   // }
 
-  // Recursive - O(n) time; O(h) space;
+  // Recursive - O(m) time; O(n) space; m is total number of nodes, n is word length
+  // Use index instead of slicing the words to reduce memory usage
   search(word: string, index = 0, parent = this.root): boolean {
-    if (index === word.length) return parent.end;
+    if (index === word.length) return parent.end; // base case
     const char = word[index];
     if (char === ".") {
       for (const [_, child] of parent.children) {
         if (this.search(word, index + 1, child)) {
-          return true;
+          return true; // if we found a result for any child, we have a result
         }
       }
       return false;
@@ -100,6 +101,7 @@ function printNode(rootNode: WordDictionaryNode, prefix = "") {
   });
 }
 
+// Example
 const wordDictionary = new WordDictionary();
 wordDictionary.addWord("bad");
 wordDictionary.addWord("dad");
