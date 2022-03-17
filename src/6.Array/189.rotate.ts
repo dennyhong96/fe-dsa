@@ -1,17 +1,17 @@
-// O(n + k) time; O(k) space;
-export function rotate(nums: number[], k: number): void {
-  k = k % nums.length;
-
-  // store the last k numbers
-  const tmp = nums.slice(nums.length - k);
-
-  // move numbers before k to end of array
-  for (let i = nums.length - k - 1; i >= 0; i--) {
-    nums[i + k] = nums[i];
+// O(n+k) time; O(1) space;
+function rotate(nums: number[], k: number): void {
+  const len = nums.length;
+  k = k % nums.length; // handle k greater than nums array
+  for (let i = nums.length - 1; i >= 0; i--) {
+    const num = nums[i];
+    nums[i + k] = num;
   }
-
-  // put stored number to front of array
-  for (let i = 0; i < tmp.length; i++) {
-    nums[i] = tmp[i];
+  for (let i = 0; i < k; i++) {
+    const num = nums[i + len];
+    nums[i] = num;
   }
+  nums.length = len;
 }
+// [1,2,3,4,5,6,7]
+// [1,2,3,1,2,3,4,5,6,7]
+// [5,6,7,1,2,3,4]

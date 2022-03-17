@@ -7,6 +7,8 @@ export function quickSort(
   if (endIndex - startIndex <= 0) return; // handle arr with single item
   let currIndex = startIndex;
   let pivotIndex = endIndex; // Select last item as pivot
+  // all numbers smaller than pivot should be on pivot's left
+  // all numbers larger than pivot should be on pivot's right
 
   // `while (currIndex < pivotIndex)` since we are sure that items behind pivot number are larger than pivot
   while (currIndex < pivotIndex) {
