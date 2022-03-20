@@ -22,35 +22,34 @@ class WordDictionary {
   }
 
   // Iterative - O(n) time; O(1) space;
-  public addWord(word: string): void {
-    let parent = this.root;
-    for (let i = 0; i < word.length; i++) {
-      const char = word[i];
-      let node = parent.children.get(char);
-      if (!node) {
-        node = new WordDictionaryNode();
-        parent.children.set(char, node);
-      }
-      parent = node;
-    }
-    parent.end = true;
-  }
+  // public addWord(word: string): void {
+  //   let parent = this.root;
+  //   for (let i = 0; i < word.length; i++) {
+  //     const char = word[i];
+  //     let node = parent.children.get(char);
+  //     if (!node) {
+  //       node = new WordDictionaryNode();
+  //       parent.children.set(char, node);
+  //     }
+  //     parent = node;
+  //   }
+  //   parent.end = true;
+  // }
 
   // Recursive - O(n) time; O(h) space
-  // public addWord(word: string, parent = this.root): void {
-  //   if (word.length === 0) {
-  //     parent.end = true;
-  //     return;
-  //   }
-  //   const char = word[0];
-  //   let node = parent.children.get(char);
-  //   if (!node) {
-  //     node = new WordDictionaryNode();
-  //     parent.children.set(char, node);
-  //   }
-  //   const substr = word.slice(1);
-  //   return this.addWord(substr, node);
-  // }
+  public addWord(word: string, index = 0, parent = this.root): void {
+    if (index >= word.length) {
+      parent.end = true;
+      return;
+    }
+    const char = word[index];
+    let node = parent.children.get(char);
+    if (!node) {
+      node = new WordDictionaryNode();
+      parent.children.set(char, node);
+    }
+    return this.addWord(word, index + 1, node);
+  }
 
   // Iterative - O(n) time; O(h) space;
   // search(word: string, startIndex = 0, root = this.root): boolean {
