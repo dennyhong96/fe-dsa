@@ -1,6 +1,6 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
-// O(n) time; O(logn) space;
+// O(n^2) time; O(logn) space;
 // Use preorder to decide the order of nodes
 // Use inorder array to decide which are left and right child of each node
 export function buildTree(

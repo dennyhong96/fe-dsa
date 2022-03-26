@@ -5,7 +5,7 @@
 
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
-// O(n) time; O(h) space - h is depth of tree
+// O(n) time; Space is O(n) for the recursion stack, in worse case when the tree is unbalanced and all the nodes are on one side. In best case when the tree is evenly balanced, the space will only be O(log n)
 function isValidBST(
   root: TreeNode | null,
   min = -Infinity,
