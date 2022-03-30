@@ -1,6 +1,6 @@
 import { TreeNode } from "../10.Trees/BinarySearchTree";
 
-// O(n^2) time; O(logn) space;
+// O(n^2) time; O((logn)^2) space;
 export function pathSum(root: TreeNode | null, targetSum: number): number {
   // The idea is to use DFS twice,
   // for each node, find the number of paths that starts with the node and sums to target
