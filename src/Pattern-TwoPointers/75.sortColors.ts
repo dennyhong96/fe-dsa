@@ -8,7 +8,7 @@ function sortColors(nums: number[]): void {
   // And we need to maintain these hard constrians:
   // Partition into 3 segments
   // 0 index       <= i  <= nextZero    - all 0s
-  // nextZero + 1  < i   < nextTwo      - all 1s
+  // nextZero      <  i  < nextTwo      - all 1s
   // nextTwo       <= i  < nums.length  - all2s
   while (curr < nextTwo) {
     const num = nums[curr];
